@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kasir - Pembayaran</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        /* CSS Umum */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background-color: #f0f2f5;
+            padding: 15px 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .header h2 {
+            margin: 0;
+            color: #333;
+            font-size: 18px;
+        }
+        
+        .nav-tab {
+            background-color: #ff9800; /* Warna oranye untuk Kasir */
+            color: white;
+            padding: 10px 20px;
+        }
+        
+        .nav-tab span {
+            display: inline-block;
+            padding: 5px 15px;
+            background-color: #ff9800;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+        
+        .nav-tab span i {
+            margin-right: 5px;
+        }
+        
+        .patient-info {
+            display: flex;
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .patient-photo {
+            width: 100px;
+            height: 100px;
+            background-color: #ff9800;
+            border-radius: 50%;
+            margin-right: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 40px;
+        }
+        
+        .patient-details {
+            flex: 1;
+        }
+        
+        .patient-name {
+            font-size: 20px;
+            font-weight: bold;
+            color: #ff9800;
+            margin-bottom: 5px;
+        }
+        
+        .patient-id {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .patient-data {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.5;
+        }
+        
+        .section-title {
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+            color: #ff9800;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        .form-container {
+            padding: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .form-control:focus {
+            border-color: #ff9800;
+            outline: none;
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+        
+        .action-button {
+            padding: 8px 15px;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        
+        .save-button {
+            background-color: #ff9800;
+            color: white;
+            border: none;
+        }
+        
+        .cancel-button {
+            background-color: #f0f2f5;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+        
+        /* CSS Spesifik untuk Kasir */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+        
+        .tab {
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 14px;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .tab.active {
+            border-bottom: 2px solid #ff9800;
+            color: #ff9800;
+            font-weight: bold;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .billing-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        
+        .billing-table th, .billing-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+            font-size: 13px;
+        }
+        
+        .billing-table th {
+            background-color: #f0f2f5;
+            font-weight: bold;
+        }
+        
+        .billing-table .action-cell {
+            width: 80px;
+            text-align: center;
+        }
+        
+        .billing-table .action-button {
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            margin: 0 3px;
+            padding: 0;
+        }
+        
+        .billing-table .delete-button {
+            color: #f44336;
+        }
+        
+        .billing-table .edit-button {
+            color: #2196f3;
+        }
+        
+        .billing-table .item-name-cell {
+            width: 30%;
+        }
+        
+        .billing-table .quantity-cell, .billing-table .price-cell {
+            width: 15%;
+        }
+        
+        .billing-table .subtotal-cell {
+            width: 20%;
+        }
+        
+        .billing-table .category-cell {
+            width: 15%;
+        }
+        
+        .billing-summary {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .summary-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #ff9800;
+        }
+        
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        
+        .summary-total {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #ddd;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        
+        .payment-methods {
+            margin-bottom: 20px;
+        }
+        
+        .payment-method {
+            margin-bottom: 10px;
+        }
+        
+        .payment-method-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        
+        .payment-method-radio {
+            margin-right: 10px;
+        }
+        
+        .payment-method-label {
+            font-weight: bold;
+            font-size: 14px;
+        }
+        
+        .payment-method-details {
+            padding-left: 25px;
+            margin-bottom: 10px;
+        }
+        
+        .payment-method-details .form-group {
+            margin-bottom: 10px;
+        }
+        
+        .payment-method-details label {
+            font-size: 13px;
+        }
+        
+        .payment-method-details input, .payment-method-details select {
+            padding: 6px 8px;
+            font-size: 13px;
+        }
+        
+        .payment-info {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        
+        .payment-info-left, .payment-info-right {
+            flex: 1;
+        }
+        
+        .payment-info-left {
+            padding-right: 10px;
+        }
+        
+        .payment-info-right {
+            padding-left: 10px;
+        }
+        
+        .payment-amount {
+            background-color: #fff8e1;
+            border: 1px solid #ffe082;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .payment-amount-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #ff9800;
+        }
+        
+        .payment-amount-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .payment-amount-label {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .payment-amount-value {
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .payment-amount-total {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #ddd;
+        }
+        
+        .payment-amount-total-label {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .payment-amount-total-value {
+            font-size: 16px;
+            font-weight: bold;
+            color: #ff9800;
+        }
+        
+        .payment-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        
+        .payment-status {
+            display: flex;
+            align-items: center;
+        }
+        
+        .status-label {
+            font-size: 14px;
+            color: #666;
+            margin-right: 10px;
+        }
+        
+        .status-select {
+            padding: 5px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .payment-buttons {
+            display: flex;
+        }
+        
+        .payment-button {
+            padding: 8px 15px;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            margin-left: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .payment-button i {
+            margin-right: 5px;
+        }
+        
+        .print-button {
+            background-color: #2196f3;
+            color: white;
+            border: none;
+        }
+        
+        .process-button {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+        }
+        
+        .category-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+        
+        .category-tindakan {
+            background-color: #e3f2fd;
+            color: #0d47a1;
+        }
+        
+        .category-farmasi {
+            background-color: #e8f5e9;
+            color: #1b5e20;
+        }
+        
+        .category-laboratorium {
+            background-color: #e8eaf6;
+            color: #303f9f;
+        }
+        
+        .category-radiologi {
+            background-color: #fff3e0;
+            color: #e65100;
+        }
+        
+        .search-container {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 8px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px 0 0 4px;
+            font-size: 14px;
+        }
+        
+        .search-button {
+            padding: 8px 15px;
+            background-color: #ff9800;
+            color: white;
+            border: none;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+        }
+        
+        .filter-container {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        
+        .filter-select {
+            flex: 1;
+            padding: 8px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            margin-right: 10px;
+        }
+        
+        .filter-button {
+            padding: 8px 15px;
+            background-color: #ff9800;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .insurance-info {
+            background-color: #e8f5e9;
+            border: 1px solid #c8e6c9;
+            border-radius: 4px;
+            padding: 10px 15px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .insurance-info i {
+            color: #4caf50;
+            margin-right: 10px;
+            font-size: 18px;
+        }
+        
+        .insurance-info-text {
+            color: #2e7d32;
+            font-size: 14px;
+        }
+        
+        .discount-section {
+            margin-bottom: 20px;
+        }
+        
+        .discount-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .discount-title {
+            font-weight: bold;
+            color: #333;
+            font-size: 14px;
+        }
+        
+        .add-discount-button {
+            background-color: #ff9800;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .add-discount-button i {
+            margin-right: 5px;
+        }
+        
+        .discount-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+        }
+        
+        .discount-table th, .discount-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+            font-size: 13px;
+        }
+        
+        .discount-table th {
+            background-color: #f0f2f5;
+            font-weight: bold;
+        }
+        
+        .receipt-preview {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 20px;
+            margin-bottom: 20px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+        
+        .receipt-header {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        
+        .receipt-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .receipt-subtitle {
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+        
+        .receipt-info {
+            margin-bottom: 15px;
+        }
+        
+        .receipt-info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+        
+        .receipt-items {
+            margin-bottom: 15px;
+        }
+        
+        .receipt-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+        
+        .receipt-item-name {
+            flex: 2;
+        }
+        
+        .receipt-item-qty {
+            flex: 1;
+            text-align: center;
+        }
+        
+        .receipt-item-price {
+            flex: 1;
+            text-align: right;
+        }
+        
+        .receipt-total {
+            border-top: 1px dashed #ddd;
+            padding-top: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .receipt-total-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+        
+        .receipt-footer {
+            text-align: center;
+            margin-top: 15px;
+            font-style: italic;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Fungsi untuk mengganti tab
+            var tabs = document.querySelectorAll('.tab');
+            tabs.forEach(function(tab) {
+                tab.addEventListener('click', function() {
+                    // Hapus kelas aktif dari semua tab
+                    tabs.forEach(function(t) {
+                        t.classList.remove('active');
+                    });
+                    
+                    // Tambahkan kelas aktif ke tab yang diklik
+                    this.classList.add('active');
+                    
+                    // Sembunyikan semua konten tab
+                    var tabContents = document.querySelectorAll('.tab-content');
+                    tabContents.forEach(function(content) {
+                        content.classList.remove('active');
+                    });
+                    
+                    // Tampilkan konten tab yang sesuai
+                    var tabId = this.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+            
+            // Fungsi untuk menangani metode pembayaran
+            var paymentMethods = document.querySelectorAll('.payment-method-radio');
+            paymentMethods.forEach(function(method) {
+                method.addEventListener('change', function() {
+                    // Sembunyikan semua detail metode pembayaran
+                    var paymentDetails = document.querySelectorAll('.payment-method-details');
+                    paymentDetails.forEach(function(detail) {
+                        detail.style.display = 'none';
+                    });
+                    
+                    // Tampilkan detail metode pembayaran yang dipilih
+                    var selectedMethod = this.value;
+                    document.getElementById(selectedMethod + '-details').style.display = 'block';
+                });
+            });
+            
+            // Tampilkan detail metode pembayaran tunai secara default
+            document.getElementById('cash-details').style.display = 'block';
+            
+            // Fungsi untuk menghitung kembalian
+            document.getElementById('cash-amount').addEventListener('input', function() {
+                var totalAmount = parseFloat(document.getElementById('total-amount').textContent.replace('Rp ', '').replace('.', ''));
+                var cashAmount = parseFloat(this.value) || 0;
+                var changeAmount = cashAmount - totalAmount;
+                
+                document.getElementById('change-amount').textContent = 'Rp ' + changeAmount.toLocaleString('id-ID');
+            });
+        });
+        
+        // Fungsi untuk menghapus item
+        function deleteItem(button) {
+            var row = button.parentNode.parentNode;
+            row.parentNode.removeChild(row);
+            updateTotal();
+        }
+        
+        // Fungsi untuk memperbarui total
+        function updateTotal() {
+            var total = 0;
+            var rows = document.querySelectorAll('.billing-table tbody tr');
+            
+            rows.forEach(function(row) {
+                var subtotal = parseFloat(row.querySelector('.subtotal-cell').textContent.replace('Rp ', '').replace('.', ''));
+                total += subtotal;
+            });
+            
+            document.getElementById('subtotal-amount').textContent = 'Rp ' + total.toLocaleString('id-ID');
+            document.getElementById('total-amount').textContent = 'Rp ' + total.toLocaleString('id-ID');
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>Kasir - Pembayaran</h2>
+        </div>
+        
+        <div class="nav-tab">
+            <span><i class="fas fa-cash-register"></i> Kasir</span>
+        </div>
+        
+        <div class="patient-info">
+            <div class="patient-photo">
+                <i class="fas fa-user"></i>
+            </div>
+            <div class="patient-details">
+                <div class="patient-name">BUDI SANTOSO</div>
+                <div class="patient-id">No RM: 123456 | No Kunjungan: KJ-20230615-001</div>
+                <div class="patient-data">
+                    Laki-laki • Lahir Tanggal: 15/05/1975 (48 tahun)<br>
+                    Status: Kawin, Agama: Islam, Golongan Darah: O, Pendidikan: S1, Pekerjaan: PNS<br>
+                    Alamat: Jl. Merdeka No. 45, Kota Pohuwato
+                </div>
+            </div>
+        </div>
+        
+        <div class="section-title">Data Pembayaran</div>
+        
+        <div class="form-container">
+            <div class="insurance-info">
+                <i class="fas fa-id-card"></i>
+                <div class="insurance-info-text">
+                    <strong>Informasi Asuransi:</strong> BPJS Kesehatan | No. Kartu: 0001234567890 | Kelas: II
+                </div>
+            </div>
+            
+            <div class="tabs">
+                <div class="tab active" data-tab="billing-items">Item Tagihan</div>
+                <div class="tab" data-tab="payment-process">Proses Pembayaran</div>
+                <div class="tab" data-tab="receipt-preview">Preview Kuitansi</div>
+            </div>
+            
+            <div id="billing-items" class="tab-content active">
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="Cari item tagihan...">
+                    <button class="search-button"><i class="fas fa-search"></i></button>
+                </div>
+                
+                <div class="filter-container">
+                    <select class="filter-select">
+                        <option value="">Semua Kategori</option>
+                        <option value="tindakan">Tindakan</option>
+                        <option value="farmasi">Farmasi</option>
+                        <option value="laboratorium">Laboratorium</option>
+                        <option value="radiologi">Radiologi</option>
+                    </select>
+                    <select class="filter-select">
+                        <option value="">Semua Status</option>
+                        <option value="belum-bayar">Belum Bayar</option>
+                        <option value="sudah-bayar">Sudah Bayar</option>
+                        <option value="dibatalkan">Dibatalkan</option>
+                    </select>
+                    <button class="filter-button">Filter</button>
+                </div>
+                
+                <table class="billing-table">
+                    <thead>
+                        <tr>
+                            <th class="item-name-cell">Nama Item</th>
+                            <th class="category-cell">Kategori</th>
+                            <th class="quantity-cell">Jumlah</th>
+                            <th class="price-cell">Harga</th>
+                            <th class="subtotal-cell">Subtotal</th>
+                            <th class="action-cell">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Konsultasi Dokter Spesialis</td>
+                            <td><span class="category-badge category-tindakan">Tindakan</span></td>
+                            <td>1</td>
+                            <td>Rp 150.000</td>
+                            <td class="subtotal-cell">Rp 150.000</td>
+                            <td class="action-cell">
+                                <button class="action-button delete-button" onclick="deleteItem(this)"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Metformin 500 mg</td>
+                            <td><span class="category-badge category-farmasi">Farmasi</span></td>
+                            <td>60</td>
+                            <td>Rp 1.500</td>
+                            <td class="subtotal-cell">Rp 90.000</td>
+                            <td class="action-cell">
+                                <button class="action-button delete-button" onclick="deleteItem(this)"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Amlodipine 10 mg</td>
+                            <td><span class="category-badge category-farmasi">Farmasi</span></td>
+                            <td>30</td>
+                            <td>Rp 2.000</td>
+                            <td class="subtotal-cell">Rp 60.000</td>
+                            <td class="action-cell">
+                                <button class="action-button delete-button" onclick="deleteItem(this)"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Pemeriksaan Gula Darah Puasa</td>
+                            <td><span class="category-badge category-laboratorium">Laboratorium</span></td>
+                            <td>1</td>
+                            <td>Rp 50.000</td>
+                            <td class="subtotal-cell">Rp 50.000</td>
+                            <td class="action-cell">
+                                <button class="action-button delete-button" onclick="deleteItem(this)"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Pemeriksaan HbA1c</td>
+                            <td><span class="category-badge category-laboratorium">Laboratorium</span></td>
+                            <td>1</td>
+                            <td>Rp 150.000</td>
+                            <td class="subtotal-cell">Rp 150.000</td>
+                            <td class="action-cell">
+                                <button class="action-button delete-button" onclick="deleteItem(this)"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="billing-summary">
+                    <div class="summary-title">Ringkasan Tagihan</div>
+                    <div class="summary-item">
+                        <span>Jumlah Item:</span>
+                        <span>5 item</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Tindakan:</span>
+                        <span>Rp 150.000</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Farmasi:</span>
+                        <span>Rp 150.000</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Laboratorium:</span>
+                        <span>Rp 200.000</span>
+                    </div>
+                    <div class="summary-total">
+                        <span>Total:</span>
+                        <span id="subtotal-amount">Rp 500.000</span>
+                    </div>
+                </div>
+                
+                <div class="discount-section">
+                    <div class="discount-header">
+                        <div class="discount-title">Diskon</div>
+                        <button class="add-discount-button"><i class="fas fa-plus"></i> Tambah Diskon</button>
+                    </div>
+                    
+                    <table class="discount-table">
+                        <thead>
+                            <tr>
+                                <th>Jenis Diskon</th>
+                                <th>Nilai</th>
+                                <th>Keterangan</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Diskon Paket</td>
+                                <td>Rp 50.000</td>
+                                <td>Paket Pemeriksaan Diabetes</td>
+                                <td class="action-cell">
+                                    <button class="action-button delete-button"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="action-button cancel-button">Batal</button>
+                    <button class="action-button save-button">Lanjut ke Pembayaran</button>
+                </div>
+            </div>
+            
+            <div id="payment-process" class="tab-content">
+                <div class="payment-amount">
+                    <div class="payment-amount-title">Jumlah Pembayaran
+</body>
+</html> 
