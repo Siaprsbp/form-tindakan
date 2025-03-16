@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tindakan Dokter - Poli Gigi</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        /* CSS Umum */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background-color: #f0f2f5;
+            padding: 15px 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .header h2 {
+            margin: 0;
+            color: #333;
+            font-size: 18px;
+        }
+        
+        .nav-tab {
+            background-color: #00bcd4; /* Warna biru muda untuk Poli Gigi */
+            color: white;
+            padding: 10px 20px;
+        }
+        
+        .nav-tab span {
+            display: inline-block;
+            padding: 5px 15px;
+            background-color: #00bcd4;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+        
+        .nav-tab span i {
+            margin-right: 5px;
+        }
+        
+        .patient-info {
+            display: flex;
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .patient-photo {
+            width: 100px;
+            height: 100px;
+            background-color: #00bcd4;
+            border-radius: 50%;
+            margin-right: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 40px;
+        }
+        
+        .patient-details {
+            flex: 1;
+        }
+        
+        .patient-name {
+            font-size: 20px;
+            font-weight: bold;
+            color: #00bcd4;
+            margin-bottom: 5px;
+        }
+        
+        .patient-id {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .patient-data {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.5;
+        }
+        
+        .section-title {
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+            color: #00bcd4;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        .form-container {
+            padding: 20px;
+            display: flex;
+        }
+        
+        .form-left {
+            flex: 1;
+            padding-right: 20px;
+        }
+        
+        .form-right {
+            flex: 1;
+            padding-left: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .form-group label::after {
+            content: "*";
+            color: red;
+            margin-left: 3px;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .form-control:focus {
+            border-color: #00bcd4;
+            outline: none;
+        }
+        
+        .radio-group {
+            display: flex;
+            align-items: center;
+        }
+        
+        .radio-option {
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .radio-option input {
+            margin-right: 5px;
+        }
+        
+        textarea.form-control {
+            height: 100px;
+            resize: vertical;
+        }
+        
+        .doctor-select {
+            display: flex;
+            align-items: center;
+        }
+        
+        .doctor-select select {
+            flex: 1;
+            margin-right: 10px;
+        }
+        
+        .doctor-select button {
+            background: none;
+            border: none;
+            color: #00bcd4;
+            cursor: pointer;
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+        
+        .action-button {
+            padding: 8px 15px;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        
+        .save-button {
+            background-color: #00bcd4;
+            color: white;
+            border: none;
+        }
+        
+        .cancel-button {
+            background-color: #f0f2f5;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+        
+        /* CSS Spesifik untuk Poli Gigi */
+        .vital-signs {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .vital-signs-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #00bcd4;
+        }
+        
+        .vital-signs-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+        
+        .vital-sign {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .vital-sign label {
+            margin-bottom: 5px;
+            font-size: 12px;
+        }
+        
+        .vital-sign input {
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+        }
+        
+        .dental-chart {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .dental-chart-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #00bcd4;
+        }
+        
+        .dental-chart-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .dental-chart-row {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+        
+        .dental-chart-quadrant {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 10px;
+        }
+        
+        .dental-chart-teeth {
+            display: flex;
+        }
+        
+        .dental-chart-tooth {
+            width: 30px;
+            height: 30px;
+            border: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 2px;
+            font-size: 10px;
+            cursor: pointer;
+            background-color: white;
+        }
+        
+        .dental-chart-tooth:hover {
+            background-color: #e0f7fa;
+        }
+        
+        .dental-chart-tooth.selected {
+            background-color: #00bcd4;
+            color: white;
+        }
+        
+        .dental-chart-legend {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+        
+        .dental-chart-legend-item {
+            display: flex;
+            align-items: center;
+            margin-right: 15px;
+            margin-bottom: 5px;
+            font-size: 12px;
+        }
+        
+        .dental-chart-legend-color {
+            width: 15px;
+            height: 15px;
+            margin-right: 5px;
+            border: 1px solid #ddd;
+        }
+        
+        .diagnosis-section {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .diagnosis-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .diagnosis-title {
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .add-button {
+            background-color: #00bcd4;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        .diagnosis-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+        }
+        
+        .diagnosis-table th, .diagnosis-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+            font-size: 13px;
+        }
+        
+        .diagnosis-table th {
+            background-color: #f0f2f5;
+        }
+        
+        .result-section {
+            margin-top: 15px;
+        }
+        
+        .result-section h4 {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .file-upload {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .file-upload button {
+            background-color: #f0f2f5;
+            border: 1px solid #ddd;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        
+        .file-upload span {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .treatment-plan {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .treatment-plan-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #00bcd4;
+        }
+        
+        .treatment-plan-items {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        
+        .treatment-plan-item {
+            display: flex;
+            align-items: center;
+        }
+        
+        .treatment-plan-item input {
+            margin-right: 5px;
+        }
+        
+        .treatment-plan-item label {
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>Tindakan Dokter - Poli Gigi</h2>
+        </div>
+        
+        <div class="nav-tab">
+            <span><i class="fas fa-tooth"></i> Tindakan Dokter</span>
+        </div>
+        
+        <div class="patient-info">
+            <div class="patient-photo">
+                <i class="fas fa-user"></i>
+            </div>
+            <div class="patient-details">
+                <div class="patient-name">DEWI ANGGRAINI</div>
+                <div class="patient-id">No RM: 456789</div>
+                <div class="patient-data">
+                    Perempuan • Lahir Tanggal: 05/04/1992<br>
+                    Status: Kawin, Agama: Islam, Golongan Darah: O, Pendidikan: S1, Pekerjaan: KARYAWAN SWASTA<br>
+                    Alamat: Jl. Dahlia No. 15, Kota Pohuwato
+                </div>
+            </div>
+        </div>
+        
+        <div class="section-title">Data Kunjungan</div>
+        
+        <div class="form-container">
+            <div class="form-left">
+                <div class="form-group">
+                    <label>Tanggal Kunjungan</label>
+                    <input type="date" class="form-control" value="2023-06-15">
+                </div>
+                
+                <div class="form-group">
+                    <label>Dokter</label>
+                    <div class="doctor-select">
+                        <select class="form-control">
+                            <option selected>drg. RATNA DEWI</option>
+                        </select>
+                        <button>⋮</button>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Keluhan Utama</label>
+                    <textarea class="form-control">Nyeri gigi geraham kanan bawah sejak 3 hari yang lalu. Nyeri bertambah saat makan dan minum dingin. Pasien juga mengeluhkan gusi bengkak di sekitar gigi tersebut.</textarea>
+                </div>
+                
+                <div class="vital-signs">
+                    <div class="vital-signs-title">Tanda Vital</div>
+                    <div class="vital-signs-grid">
+                        <div class="vital-sign">
+                            <label>Tekanan Darah</label>
+                            <input type="text" value="120/80" class="form-control">
+                            <small>mmHg</small>
+                        </div>
+                        <div class="vital-sign">
+                            <label>Nadi</label>
+                            <input type="text" value="76" class="form-control">
+                            <small>x/menit</small>
+                        </div>
+                        <div class="vital-sign">
+                            <label>Respirasi</label>
+                            <input type="text" value="18" class="form-control">
+                            <small>x/menit</small>
+                        </div>
+                        <div class="vital-sign">
+                            <label>Suhu</label>
+                            <input type="text" value="36.7" class="form-control">
+                            <small>°C</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="dental-chart">
+                    <div class="dental-chart-title">Odontogram</div>
+                    <div class="dental-chart-container">
+                        <div class="dental-chart-row">
+                            <div class="dental-chart-quadrant">
+                                <div class="dental-chart-teeth">
+                                    <div class="dental-chart-tooth">18</div>
+                                    <div class="dental-chart-tooth">17</div>
+                                    <div class="dental-chart-tooth">16</div>
+                                    <div class="dental-chart-tooth">15</div>
+                                    <div class="dental-chart-tooth">14</div>
+                                    <div class="dental-chart-tooth">13</div>
+                                    <div class="dental-chart-tooth">12</div>
+                                    <div class="dental-chart-tooth">11</div>
+                                </div>
+                                <div>Kanan Atas</div>
+                            </div>
+                            <div class="dental-chart-quadrant">
+                                <div class="dental-chart-teeth">
+                                    <div class="dental-chart-tooth">21</div>
+                                    <div class="dental-chart-tooth">22</div>
+                                    <div class="dental-chart-tooth">23</div>
+                                    <div class="dental-chart-tooth">24</div>
+                                    <div class="dental-chart-tooth">25</div>
+                                    <div class="dental-chart-tooth">26</div>
+                                    <div class="dental-chart-tooth">27</div>
+                                    <div class="dental-chart-tooth">28</div>
+                                </div>
+                                <div>Kiri Atas</div>
+                            </div>
+                        </div>
+                        <div class="dental-chart-row">
+                            <div class="dental-chart-quadrant">
+                                <div>Kanan Bawah</div>
+                                <div class="dental-chart-teeth">
+                                    <div class="dental-chart-tooth">48</div>
+                                    <div class="dental-chart-tooth">47</div>
+                                    <div class="dental-chart-tooth selected">46</div>
+                                    <div class="dental-chart-tooth">45</div>
+                                    <div class="dental-chart-tooth">44</div>
+                                    <div class="dental-chart-tooth">43</div>
+                                    <div class="dental-chart-tooth">42</div>
+                                    <div class="dental-chart-tooth">41</div>
+                                </div>
+                            </div>
+                            <div class="dental-chart-quadrant">
+                                <div>Kiri Bawah</div>
+                                <div class="dental-chart-teeth">
+                                    <div class="dental-chart-tooth">31</div>
+                                    <div class="dental-chart-tooth">32</div>
+                                    <div class="dental-chart-tooth">33</div>
+                                    <div class="dental-chart-tooth">34</div>
+                                    <div class="dental-chart-tooth">35</div>
+                                    <div class="dental-chart-tooth">36</div>
+                                    <div class="dental-chart-tooth">37</div>
+                                    <div class="dental-chart-tooth">38</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dental-chart-legend">
+                            <div class="dental-chart-legend-item">
+                                <div class="dental-chart-legend-color" style="background-color: #00bcd4;"></div>
+                                <span>Gigi yang dipilih</span>
+                            </div>
+                            <div class="dental-chart-legend-item">
+                                <div class="dental-chart-legend-color" style="background-color: #f44336;"></div>
+                                <span>Karies</span>
+                            </div>
+                            <div class="dental-chart-legend-item">
+                                <div class="dental-chart-legend-color" style="background-color: #4caf50;"></div>
+                                <span>Tambalan</span>
+                            </div>
+                            <div class="dental-chart-legend-item">
+                                <div class="dental-chart-legend-color" style="background-color: #9e9e9e;"></div>
+                                <span>Gigi hilang</span>
+                            </div>
+                            <div class="dental-chart-legend-item">
+                                <div class="dental-chart-legend-color" style="background-color: #ff9800;"></div>
+                                <span>Gigi tiruan</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="diagnosis-section">
+                    <div class="diagnosis-header">
+                        <div class="diagnosis-title">Diagnosis (ICD-10)</div>
+                        <button class="add-button"><i class="fas fa-plus"></i> Tambah</button>
+                    </div>
+                    
+                    <table class="diagnosis-table">
+                        <thead>
+                            <tr>
+                                <th>Kode</th>
+                                <th>Diagnosis</th>
+                                <th>Tipe</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>K04.0</td>
+                                <td>Pulpitis</td>
+                                <td>Primer</td>
+                                <td><i class="fas fa-trash-alt" style="color: red; cursor: pointer;"></i></td>
+                            </tr>
+                            <tr>
+                                <td>K05.1</td>
+                                <td>Chronic gingivitis</td>
+                                <td>Sekunder</td>
+                                <td><i class="fas fa-trash-alt" style="color: red; cursor: pointer;"></i></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="form-right">
+                <div class="diagnosis-section">
+                    <div class="diagnosis-header">
+                        <div class="diagnosis-title">Tindakan (ICD-9-CM)</div>
+                        <button class="add-button"><i class="fas fa-plus"></i> Tambah</button>
+                    </div>
+                    
+                    <table class="diagnosis-table">
+                        <thead>
+                            <tr>
+                                <th>Kode</th>
+                                <th>Tindakan</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>23.09</td>
+                                <td>Other extraction of tooth</td>
+                                <td><i class="fas fa-trash-alt" style="color: red; cursor: pointer;"></i></td>
+                            </tr>
+                            <tr>
+                                <td>96.54</td>
+                                <td>Dental scaling</td>
+                                <td><i class="fas fa-trash-alt" style="color: red; cursor: pointer;"></i></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="treatment-plan">
+                    <div class="treatment-plan-title">Rencana Perawatan</div>
+                    <div class="treatment-plan-items">
+                        <div class="treatment-plan-item">
+                            <input type="checkbox" id="treatment1" checked>
+                            <label for="treatment1">Ekstraksi gigi 46</label>
+                        </div>
+                        <div class="treatment-plan-item">
+                            <input type="checkbox" id="treatment2" checked>
+                            <label for="treatment2">Scaling</label>
+                        </div>
+                        <div class="treatment-plan-item">
+                            <input type="checkbox" id="treatment3">
+                            <label for="treatment3">Penambalan</label>
+                        </div>
+                        <div class="treatment-plan-item">
+                            <input type="checkbox" id="treatment4">
+                            <label for="treatment4">Perawatan saluran akar</label>
+                        </div>
+                        <div class="treatment-plan-item">
+                            <input type="checkbox" id="treatment5">
+                            <label for="treatment5">Gigi tiruan</label>
+                        </div>
+                        <div class="treatment-plan-item">
+                            <input type="checkbox" id="treatment6">
+                            <label for="treatment6">Perawatan ortodonti</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Catatan Dokter</label>
+                    <textarea class="form-control">Pasien didiagnosis dengan pulpitis irreversible pada gigi 46 dengan gingivitis kronis. Dilakukan ekstraksi gigi 46 dan scaling. Pasien diberikan antibiotik amoxicillin 500mg 3x1 dan analgesik paracetamol 500mg 3x1. Pasien diinstruksikan untuk menjaga kebersihan mulut dan kontrol 1 minggu kemudian.</textarea>
+                </div>
+                
+                <div class="result-section">
+                    <h4>Hasil Pemeriksaan</h4>
+                    <div class="file-upload">
+                        <button>Upload Hasil</button>
+                        <span>Tidak ada file yang dipilih</span>
+                    </div>
+                    <p style="font-size: 12px; color: #666;">*File yang diperbolehkan: JPG, JPEG, PNG, PDF (Max 10MB)</p>
+                </div>
+                
+                <div class="form-group">
+                    <label>Rencana Tindak Lanjut</label>
+                    <select class="form-control">
+                        <option>Rawat Inap</option>
+                        <option selected>Rawat Jalan</option>
+                        <option>Rujuk</option>
+                        <option>Observasi</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Jadwal Kontrol</label>
+                    <input type="date" class="form-control" value="2023-06-22">
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="action-button cancel-button">Batal</button>
+                    <button class="action-button save-button">Simpan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 
