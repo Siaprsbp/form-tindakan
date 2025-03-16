@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resep Obat</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        /* CSS Umum */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background-color: #f0f2f5;
+            padding: 15px 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .header h2 {
+            margin: 0;
+            color: #333;
+            font-size: 18px;
+        }
+        
+        .nav-tab {
+            background-color: #4caf50; /* Warna hijau untuk Farmasi/Resep */
+            color: white;
+            padding: 10px 20px;
+        }
+        
+        .nav-tab span {
+            display: inline-block;
+            padding: 5px 15px;
+            background-color: #4caf50;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+        
+        .nav-tab span i {
+            margin-right: 5px;
+        }
+        
+        .patient-info {
+            display: flex;
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .patient-photo {
+            width: 100px;
+            height: 100px;
+            background-color: #4caf50;
+            border-radius: 50%;
+            margin-right: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 40px;
+        }
+        
+        .patient-details {
+            flex: 1;
+        }
+        
+        .patient-name {
+            font-size: 20px;
+            font-weight: bold;
+            color: #4caf50;
+            margin-bottom: 5px;
+        }
+        
+        .patient-id {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .patient-data {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.5;
+        }
+        
+        .section-title {
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+            color: #4caf50;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        .form-container {
+            padding: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .form-group label::after {
+            content: "*";
+            color: red;
+            margin-left: 3px;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .form-control:focus {
+            border-color: #4caf50;
+            outline: none;
+        }
+        
+        textarea.form-control {
+            height: 100px;
+            resize: vertical;
+        }
+        
+        .doctor-select {
+            display: flex;
+            align-items: center;
+        }
+        
+        .doctor-select select {
+            flex: 1;
+            margin-right: 10px;
+        }
+        
+        .doctor-select button {
+            background: none;
+            border: none;
+            color: #4caf50;
+            cursor: pointer;
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+        
+        .action-button {
+            padding: 8px 15px;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        
+        .save-button {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+        }
+        
+        .cancel-button {
+            background-color: #f0f2f5;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+        
+        /* CSS Spesifik untuk Resep */
+        .prescription-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .prescription-title {
+            font-weight: bold;
+            color: #333;
+            font-size: 16px;
+        }
+        
+        .add-button {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .add-button i {
+            margin-right: 5px;
+        }
+        
+        .prescription-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        
+        .prescription-table th, .prescription-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+            font-size: 13px;
+        }
+        
+        .prescription-table th {
+            background-color: #f0f2f5;
+            font-weight: bold;
+        }
+        
+        .prescription-table input, .prescription-table select {
+            width: 100%;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            font-size: 13px;
+        }
+        
+        .prescription-table .action-cell {
+            width: 80px;
+            text-align: center;
+        }
+        
+        .prescription-table .action-button {
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            margin: 0 3px;
+        }
+        
+        .prescription-table .delete-button {
+            color: #f44336;
+        }
+        
+        .prescription-table .edit-button {
+            color: #2196f3;
+        }
+        
+        .prescription-table .drug-name-cell {
+            width: 25%;
+        }
+        
+        .prescription-table .dose-cell {
+            width: 15%;
+        }
+        
+        .prescription-table .route-cell, .prescription-table .frequency-cell {
+            width: 15%;
+        }
+        
+        .prescription-table .duration-cell {
+            width: 15%;
+        }
+        
+        .prescription-table .instruction-cell {
+            width: 20%;
+        }
+        
+        .prescription-summary {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .summary-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #4caf50;
+        }
+        
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        
+        .summary-total {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #ddd;
+            font-weight: bold;
+        }
+        
+        .drug-search {
+            position: relative;
+        }
+        
+        .drug-search input {
+            width: 100%;
+            padding-right: 30px;
+        }
+        
+        .drug-search i {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+        }
+        
+        .drug-suggestions {
+            position: absolute;
+            width: 100%;
+            background: white;
+            border: 1px solid #ddd;
+            border-top: none;
+            border-radius: 0 0 4px 4px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 10;
+            display: none;
+        }
+        
+        .drug-suggestion {
+            padding: 8px 10px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+        
+        .drug-suggestion:hover {
+            background-color: #f0f2f5;
+        }
+        
+        .drug-info {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+        
+        .drug-info-item {
+            flex: 1;
+            min-width: 200px;
+            margin-right: 15px;
+            margin-bottom: 10px;
+        }
+        
+        .drug-info-label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 3px;
+        }
+        
+        .drug-info-value {
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .prescription-notes {
+            margin-top: 20px;
+        }
+        
+        .prescription-notes label {
+            display: block;
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .prescription-notes textarea {
+            width: 100%;
+            height: 80px;
+            padding: 8px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            resize: vertical;
+        }
+        
+        .prescription-footer {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .prescription-status {
+            display: flex;
+            align-items: center;
+        }
+        
+        .status-label {
+            font-size: 14px;
+            color: #666;
+            margin-right: 10px;
+        }
+        
+        .status-select {
+            padding: 5px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .prescription-actions {
+            display: flex;
+        }
+        
+        .prescription-action {
+            padding: 8px 15px;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            margin-left: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .prescription-action i {
+            margin-right: 5px;
+        }
+        
+        .print-button {
+            background-color: #2196f3;
+            color: white;
+            border: none;
+        }
+        
+        .save-draft-button {
+            background-color: #ff9800;
+            color: white;
+            border: none;
+        }
+        
+        .allergy-warning {
+            background-color: #ffebee;
+            border: 1px solid #ffcdd2;
+            border-radius: 4px;
+            padding: 10px 15px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .allergy-warning i {
+            color: #f44336;
+            margin-right: 10px;
+            font-size: 18px;
+        }
+        
+        .allergy-warning-text {
+            color: #c62828;
+            font-size: 14px;
+        }
+        
+        .interaction-warning {
+            background-color: #fff8e1;
+            border: 1px solid #ffe082;
+            border-radius: 4px;
+            padding: 10px 15px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .interaction-warning i {
+            color: #ff9800;
+            margin-right: 10px;
+            font-size: 18px;
+        }
+        
+        .interaction-warning-text {
+            color: #ef6c00;
+            font-size: 14px;
+        }
+        
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+        
+        .tab {
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 14px;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .tab.active {
+            border-bottom: 2px solid #4caf50;
+            color: #4caf50;
+            font-weight: bold;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Fungsi untuk menambah baris obat baru
+            document.getElementById('add-drug-button').addEventListener('click', function() {
+                var table = document.getElementById('prescription-table');
+                var rowCount = table.rows.length;
+                var row = table.insertRow(rowCount);
+                
+                var cell1 = row.insertCell(0);
+                var cell2 = row.insertCell(1);
+                var cell3 = row.insertCell(2);
+                var cell4 = row.insertCell(3);
+                var cell5 = row.insertCell(4);
+                var cell6 = row.insertCell(5);
+                var cell7 = row.insertCell(6);
+                
+                cell1.innerHTML = '<div class="drug-search"><input type="text" placeholder="Cari obat..."><i class="fas fa-search"></i></div>';
+                cell2.innerHTML = '<input type="text" placeholder="Dosis">';
+                cell3.innerHTML = '<select><option value="">Pilih...</option><option value="oral">Oral</option><option value="iv">Intravena</option><option value="im">Intramuskular</option><option value="sc">Subkutan</option><option value="topical">Topikal</option></select>';
+                cell4.innerHTML = '<select><option value="">Pilih...</option><option value="qd">1x sehari</option><option value="bid">2x sehari</option><option value="tid">3x sehari</option><option value="qid">4x sehari</option><option value="prn">Jika perlu</option></select>';
+                cell5.innerHTML = '<input type="text" placeholder="Durasi">';
+                cell6.innerHTML = '<input type="text" placeholder="Instruksi khusus">';
+                cell7.className = 'action-cell';
+                cell7.innerHTML = '<button class="action-button delete-button" onclick="deleteRow(this)"><i class="fas fa-trash"></i></button>';
+            });
+            
+            // Fungsi untuk mengganti tab
+            var tabs = document.querySelectorAll('.tab');
+            tabs.forEach(function(tab) {
+                tab.addEventListener('click', function() {
+                    // Hapus kelas aktif dari semua tab
+                    tabs.forEach(function(t) {
+                        t.classList.remove('active');
+                    });
+                    
+                    // Tambahkan kelas aktif ke tab yang diklik
+                    this.classList.add('active');
+                    
+                    // Sembunyikan semua konten tab
+                    var tabContents = document.querySelectorAll('.tab-content');
+                    tabContents.forEach(function(content) {
+                        content.classList.remove('active');
+                    });
+                    
+                    // Tampilkan konten tab yang sesuai
+                    var tabId = this.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+        });
+        
+        // Fungsi untuk menghapus baris obat
+        function deleteRow(button) {
+            var row = button.parentNode.parentNode;
+            row.parentNode.removeChild(row);
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>Resep Obat</h2>
+        </div>
+        
+        <div class="nav-tab">
+            <span><i class="fas fa-prescription-bottle-alt"></i> Resep Obat</span>
+        </div>
+        
+        <div class="patient-info">
+            <div class="patient-photo">
+                <i class="fas fa-user"></i>
+            </div>
+            <div class="patient-details">
+                <div class="patient-name">BUDI SANTOSO</div>
+                <div class="patient-id">No RM: 123456</div>
+                <div class="patient-data">
+                    Laki-laki • Lahir Tanggal: 15/05/1975 (48 tahun)<br>
+                    Status: Kawin, Agama: Islam, Golongan Darah: O, Pendidikan: S1, Pekerjaan: PNS<br>
+                    Alamat: Jl. Merdeka No. 45, Kota Pohuwato
+                </div>
+            </div>
+        </div>
+        
+        <div class="section-title">Data Resep</div>
+        
+        <div class="form-container">
+            <div class="form-group">
+                <label>Tanggal Resep</label>
+                <input type="date" class="form-control" value="2023-06-15">
+            </div>
+            
+            <div class="form-group">
+                <label>Dokter Penulis Resep</label>
+                <div class="doctor-select">
+                    <select class="form-control">
+                        <option selected>dr. IRFIANA NOVA, Sp.PD</option>
+                    </select>
+                    <button>⋮</button>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label>Ruangan</label>
+                <select class="form-control">
+                    <option>IGD</option>
+                    <option>Poli Umum</option>
+                    <option selected>Poli Penyakit Dalam</option>
+                    <option>Poli Jantung</option>
+                    <option>Poli Anak</option>
+                    <option>Rawat Inap</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>Diagnosis</label>
+                <textarea class="form-control">Diabetes Melitus Tipe 2, Hipertensi</textarea>
+            </div>
+            
+            <div class="allergy-warning">
+                <i class="fas fa-exclamation-triangle"></i>
+                <div class="allergy-warning-text">
+                    <strong>Peringatan Alergi:</strong> Pasien memiliki riwayat alergi terhadap Penisilin dan Sulfa.
+                </div>
+            </div>
+            
+            <div class="tabs">
+                <div class="tab active" data-tab="current-prescription">Resep Saat Ini</div>
+                <div class="tab" data-tab="prescription-history">Riwayat Resep</div>
+            </div>
+            
+            <div id="current-prescription" class="tab-content active">
+                <div class="prescription-header">
+                    <div class="prescription-title">Daftar Obat</div>
+                    <button id="add-drug-button" class="add-button"><i class="fas fa-plus"></i> Tambah Obat</button>
+                </div>
+                
+                <table id="prescription-table" class="prescription-table">
+                    <thead>
+                        <tr>
+                            <th class="drug-name-cell">Nama Obat</th>
+                            <th class="dose-cell">Dosis</th>
+                            <th class="route-cell">Rute</th>
+                            <th class="frequency-cell">Frekuensi</th>
+                            <th class="duration-cell">Durasi</th>
+                            <th class="instruction-cell">Instruksi</th>
+                            <th class="action-cell">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="drug-search">
+                                    <input type="text" value="Metformin 500 mg" placeholder="Cari obat...">
+                                    <i class="fas fa-search"></i>
+                                </div>
+                            </td>
+                            <td><input type="text" value="500 mg"></td>
+                            <td>
+                                <select>
+                                    <option value="">Pilih...</option>
+                                    <option value="oral" selected>Oral</option>
+                                    <option value="iv">Intravena</option>
+                                    <option value="im">Intramuskular</option>
+                                    <option value="sc">Subkutan</option>
+                                    <option value="topical">Topikal</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select>
+                                    <option value="">Pilih...</option>
+                                    <option value="qd">1x sehari</option>
+                                    <option value="bid" selected>2x sehari</option>
+                                    <option value="tid">3x sehari</option>
+                                    <option value="qid">4x sehari</option>
+                                    <option value="prn">Jika perlu</option>
+                                </select>
+                            </td>
+                            <td><input type="text" value="30 hari"></td>
+                            <td><input type="text" value="Diminum setelah makan"></td>
+                            <td class="action-cell">
+                                <button class="action-button delete-button" onclick="deleteRow(this)"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="drug-search">
+                                    <input type="text" value="Amlodipine 10 mg" placeholder="Cari obat...">
+                                    <i class="fas fa-search"></i>
+                                </div>
+                            </td>
+                            <td><input type="text" value="10 mg"></td>
+                            <td>
+                                <select>
+                                    <option value="">Pilih...</option>
+                                    <option value="oral" selected>Oral</option>
+                                    <option value="iv">Intravena</option>
+                                    <option value="im">Intramuskular</option>
+                                    <option value="sc">Subkutan</option>
+                                    <option value="topical">Topikal</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select>
+                                    <option value="">Pilih...</option>
+                                    <option value="qd" selected>1x sehari</option>
+                                    <option value="bid">2x sehari</option>
+                                    <option value="tid">3x sehari</option>
+                                    <option value="qid">4x sehari</option>
+                                    <option value="prn">Jika perlu</option>
+                                </select>
+                            </td>
+                            <td><input type="text" value="30 hari"></td>
+                            <td><input type="text" value="Diminum pagi hari"></td>
+                            <td class="action-cell">
+                                <button class="action-button delete-button" onclick="deleteRow(this)"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="interaction-warning">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <div class="interaction-warning-text">
+                        <strong>Peringatan Interaksi:</strong> Amlodipine dapat berinteraksi dengan Simvastatin yang sudah dikonsumsi pasien. Pertimbangkan untuk menyesuaikan dosis.
+                    </div>
+                </div>
+                
+                <div class="prescription-summary">
+                    <div class="summary-title">Ringkasan Resep</div>
+                    <div class="summary-item">
+                        <span>Jumlah Item Obat:</span>
+                        <span>2 item</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Total Biaya Estimasi:</span>
+                        <span>Rp 250.000</span>
+                    </div>
+                </div>
+                
+                <div class="prescription-notes">
+                    <label>Catatan Resep</label>
+                    <textarea placeholder="Tambahkan catatan untuk apoteker...">Mohon dijelaskan cara minum obat dengan baik kepada pasien. Pasien lansia dengan gangguan pendengaran.</textarea>
+                </div>
+                
+                <div class="prescription-footer">
+                    <div class="prescription-status">
+                        <span class="status-label">Status Resep:</span>
+                        <select class="status-select">
+                            <option value="draft">Draft</option>
+                            <option value="active" selected>Aktif</option>
+                            <option value="completed">Selesai</option>
+                            <option value="cancelled">Dibatalkan</option>
+                        </select>
+                    </div>
+                    
+                    <div class="prescription-actions">
+                        <button class="prescription-action print-button"><i class="fas fa-print"></i> Cetak</button>
+                        <button class="prescription-action save-button"><i class="fas fa-save"></i> Simpan</button>
+                        <button class="prescription-action cancel-button">Batal</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="prescription-history" class="tab-content">
+                <table class="prescription-table">
+                    <thead>
+                        <tr>
+                            <th>Tanggal</th>
+                            <th>Dokter</th>
+                            <th>Diagnosis</th>
+                            <th>Obat</th>
+                            <th>Status</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>15/05/2023</td>
+                            <td>dr. IRFIANA NOVA, Sp.PD</td>
+                            <td>Diabetes Melitus Tipe 2, Hipertensi</td>
+                            <td>Metformin 500 mg, Amlodipine 10 mg</td>
+                            <td>Selesai</td>
+                            <td class="action-cell">
+                                <button class="action-button"><i class="fas fa-eye"></i></button>
+                                <button class="action-button"><i class="fas fa-print"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>15/04/2023</td>
+                            <td>dr. IRFIANA NOVA, Sp.PD</td>
+                            <td>Diabetes Melitus Tipe 2, Hipertensi</td>
+                            <td>Metformin 500 mg, Amlodipine 5 mg</td>
+                            <td>Selesai</td>
+                            <td class="action-cell">
+                                <button class="action-button"><i class="fas fa-eye"></i></button>
+                                <button class="action-button"><i class="fas fa-print"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>15/03/2023</td>
+                            <td>dr. IRFIANA NOVA, Sp.PD</td>
+                            <td>Diabetes Melitus Tipe 2</td>
+                            <td>Metformin 500 mg</td>
+                            <td>Selesai</td>
+                            <td class="action-cell">
+                                <button class="action-button"><i class="fas fa-eye"></i></button>
+                                <button class="action-button"><i class="fas fa-print"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 
