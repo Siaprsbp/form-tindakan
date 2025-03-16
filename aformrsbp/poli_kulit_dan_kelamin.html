@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tindakan Dokter - Poli Kulit dan Kelamin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        /* CSS Umum */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background-color: #f0f2f5;
+            padding: 15px 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .header h2 {
+            margin: 0;
+            color: #333;
+            font-size: 18px;
+        }
+        
+        .nav-tab {
+            background-color: #ff9800; /* Warna oranye untuk Poli Kulit dan Kelamin */
+            color: white;
+            padding: 10px 20px;
+        }
+        
+        .nav-tab span {
+            display: inline-block;
+            padding: 5px 15px;
+            background-color: #ff9800;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+        
+        .nav-tab span i {
+            margin-right: 5px;
+        }
+        
+        .patient-info {
+            display: flex;
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .patient-photo {
+            width: 100px;
+            height: 100px;
+            background-color: #ff9800;
+            border-radius: 50%;
+            margin-right: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 40px;
+        }
+        
+        .patient-details {
+            flex: 1;
+        }
+        
+        .patient-name {
+            font-size: 20px;
+            font-weight: bold;
+            color: #ff9800;
+            margin-bottom: 5px;
+        }
+        
+        .patient-id {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .patient-data {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.5;
+        }
+        
+        .section-title {
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+            color: #ff9800;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        .form-container {
+            padding: 20px;
+            display: flex;
+        }
+        
+        .form-left {
+            flex: 1;
+            padding-right: 20px;
+        }
+        
+        .form-right {
+            flex: 1;
+            padding-left: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .form-group label::after {
+            content: "*";
+            color: red;
+            margin-left: 3px;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .form-control:focus {
+            border-color: #ff9800;
+            outline: none;
+        }
+        
+        .radio-group {
+            display: flex;
+            align-items: center;
+        }
+        
+        .radio-option {
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .radio-option input {
+            margin-right: 5px;
+        }
+        
+        textarea.form-control {
+            height: 100px;
+            resize: vertical;
+        }
+        
+        .doctor-select {
+            display: flex;
+            align-items: center;
+        }
+        
+        .doctor-select select {
+            flex: 1;
+            margin-right: 10px;
+        }
+        
+        .doctor-select button {
+            background: none;
+            border: none;
+            color: #ff9800;
+            cursor: pointer;
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+        
+        .action-button {
+            padding: 8px 15px;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        
+        .save-button {
+            background-color: #ff9800;
+            color: white;
+            border: none;
+        }
+        
+        .cancel-button {
+            background-color: #f0f2f5;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+        
+        /* CSS Spesifik untuk Poli Kulit dan Kelamin */
+        .vital-signs {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .vital-signs-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #ff9800;
+        }
+        
+        .vital-signs-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+        
+        .vital-sign {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .vital-sign label {
+            margin-bottom: 5px;
+            font-size: 12px;
+        }
+        
+        .vital-sign input {
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+        }
+        
+        .skin-assessment {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .skin-assessment-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #ff9800;
+        }
+        
+        .skin-parameters {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        
+        .skin-parameter {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 10px;
+        }
+        
+        .skin-parameter label {
+            margin-bottom: 5px;
+            font-size: 12px;
+        }
+        
+        .body-diagram {
+            text-align: center;
+            margin: 15px 0;
+        }
+        
+        .body-diagram-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #ff9800;
+            font-size: 14px;
+        }
+        
+        .body-diagram-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        
+        .body-diagram-figure {
+            width: 120px;
+            height: 250px;
+            border: 1px solid #ddd;
+            background-color: #fff;
+            position: relative;
+        }
+        
+        .body-diagram-figure.front {
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjI1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNNjAgMjBjMTAgMCAxOCA4IDE4IDE4IDAgNS01IDEwLTEwIDEyLTUgMi04IDUtOCAxMCAwIDUgMyA4IDUgMTAgMiAyIDUgNSA1IDEwIDAgNS0yIDEwLTUgMTUtMyA1LTUgMTAtNSAxNXY5MGMwIDEwLTUgMjAtMTAgMzAtNSAxMC0xMCAyMC0xMCAzMGgtMTBjMC0xMC01LTIwLTEwLTMwLTUtMTAtMTAtMjAtMTAtMzB2LTkwYzAtNS0yLTEwLTUtMTUtMy01LTUtMTAtNS0xNSAwLTUgMy04IDUtMTAgMi0yIDUtNSA1LTEwIDAtNS0zLTgtOC0xMC01LTItMTAtNy0xMC0xMiAwLTEwIDgtMTggMTgtMThoNDBaIiBzdHJva2U9IiMwMDAiIGZpbGw9Im5vbmUiLz48L3N2Zz4=');
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        
+        .body-diagram-figure.back {
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjI1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNNjAgMjBjMTAgMCAxOCA4IDE4IDE4IDAgNS01IDEwLTEwIDEyLTUgMi04IDUtOCAxMCAwIDUgMyA4IDUgMTAgMiAyIDUgNSA1IDEwIDAgNS0yIDEwLTUgMTUtMyA1LTUgMTAtNSAxNXY5MGMwIDEwLTUgMjAtMTAgMzAtNSAxMC0xMCAyMC0xMCAzMGgtMTBjMC0xMC01LTIwLTEwLTMwLTUtMTAtMTAtMjAtMTAtMzB2LTkwYzAtNS0yLTEwLTUtMTUtMy01LTUtMTAtNS0xNSAwLTUgMy04IDUtMTAgMi0yIDUtNSA1LTEwIDAtNS0zLTgtOC0xMC01LTItMTAtNy0xMC0xMiAwLTEwIDgtMTggMTgtMThoNDBaIiBzdHJva2U9IiMwMDAiIGZpbGw9Im5vbmUiLz48L3N2Zz4=');
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        
+        .body-diagram-marker {
+            width: 15px;
+            height: 15px;
+            background-color: #ff9800;
+            border-radius: 50%;
+            position: absolute;
+            cursor: pointer;
+        }
+        
+        .diagnosis-section {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .diagnosis-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .diagnosis-title {
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .add-button {
+            background-color: #ff9800;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        .diagnosis-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+        }
+        
+        .diagnosis-table th, .diagnosis-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+            font-size: 13px;
+        }
+        
+        .diagnosis-table th {
+            background-color: #f0f2f5;
+        }
+        
+        .result-section {
+            margin-top: 15px;
+        }
+        
+        .result-section h4 {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .file-upload {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .file-upload button {
+            background-color: #f0f2f5;
+            border: 1px solid #ddd;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        
+        .file-upload span {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .treatment-plan {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .treatment-plan-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #ff9800;
+        }
+        
+        .treatment-plan-items {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        
+        .treatment-plan-item {
+            display: flex;
+            align-items: center;
+        }
+        
+        .treatment-plan-item input {
+            margin-right: 5px;
+        }
+        
+        .treatment-plan-item label {
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>Tindakan Dokter - Poli Kulit dan Kelamin</h2>
+        </div>
+        
+        <div class="nav-tab">
+            <span><i class="fas fa-user-md"></i> Tindakan Dokter</span>
+        </div>
+        
+        <div class="patient-info">
+            <div class="patient-photo">
+                <i class="fas fa-user"></i>
+            </div>
+            <div class="patient-details">
+                <div class="patient-name">RINA MARDIANA</div>
+                <div class="patient-id">No RM: 567890</div>
+                <div class="patient-data">
+                    Perempuan • Lahir Tanggal: 18/11/1988<br>
+                    Status: Kawin, Agama: Islam, Golongan Darah: B, Pendidikan: S1, Pekerjaan: WIRASWASTA<br>
+                    Alamat: Jl. Mawar No. 45, Kota Pohuwato
+                </div>
+            </div>
+        </div>
+        
+        <div class="section-title">Data Kunjungan</div>
+        
+        <div class="form-container">
+            <div class="form-left">
+                <div class="form-group">
+                    <label>Tanggal Kunjungan</label>
+                    <input type="date" class="form-control" value="2023-06-15">
+                </div>
+                
+                <div class="form-group">
+                    <label>Dokter</label>
+                    <div class="doctor-select">
+                        <select class="form-control">
+                            <option selected>dr. DIANA PUTRI, Sp.KK</option>
+                        </select>
+                        <button>⋮</button>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Keluhan Utama</label>
+                    <textarea class="form-control">Ruam kemerahan dan gatal pada lengan dan punggung sejak 1 minggu yang lalu. Pasien mengeluhkan gatal bertambah pada malam hari dan setelah berkeringat. Pasien memiliki riwayat alergi debu dan seafood.</textarea>
+                </div>
+                
+                <div class="vital-signs">
+                    <div class="vital-signs-title">Tanda Vital</div>
+                    <div class="vital-signs-grid">
+                        <div class="vital-sign">
+                            <label>Tekanan Darah</label>
+                            <input type="text" value="120/80" class="form-control">
+                            <small>mmHg</small>
+                        </div>
+                        <div class="vital-sign">
+                            <label>Nadi</label>
+                            <input type="text" value="78" class="form-control">
+                            <small>x/menit</small>
+                        </div>
+                        <div class="vital-sign">
+                            <label>Respirasi</label>
+                            <input type="text" value="18" class="form-control">
+                            <small>x/menit</small>
+                        </div>
+                        <div class="vital-sign">
+                            <label>Suhu</label>
+                            <input type="text" value="36.8" class="form-control">
+                            <small>°C</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="skin-assessment">
+                    <div class="skin-assessment-title">Pemeriksaan Kulit</div>
+                    
+                    <div class="skin-parameters">
+                        <div class="skin-parameter">
+                            <label>Jenis Lesi</label>
+                            <select class="form-control">
+                                <option>Makula</option>
+                                <option>Papula</option>
+                                <option selected>Eritema</option>
+                                <option>Urtikaria</option>
+                                <option>Vesikel</option>
+                                <option>Pustula</option>
+                                <option>Bula</option>
+                                <option>Skuama</option>
+                                <option>Krusta</option>
+                                <option>Erosi</option>
+                                <option>Ulkus</option>
+                            </select>
+                        </div>
+                        <div class="skin-parameter">
+                            <label>Distribusi</label>
+                            <select class="form-control">
+                                <option>Lokalisata</option>
+                                <option selected>Generalisata</option>
+                                <option>Simetris</option>
+                                <option>Asimetris</option>
+                                <option>Acral</option>
+                                <option>Sentral</option>
+                            </select>
+                        </div>
+                        <div class="skin-parameter">
+                            <label>Warna</label>
+                            <select class="form-control">
+                                <option selected>Eritematosa</option>
+                                <option>Hiperpigmentasi</option>
+                                <option>Hipopigmentasi</option>
+                                <option>Violaceous</option>
+                                <option>Kuning</option>
+                            </select>
+                        </div>
+                        <div class="skin-parameter">
+                            <label>Bentuk</label>
+                            <select class="form-control">
+                                <option>Bulat</option>
+                                <option>Oval</option>
+                                <option>Linear</option>
+                                <option>Anular</option>
+                                <option selected>Tidak beraturan</option>
+                            </select>
+                        </div>
+                        <div class="skin-parameter">
+                            <label>Ukuran</label>
+                            <input type="text" value="0.5-2 cm" class="form-control">
+                        </div>
+                        <div class="skin-parameter">
+                            <label>Permukaan</label>
+                            <select class="form-control">
+                                <option>Licin</option>
+                                <option selected>Kasar</option>
+                                <option>Berskuama</option>
+                                <option>Berkeropeng</option>
+                                <option>Berkerut</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="body-diagram">
+                        <div class="body-diagram-title">Lokasi Lesi</div>
+                        <div class="body-diagram-container">
+                            <div class="body-diagram-figure front">
+                                <!-- Marker untuk lesi di lengan kanan depan -->
+                                <div class="body-diagram-marker" style="top: 80px; right: 10px;"></div>
+                            </div>
+                            <div class="body-diagram-figure back">
+                                <!-- Marker untuk lesi di punggung -->
+                                <div class="body-diagram-marker" style="top: 70px; left: 50px;"></div>
+                                <div class="body-diagram-marker" style="top: 70px; right: 50px;"></div>
+                                <!-- Marker untuk lesi di lengan kiri belakang -->
+                                <div class="body-diagram-marker" style="top: 80px; left: 10px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="diagnosis-section">
+                    <div class="diagnosis-header">
+                        <div class="diagnosis-title">Diagnosis (ICD-10)</div>
+                        <button class="add-button"><i class="fas fa-plus"></i> Tambah</button>
+                    </div>
+                    
+                    <table class="diagnosis-table">
+                        <thead>
+                            <tr>
+                                <th>Kode</th>
+                                <th>Diagnosis</th>
+                                <th>Tipe</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>L20.9</td>
+                                <td>Atopic dermatitis, unspecified</td>
+                                <td>Primer</td>
+                                <td><i class="fas fa-trash-alt" style="color: red; cursor: pointer;"></i></td>
+                            </tr>
+                            <tr>
+                                <td>L30.9</td>
+                                <td>Dermatitis, unspecified</td>
+                                <td>Sekunder</td>
+                                <td><i class="fas fa-trash-alt" style="color: red; cursor: pointer;"></i></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="form-right">
+                <div class="diagnosis-section">
+                    <div class="diagnosis-header">
+                        <div class="diagnosis-title">Tindakan (ICD-9-CM)</div>
+                        <button class="add-button"><i class="fas fa-plus"></i> Tambah</button>
+                    </div>
+                    
+                    <table class="diagnosis-table">
+                        <thead>
+                            <tr>
+                                <th>Kode</th>
+                                <th>Tindakan</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>86.3</td>
+                                <td>Other local excision or destruction of lesion or tissue of skin and subcutaneous tissue</td>
+                                <td><i class="fas fa-trash-alt" style="color: red; cursor: pointer;"></i></td>
+                            </tr>
+                            <tr>
+                                <td>99.29</td>
+                                <td>Injection or infusion of other therapeutic or prophylactic substance</td>
+                                <td><i class="fas fa-trash-alt" style="color: red; cursor: pointer;"></i></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="treatment-plan">
+                    <div class="treatment-plan-title">Rencana Perawatan</div>
+                    <div class="treatment-plan-items">
+                        <div class="treatment-plan-item">
+                            <input type="checkbox" id="treatment1" checked>
+                            <label for="treatment1">Medikamentosa</label>
+                        </div>
+                        <div class="treatment-plan-item">
+                            <input type="checkbox" id="treatment2" checked>
+                            <label for="treatment2">Topikal</label>
+                        </div>
+                        <div class="treatment-plan-item">
+                            <input type="checkbox" id="treatment3">
+                            <label for="treatment3">Tindakan bedah minor</label>
+                        </div>
+                        <div class="treatment-plan-item">
+                            <input type="checkbox" id="treatment4">
+                            <label for="treatment4">Krioterapi</label>
+                        </div>
+                        <div class="treatment-plan-item">
+                            <input type="checkbox" id="treatment5">
+                            <label for="treatment5">Elektrokauter</label>
+                        </div>
+                        <div class="treatment-plan-item">
+                            <input type="checkbox" id="treatment6">
+                            <label for="treatment6">Fototerapi</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Catatan Dokter</label>
+                    <textarea class="form-control">Pasien didiagnosis dengan dermatitis atopik. Diberikan terapi kortikosteroid topikal (mometasone furoate 0.1% cream) untuk dioleskan pada area lesi 2x sehari, antihistamin oral (cetirizine 10mg) 1x sehari, dan pelembab kulit untuk digunakan setelah mandi. Pasien dianjurkan untuk menghindari faktor pencetus seperti debu dan seafood, serta menjaga kebersihan kulit.</textarea>
+                </div>
+                
+                <div class="result-section">
+                    <h4>Hasil Pemeriksaan</h4>
+                    <div class="file-upload">
+                        <button>Upload Hasil</button>
+                        <span>Tidak ada file yang dipilih</span>
+                    </div>
+                    <p style="font-size: 12px; color: #666;">*File yang diperbolehkan: JPG, JPEG, PNG, PDF (Max 10MB)</p>
+                </div>
+                
+                <div class="form-group">
+                    <label>Rencana Tindak Lanjut</label>
+                    <select class="form-control">
+                        <option>Rawat Inap</option>
+                        <option selected>Rawat Jalan</option>
+                        <option>Rujuk</option>
+                        <option>Observasi</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Jadwal Kontrol</label>
+                    <input type="date" class="form-control" value="2023-06-29">
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="action-button cancel-button">Batal</button>
+                    <button class="action-button save-button">Simpan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 
