@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tindakan Dokter - Poli Saraf</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        /* CSS Umum */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background-color: #f0f2f5;
+            padding: 15px 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .header h2 {
+            margin: 0;
+            color: #333;
+            font-size: 18px;
+        }
+        
+        .nav-tab {
+            background-color: #673ab7; /* Warna ungu untuk Poli Saraf */
+            color: white;
+            padding: 10px 20px;
+        }
+        
+        .nav-tab span {
+            display: inline-block;
+            padding: 5px 15px;
+            background-color: #673ab7;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+        
+        .nav-tab span i {
+            margin-right: 5px;
+        }
+        
+        .patient-info {
+            display: flex;
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .patient-photo {
+            width: 100px;
+            height: 100px;
+            background-color: #673ab7;
+            border-radius: 50%;
+            margin-right: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 40px;
+        }
+        
+        .patient-details {
+            flex: 1;
+        }
+        
+        .patient-name {
+            font-size: 20px;
+            font-weight: bold;
+            color: #673ab7;
+            margin-bottom: 5px;
+        }
+        
+        .patient-id {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .patient-data {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.5;
+        }
+        
+        .section-title {
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+            color: #673ab7;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        .form-container {
+            padding: 20px;
+            display: flex;
+        }
+        
+        .form-left {
+            flex: 1;
+            padding-right: 20px;
+        }
+        
+        .form-right {
+            flex: 1;
+            padding-left: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .form-group label::after {
+            content: "*";
+            color: red;
+            margin-left: 3px;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .form-control:focus {
+            border-color: #673ab7;
+            outline: none;
+        }
+        
+        .radio-group {
+            display: flex;
+            align-items: center;
+        }
+        
+        .radio-option {
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .radio-option input {
+            margin-right: 5px;
+        }
+        
+        textarea.form-control {
+            height: 100px;
+            resize: vertical;
+        }
+        
+        .doctor-select {
+            display: flex;
+            align-items: center;
+        }
+        
+        .doctor-select select {
+            flex: 1;
+            margin-right: 10px;
+        }
+        
+        .doctor-select button {
+            background: none;
+            border: none;
+            color: #673ab7;
+            cursor: pointer;
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+        
+        .action-button {
+            padding: 8px 15px;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        
+        .save-button {
+            background-color: #673ab7;
+            color: white;
+            border: none;
+        }
+        
+        .cancel-button {
+            background-color: #f0f2f5;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+        
+        /* CSS Spesifik untuk Poli Saraf */
+        .vital-signs {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .vital-signs-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #673ab7;
+        }
+        
+        .vital-signs-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+        
+        .vital-sign {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .vital-sign label {
+            margin-bottom: 5px;
+            font-size: 12px;
+        }
+        
+        .vital-sign input {
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+        }
+        
+        .neuro-assessment {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .neuro-assessment-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #673ab7;
+        }
+        
+        .neuro-parameters {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        
+        .neuro-parameter {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 10px;
+        }
+        
+        .neuro-parameter label {
+            margin-bottom: 5px;
+            font-size: 12px;
+        }
+        
+        .diagnosis-section {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .diagnosis-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .diagnosis-title {
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .add-button {
+            background-color: #673ab7;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        .diagnosis-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+        }
+        
+        .diagnosis-table th, .diagnosis-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+            font-size: 13px;
+        }
+        
+        .diagnosis-table th {
+            background-color: #f0f2f5;
+        }
+        
+        .result-section {
+            margin-top: 15px;
+        }
+        
+        .result-section h4 {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .file-upload {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .file-upload button {
+            background-color: #f0f2f5;
+            border: 1px solid #ddd;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        
+        .file-upload span {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .gcs-scale {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .gcs-parameter {
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        
+        .gcs-parameter h5 {
+            margin: 0 0 10px 0;
+            color: #673ab7;
+            font-size: 14px;
+        }
+        
+        .gcs-option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        
+        .gcs-option input {
+            margin-right: 5px;
+        }
+        
+        .gcs-option label {
+            font-size: 12px;
+        }
+        
+        .gcs-total {
+            margin-top: 10px;
+            font-weight: bold;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>Tindakan Dokter - Poli Saraf</h2>
+        </div>
+        
+        <div class="nav-tab">
+            <span><i class="fas fa-brain"></i> Tindakan Dokter</span>
+        </div>
+        
+        <div class="patient-info">
+            <div class="patient-photo">
+                <i class="fas fa-user"></i>
+            </div>
+            <div class="patient-details">
+                <div class="patient-name">SITI RAHMAWATI</div>
+                <div class="patient-id">No RM: 345678</div>
+                <div class="patient-data">
+                    Perempuan • Lahir Tanggal: 12/09/1980<br>
+                    Status: Kawin, Agama: Islam, Golongan Darah: A, Pendidikan: S1, Pekerjaan: GURU<br>
+                    Alamat: Jl. Melati No. 34, Kota Pohuwato
+                </div>
+            </div>
+        </div>
+        
+        <div class="section-title">Data Kunjungan</div>
+        
+        <div class="form-container">
+            <div class="form-left">
+                <div class="form-group">
+                    <label>Tanggal Kunjungan</label>
+                    <input type="date" class="form-control" value="2023-06-15">
+                </div>
+                
+                <div class="form-group">
+                    <label>Dokter</label>
+                    <div class="doctor-select">
+                        <select class="form-control">
+                            <option selected>dr. AHMAD FAUZI, Sp.S</option>
+                        </select>
+                        <button>⋮</button>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Keluhan Utama</label>
+                    <textarea class="form-control">Nyeri kepala berdenyut di bagian belakang kepala sejak 1 minggu yang lalu. Nyeri bertambah saat beraktivitas dan berkurang saat istirahat. Pasien juga mengeluhkan pusing dan mual.</textarea>
+                </div>
+                
+                <div class="vital-signs">
+                    <div class="vital-signs-title">Tanda Vital</div>
+                    <div class="vital-signs-grid">
+                        <div class="vital-sign">
+                            <label>Tekanan Darah</label>
+                            <input type="text" value="130/80" class="form-control">
+                            <small>mmHg</small>
+                        </div>
+                        <div class="vital-sign">
+                            <label>Nadi</label>
+                            <input type="text" value="82" class="form-control">
+                            <small>x/menit</small>
+                        </div>
+                        <div class="vital-sign">
+                            <label>Respirasi</label>
+                            <input type="text" value="18" class="form-control">
+                            <small>x/menit</small>
+                        </div>
+                        <div class="vital-sign">
+                            <label>Suhu</label>
+                            <input type="text" value="36.8" class="form-control">
+                            <small>°C</small>
+                        </div>
+                        <div class="vital-sign">
+                            <label>Berat Badan</label>
+                            <input type="text" value="65" class="form-control">
+                            <small>kg</small>
+                        </div>
+                        <div class="vital-sign">
+                            <label>Tinggi Badan</label>
+                            <input type="text" value="160" class="form-control">
+                            <small>cm</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="neuro-assessment">
+                    <div class="neuro-assessment-title">Pemeriksaan Neurologis</div>
+                    
+                    <div class="gcs-scale">
+                        <div class="gcs-parameter">
+                            <h5>Respon Mata (E)</h5>
+                            <div class="gcs-option">
+                                <input type="radio" name="eye" id="e4" checked>
+                                <label for="e4">4 - Spontan</label>
+                            </div>
+                            <div class="gcs-option">
+                                <input type="radio" name="eye" id="e3">
+                                <label for="e3">3 - Terhadap suara</label>
+                            </div>
+                            <div class="gcs-option">
+                                <input type="radio" name="eye" id="e2">
+                                <label for="e2">2 - Terhadap nyeri</label>
+                            </div>
+                            <div class="gcs-option">
+                                <input type="radio" name="eye" id="e1">
+                                <label for="e1">1 - Tidak ada</label>
+                            </div>
+                        </div>
+                        
+                        <div class="gcs-parameter">
+                            <h5>Respon Verbal (V)</h5>
+                            <div class="gcs-option">
+                                <input type="radio" name="verbal" id="v5" checked>
+                                <label for="v5">5 - Orientasi baik</label>
+                            </div>
+                            <div class="gcs-option">
+                                <input type="radio" name="verbal" id="v4">
+                                <label for="v4">4 - Bingung</label>
+                            </div>
+                            <div class="gcs-option">
+                                <input type="radio" name="verbal" id="v3">
+                                <label for="v3">3 - Kata-kata tidak tepat</label>
+                            </div>
+                            <div class="gcs-option">
+                                <input type="radio" name="verbal" id="v2">
+                                <label for="v2">2 - Suara tidak jelas</label>
+                            </div>
+                            <div class="gcs-option">
+                                <input type="radio" name="verbal" id="v1">
+                                <label for="v1">1 - Tidak ada</label>
+                            </div>
+                        </div>
+                        
+                        <div class="gcs-parameter">
+                            <h5>Respon Motorik (M)</h5>
+                            <div class="gcs-option">
+                                <input type="radio" name="motor" id="m6" checked>
+                                <label for="m6">6 - Mengikuti perintah</label>
+                            </div>
+                            <div class="gcs-option">
+                                <input type="radio" name="motor" id="m5">
+                                <label for="m5">5 - Melokalisasi nyeri</label>
+                            </div>
+                            <div class="gcs-option">
+                                <input type="radio" name="motor" id="m4">
+                                <label for="m4">4 - Fleksi normal</label>
+                            </div>
+                            <div class="gcs-option">
+                                <input type="radio" name="motor" id="m3">
+                                <label for="m3">3 - Fleksi abnormal</label>
+                            </div>
+                            <div class="gcs-option">
+                                <input type="radio" name="motor" id="m2">
+                                <label for="m2">2 - Ekstensi</label>
+                            </div>
+                            <div class="gcs-option">
+                                <input type="radio" name="motor" id="m1">
+                                <label for="m1">1 - Tidak ada</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="gcs-total">
+                        Total GCS: 15 (E4 V5 M6)
+                    </div>
+                    
+                    <div class="neuro-parameters">
+                        <div class="neuro-parameter">
+                            <label>Kekuatan Motorik Ekstremitas Atas Kanan</label>
+                            <select class="form-control">
+                                <option>0 - Tidak ada kontraksi</option>
+                                <option>1 - Kontraksi otot terlihat/teraba</option>
+                                <option>2 - Gerakan aktif, tidak melawan gravitasi</option>
+                                <option>3 - Gerakan aktif, melawan gravitasi</option>
+                                <option>4 - Gerakan aktif, melawan gravitasi dan tahanan</option>
+                                <option selected>5 - Kekuatan normal</option>
+                            </select>
+                        </div>
+                        <div class="neuro-parameter">
+                            <label>Kekuatan Motorik Ekstremitas Atas Kiri</label>
+                            <select class="form-control">
+                                <option>0 - Tidak ada kontraksi</option>
+                                <option>1 - Kontraksi otot terlihat/teraba</option>
+                                <option>2 - Gerakan aktif, tidak melawan gravitasi</option>
+                                <option>3 - Gerakan aktif, melawan gravitasi</option>
+                                <option>4 - Gerakan aktif, melawan gravitasi dan tahanan</option>
+                                <option selected>5 - Kekuatan normal</option>
+                            </select>
+                        </div>
+                        <div class="neuro-parameter">
+                            <label>Kekuatan Motorik Ekstremitas Bawah Kanan</label>
+                            <select class="form-control">
+                                <option>0 - Tidak ada kontraksi</option>
+                                <option>1 - Kontraksi otot terlihat/teraba</option>
+                                <option>2 - Gerakan aktif, tidak melawan gravitasi</option>
+                                <option>3 - Gerakan aktif, melawan gravitasi</option>
+                                <option>4 - Gerakan aktif, melawan gravitasi dan tahanan</option>
+                                <option selected>5 - Kekuatan normal</option>
+                            </select>
+                        </div>
+                        <div class="neuro-parameter">
+                            <label>Kekuatan Motorik Ekstremitas Bawah Kiri</label>
+                            <select class="form-control">
+                                <option>0 - Tidak ada kontraksi</option>
+                                <option>1 - Kontraksi otot terlihat/teraba</option>
+                                <option>2 - Gerakan aktif, tidak melawan gravitasi</option>
+                                <option>3 - Gerakan aktif, melawan gravitasi</option>
+                                <option>4 - Gerakan aktif, melawan gravitasi dan tahanan</option>
+                                <option selected>5 - Kekuatan normal</option>
+                            </select>
+                        </div>
+                        <div class="neuro-parameter">
+                            <label>Refleks Fisiologis</label>
+                            <select class="form-control">
+                                <option>Tidak ada</option>
+                                <option>Menurun</option>
+                                <option selected>Normal</option>
+                                <option>Meningkat</option>
+                            </select>
+                        </div>
+                        <div class="neuro-parameter">
+                            <label>Refleks Patologis</label>
+                            <select class="form-control">
+                                <option selected>Tidak ada</option>
+                                <option>Babinski (+)</option>
+                                <option>Hoffman (+)</option>
+                                <option>Chaddock (+)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="diagnosis-section">
+                    <div class="diagnosis-header">
+                        <div class="diagnosis-title">Diagnosis (ICD-10)</div>
+                        <button class="add-button"><i class="fas fa-plus"></i> Tambah</button>
+                    </div>
+                    
+                    <table class="diagnosis-table">
+                        <thead>
+                            <tr>
+                                <th>Kode</th>
+                                <th>Diagnosis</th>
+                                <th>Tipe</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>G43.9</td>
+                                <td>Migraine, unspecified</td>
+                                <td>Primer</td>
+                                <td><i class="fas fa-trash-alt" style="color: red; cursor: pointer;"></i></td>
+                            </tr>
+                            <tr>
+                                <td>G44.2</td>
+                                <td>Tension-type headache</td>
+                                <td>Sekunder</td>
+                                <td><i class="fas fa-trash-alt" style="color: red; cursor: pointer;"></i></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="form-right">
+                <div class="diagnosis-section">
+                    <div class="diagnosis-header">
+                        <div class="diagnosis-title">Tindakan (ICD-9-CM)</div>
+                        <button class="add-button"><i class="fas fa-plus"></i> Tambah</button>
+                    </div>
+                    
+                    <table class="diagnosis-table">
+                        <thead>
+                            <tr>
+                                <th>Kode</th>
+                                <th>Tindakan</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>89.13</td>
+                                <td>Neurologic examination</td>
+                                <td><i class="fas fa-trash-alt" style="color: red; cursor: pointer;"></i></td>
+                            </tr>
+                            <tr>
+                                <td>89.39</td>
+                                <td>Other nonoperative measurements and examinations</td>
+                                <td><i class="fas fa-trash-alt" style="color: red; cursor: pointer;"></i></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="form-group">
+                    <label>Catatan Dokter</label>
+                    <textarea class="form-control">Pasien didiagnosis dengan migraine tanpa aura. Pemeriksaan neurologis dalam batas normal. Tidak ditemukan tanda-tanda defisit neurologis fokal. Dianjurkan untuk menghindari faktor pencetus seperti stres, kurang tidur, dan makanan tertentu. Diberikan terapi paracetamol 500mg 3x1 dan amitriptyline 12.5mg 1x1 malam.</textarea>
+                </div>
+                
+                <div class="result-section">
+                    <h4>Hasil Pemeriksaan</h4>
+                    <div class="file-upload">
+                        <button>Upload Hasil</button>
+                        <span>Tidak ada file yang dipilih</span>
+                    </div>
+                    <p style="font-size: 12px; color: #666;">*File yang diperbolehkan: JPG, JPEG, PNG, PDF (Max 10MB)</p>
+                </div>
+                
+                <div class="form-group">
+                    <label>Rencana Tindak Lanjut</label>
+                    <select class="form-control">
+                        <option>Rawat Inap</option>
+                        <option selected>Rawat Jalan</option>
+                        <option>Rujuk</option>
+                        <option>Observasi</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Jadwal Kontrol</label>
+                    <input type="date" class="form-control" value="2023-07-15">
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="action-button cancel-button">Batal</button>
+                    <button class="action-button save-button">Simpan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 
