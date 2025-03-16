@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tindakan Dokter - Poli Jantung</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background-color: #f0f2f5;
+            padding: 15px 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .header h2 {
+            margin: 0;
+            color: #333;
+            font-size: 18px;
+        }
+        
+        .nav-tab {
+            background-color: #e53935; /* Warna merah untuk Poli Jantung */
+            color: white;
+            padding: 10px 20px;
+        }
+        
+        .nav-tab span {
+            display: inline-block;
+            padding: 5px 15px;
+            background-color: #e53935;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+        
+        .nav-tab span i {
+            margin-right: 5px;
+        }
+        
+        .patient-info {
+            display: flex;
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .patient-photo {
+            width: 100px;
+            height: 100px;
+            background-color: #e53935;
+            border-radius: 50%;
+            margin-right: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 40px;
+        }
+        
+        .patient-details {
+            flex: 1;
+        }
+        
+        .patient-name {
+            font-size: 20px;
+            font-weight: bold;
+            color: #e53935;
+            margin-bottom: 5px;
+        }
+        
+        .patient-id {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .patient-data {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.5;
+        }
+        
+        .section-title {
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+            color: #e53935;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        .form-container {
+            padding: 20px;
+            display: flex;
+        }
+        
+        .form-left {
+            flex: 1;
+            padding-right: 20px;
+        }
+        
+        .form-right {
+            flex: 1;
+            padding-left: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .form-group label::after {
+            content: "*";
+            color: red;
+            margin-left: 3px;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .form-control:focus {
+            border-color: #e53935;
+            outline: none;
+        }
+        
+        .radio-group {
+            display: flex;
+            align-items: center;
+        }
+        
+        .radio-option {
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .radio-option input {
+            margin-right: 5px;
+        }
+        
+        textarea.form-control {
+            height: 100px;
+            resize: vertical;
+        }
+        
+        .doctor-select {
+            display: flex;
+            align-items: center;
+        }
+        
+        .doctor-select select {
+            flex: 1;
+            margin-right: 10px;
+        }
+        
+        .doctor-select button {
+            background: none;
+            border: none;
+            color: #e53935;
+            cursor: pointer;
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+        
+        .action-button {
+            padding: 8px 15px;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        
+        .save-button {
+            background-color: #e53935;
+            color: white;
+            border: none;
+        }
+        
+        .cancel-button {
+            background-color: #f0f2f5;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+        
+        /* CSS Spesifik untuk Poli Jantung */
+        .vital-signs {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .vital-signs-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #e53935;
+        }
+        
+        .vital-signs-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+        
+        .vital-sign {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .vital-sign label {
+            margin-bottom: 5px;
+            font-size: 12px;
+        }
+        
+        .vital-sign input {
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+        }
+        
+        .cardiac-assessment {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .cardiac-assessment-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #e53935;
+        }
+        
+        .cardiac-parameters {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        
+        .cardiac-parameter {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .cardiac-parameter label {
+            margin-bottom: 5px;
+            font-size: 12px;
+        }
+        
+        .diagnosis-section {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .diagnosis-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .diagnosis-title {
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .add-button {
+            background-color: #e53935;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        .diagnosis-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+        }
+        
+        .diagnosis-table th, .diagnosis-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+            font-size: 13px;
+        }
+        
+        .diagnosis-table th {
+            background-color: #f0f2f5;
+        }
+        
+        .ecg-results {
+            margin-top: 20px;
+        }
+        
+        .ecg-results-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #e53935;
+        }
+        
+        .result-section {
+            margin-top: 15px;
+        }
+        
+        .result-section h4 {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .file-upload {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .file-upload button {
+            background-color: #f0f2f5;
+            border: 1px solid #ddd;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        
+        .file-upload span {
+            font-size: 12px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>Tindakan Dokter - Poli Jantung</h2>
+        </div>
+        
+        <div class="nav-tab">
+            <span><i class="fas fa-heartbeat"></i> Tindakan Dokter</span>
+        </div>
+        
+        <div class="patient-info">
+            <div class="patient-photo">
+                <i class="fas fa-user"></i>
+            </div>
+            <div class="patient-details">
+                <div class="patient-name">BUDI SANTOSO</div>
+                <div class="patient-id">No RM: 234567</div>
+                <div class="patient-data">
+                    Laki-laki • Lahir Tanggal: 23/08/1965<br>
+                    Status: Kawin, Agama: Islam, Golongan Darah: B, Pendidikan: SMA, Pekerjaan: PENSIUNAN<br>
+                    Alamat: Jl. Anggrek No. 23, Kota Pohuwato
+                </div>
+            </div>
+        </div>
+        
+        <div class="section-title">Data Kunjungan</div>
+        
+        <div class="form-container">
+            <div class="form-left">
+                <div class="form-group">
+                    <label>Tanggal Kunjungan</label>
+                    <input type="date" class="form-control" value="2023-06-15">
+                </div>
+                
+                <div class="form-group">
+                    <label>Dokter</label>
+                    <div class="doctor-select">
+                        <select class="form-control">
+                            <option selected>dr. AHMAD WIJAYA, Sp.JP</option>
+                        </select>
+                        <button>⋮</button>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Keluhan Utama</label>
+                    <textarea class="form-control">Nyeri dada, sesak napas, dan jantung berdebar sejak 2 hari yang lalu</textarea>
+                </div>
+                
+                <div class="vital-signs">
+                    <div class="vital-signs-title">Tanda Vital</div>
+                    <div class="vital-signs-grid">
+                        <div class="vital-sign">
+                            <label>Tekanan Darah</label>
+                            <input type="text" value="140/90" class="form-control">
+                            <small>mmHg</small>
+                        </div>
+                        <div class="vital-sign">
+                            <label>Nadi</label>
+                            <input type="text" value="88" class="form-control">
+                            <small>x/menit</small>
+                        </div>
+                        <div class="vital-sign">
+                            <label>Respirasi</label>
+                            <input type="text" value="20" class="form-control">
+                            <small>x/menit</small>
+                        </div>
+                        <div class="vital-sign">
+                            <label>Suhu</label>
+                            <input type="text" value="37.2" class="form-control">
+                            <small>°C</small>
+                        </div>
+                        <div class="vital-sign">
+                            <label>Berat Badan</label>
+                            <input type="text" value="75" class="form-control">
+                            <small>kg</small>
+                        </div>
+                        <div class="vital-sign">
+                            <label>Tinggi Badan</label>
+                            <input type="text" value="168" class="form-control">
+                            <small>cm</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="cardiac-assessment">
+                    <div class="cardiac-assessment-title">Evaluasi Jantung</div>
+                    <div class="cardiac-parameters">
+                        <div class="cardiac-parameter">
+                            <label>Frekuensi Jantung</label>
+                            <input type="text" value="88" class="form-control">
+                            <small>x/menit</small>
+                        </div>
+                        <div class="cardiac-parameter">
+                            <label>Rasio Pernapasan</label>
+                            <input type="text" value="20" class="form-control">
+                            <small>x/menit</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="diagnosis-section">
+                    <div class="diagnosis-header">
+                        <div class="diagnosis-title">Diagnosis (ICD-10)</div>
+                        <button class="add-button"><i class="fas fa-plus"></i> Tambah</button>
+                    </div>
+                    
+                    <table class="diagnosis-table">
+                        <thead>
+                            <tr>
+                                <th>Kode</th>
+                                <th>Diagnosis</th>
+                                <th>Tipe</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>I20.9</td>
+                                <td>Angina pectoris, unspecified</td>
+                                <td>Primer</td>
+                                <td><i class="fas fa-trash-alt" style="color: red; cursor: pointer;"></i></td>
+                            </tr>
+                            <tr>
+                                <td>I10</td>
+                                <td>Essential (primary) hypertension</td>
+                                <td>Sekunder</td>
+                                <td><i class="fas fa-trash-alt" style="color: red; cursor: pointer;"></i></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="form-right">
+                <div class="diagnosis-section">
+                    <div class="diagnosis-header">
+                        <div class="diagnosis-title">Tindakan (ICD-9-CM)</div>
+                        <button class="add-button"><i class="fas fa-plus"></i> Tambah</button>
+                    </div>
+                    
+                    <table class="diagnosis-table">
+                        <thead>
+                            <tr>
+                                <th>Kode</th>
+                                <th>Tindakan</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>89.52</td>
+                                <td>Electrocardiogram</td>
+                                <td><i class="fas fa-trash-alt" style="color: red; cursor: pointer;"></i></td>
+                            </tr>
+                            <tr>
+                                <td>88.72</td>
+                                <td>Diagnostic ultrasound of heart</td>
+                                <td><i class="fas fa-trash-alt" style="color: red; cursor: pointer;"></i></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="form-group">
+                    <label>Catatan Dokter</label>
+                    <textarea class="form-control">Pasien didiagnosis dengan angina pektoris dan hipertensi. Direkomendasikan untuk melakukan pemeriksaan lanjutan berupa tes treadmill. Diberikan terapi obat anti-angina dan anti-hipertensi.</textarea>
+                </div>
+                
+                <div class="ecg-results">
+                    <div class="ecg-results-title">Hasil Elektrokardiogram</div>
+                    <div class="file-upload">
+                        <button>Upload Hasil</button>
+                        <span>Tidak ada file yang dipilih</span>
+                    </div>
+                    <p style="font-size: 12px; color: #666;">*File yang diperbolehkan: JPG, JPEG, PNG, PDF (Max 10MB)</p>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="action-button cancel-button">Batal</button>
+                    <button class="action-button save-button">Simpan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 
