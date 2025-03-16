@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tindakan Dokter - Poli THT</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        /* CSS Umum */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background-color: #f0f2f5;
+            padding: 15px 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .header h2 {
+            margin: 0;
+            color: #333;
+            font-size: 18px;
+        }
+        
+        .nav-tab {
+            background-color: #ff5722; /* Warna oranye untuk Poli THT */
+            color: white;
+            padding: 10px 20px;
+        }
+        
+        .nav-tab span {
+            display: inline-block;
+            padding: 5px 15px;
+            background-color: #ff5722;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+        
+        .nav-tab span i {
+            margin-right: 5px;
+        }
+        
+        .patient-info {
+            display: flex;
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .patient-photo {
+            width: 100px;
+            height: 100px;
+            background-color: #ff5722;
+            border-radius: 50%;
+            margin-right: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 40px;
+        }
+        
+        .patient-details {
+            flex: 1;
+        }
+        
+        .patient-name {
+            font-size: 20px;
+            font-weight: bold;
+            color: #ff5722;
+            margin-bottom: 5px;
+        }
+        
+        .patient-id {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .patient-data {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.5;
+        }
+        
+        .section-title {
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+            color: #ff5722;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        .form-container {
+            padding: 20px;
+            display: flex;
+        }
+        
+        .form-left {
+            flex: 1;
+            padding-right: 20px;
+        }
+        
+        .form-right {
+            flex: 1;
+            padding-left: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .form-group label::after {
+            content: "*";
+            color: red;
+            margin-left: 3px;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .form-control:focus {
+            border-color: #ff5722;
+            outline: none;
+        }
+        
+        .radio-group {
+            display: flex;
+            align-items: center;
+        }
+        
+        .radio-option {
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .radio-option input {
+            margin-right: 5px;
+        }
+        
+        textarea.form-control {
+            height: 100px;
+            resize: vertical;
+        }
+        
+        .doctor-select {
+            display: flex;
+            align-items: center;
+        }
+        
+        .doctor-select select {
+            flex: 1;
+            margin-right: 10px;
+        }
+        
+        .doctor-select button {
+            background: none;
+            border: none;
+            color: #ff5722;
+            cursor: pointer;
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+        
+        .action-button {
+            padding: 8px 15px;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        
+        .save-button {
+            background-color: #ff5722;
+            color: white;
+            border: none;
+        }
+        
+        .cancel-button {
+            background-color: #f0f2f5;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+        
+        /* CSS Spesifik untuk Poli THT */
+        .vital-signs {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .vital-signs-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #ff5722;
+        }
+        
+        .vital-signs-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+        
+        .vital-sign {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .vital-sign label {
+            margin-bottom: 5px;
+            font-size: 12px;
+        }
+        
+        .vital-sign input {
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+        }
+        
+        .ent-examination {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .ent-examination-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #ff5722;
+        }
+        
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 15px;
+        }
+        
+        .tab {
+            padding: 8px 15px;
+            cursor: pointer;
+            font-size: 14px;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .tab.active {
+            border-bottom: 2px solid #ff5722;
+            color: #ff5722;
+            font-weight: bold;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .ear-examination {
+            margin-bottom: 15px;
+        }
+        
+        .ear-examination-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #ff5722;
+            font-size: 14px;
+        }
+        
+        .ear-parameters {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        
+        .ear-parameter {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 10px;
+        }
+        
+        .ear-parameter label {
+            margin-bottom: 5px;
+            font-size: 12px;
+        }
+        
+        .ear-diagram {
+            text-align: center;
+            margin: 15px 0;
+        }
+        
+        .ear-diagram-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #ff5722;
+            font-size: 14px;
+        }
+        
+        .ear-diagram-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        
+        .ear-diagram-figure {
+            width: 100px;
+            height: 100px;
+            border: 1px solid #ddd;
+            border-radius: 50%;
+            background-color: #fff;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .ear-diagram-figure::before {
+            content: "";
+            width: 30px;
+            height: 30px;
+            border: 1px solid #ddd;
+            border-radius: 50%;
+            position: absolute;
+        }
+        
+        .ear-diagram-marker {
+            width: 10px;
+            height: 10px;
+            background-color: #ff5722;
+            border-radius: 50%;
+            position: absolute;
+            cursor: pointer;
+        }
+        
+        .nose-examination {
+            margin-bottom: 15px;
+        }
+        
+        .nose-examination-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #ff5722;
+            font-size: 14px;
+        }
+        
+        .nose-parameters {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        
+        .nose-parameter {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 10px;
+        }
+        
+        .nose-parameter label {
+            margin-bottom: 5px;
+            font-size: 12px;
+        }
+        
+        .throat-examination {
+            margin-bottom: 15px;
+        }
+        
+        .throat-examination-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #ff5722;
+            font-size: 14px;
+        }
+        
+        .throat-parameters {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        
+        .throat-parameter {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 10px;
+        }
+        
+        .throat-parameter label {
+            margin-bottom: 5px;
+            font-size: 12px;
+        }
+        
+        .diagnosis-section {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .diagnosis-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .diagnosis-title {
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .add-button {
+            background-color: #ff5722;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        .diagnosis-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+        }
+        
+        .diagnosis-table th, .diagnosis-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+            font-size: 13px;
+        }
+        
+        .diagnosis-table th {
+            background-color: #f0f2f5;
+        }
+        
+        .result-section {
+            margin-top: 15px;
+        }
+        
+        .result-section h4 {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .file-upload {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .file-upload button {
+            background-color: #f0f2f5;
+            border: 1px solid #ddd;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        
+        .file-upload span {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .treatment-plan {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .treatment-plan-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #ff5722;
+        }
+        
+        .treatment-plan-items {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        
+        .treatment-plan-item {
+            display: flex;
+            align-items: center;
+        }
+        
+        .treatment-plan-item input {
+            margin-right: 5px;
+        }
+        
+        .treatment-plan-item label {
+            font-size: 12px;
+        }
+        
+        .hearing-test {
+            margin-top: 15px;
+            border-top: 1px solid #ddd;
+            padding-top: 15px;
+        }
+        
+        .hearing-test-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #ff5722;
+            font-size: 14px;
+        }
+        
+        .hearing-test-parameters {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        
+        .hearing-test-parameter {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 10px;
+        }
+        
+        .hearing-test-parameter label {
+            margin-bottom: 5px;
+            font-size: 12px;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Fungsi untuk mengganti tab
+            function switchTab(tabName) {
+                // Sembunyikan semua konten tab
+                var tabContents = document.querySelectorAll('.tab-content');
+                tabContents.forEach(function(content) {
+                    content.classList.remove('active');
+                });
+                
+                // Hapus kelas aktif dari semua tab
+                var tabs = document.querySelectorAll('.tab');
+                tabs.forEach(function(tab) {
+                    tab.classList.remove('active');
+                });
+                
+                // Aktifkan tab yang dipilih
+                document.getElementById(tabName).classList.add('active');
+                document.querySelector('[data-tab="' + tabName + '"]').classList.add('active');
+            }
+            
+            // Tambahkan event listener untuk tab
+            var tabs = document.querySelectorAll('.tab');
+            tabs.forEach(function(tab) {
+                tab.addEventListener('click', function() {
+                    var tabName = this.getAttribute('data-tab');
+                    switchTab(tabName);
+                });
+            });
+            
+            // Aktifkan tab Telinga secara default
+            switchTab('ear-tab');
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>Tindakan Dokter - Poli THT</h2>
+        </div>
+        
+        <div class="nav-tab">
+            <span><i class="fas fa-deaf"></i> Tindakan Dokter</span>
+        </div>
+        
+        <div class="patient-info">
+            <div class="patient-photo">
+                <i class="fas fa-user"></i>
+            </div>
+            <div class="patient-details">
+                <div class="patient-name">SITI RAHMAWATI</div>
+                <div class="patient-id">No RM: 012345</div>
+                <div class="patient-data">
+                    Perempuan • Lahir Tanggal: 20/09/1985<br>
+                    Status: Kawin, Agama: Islam, Golongan Darah: O, Pendidikan: S1, Pekerjaan: GURU<br>
+                    Alamat: Jl. Anggrek No. 15, Kota Pohuwato
+                </div>
+            </div>
+        </div>
+        
+        <div class="section-title">Data Kunjungan</div>
+        
+        <div class="form-container">
+            <div class="form-left">
+                <div class="form-group">
+                    <label>Tanggal Kunjungan</label>
+                    <input type="date" class="form-control" value="2023-06-15">
+                </div>
+                
+                <div class="form-group">
+                    <label>Dokter</label>
+                    <div class="doctor-select">
+                        <select class="form-control">
+                            <option selected>dr. AHMAD FAUZI, Sp.THT-KL</option>
+                        </select>
+                        <button>⋮</button>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Keluhan Utama</label>
+                    <textarea class="form-control">Pasien mengeluhkan nyeri telinga kanan sejak 3 hari yang lalu. Nyeri bertambah saat menelan. Pasien juga mengeluhkan pendengaran berkurang dan telinga terasa penuh. Tidak ada riwayat trauma atau benda asing di telinga.</textarea>
+                </div>
+                
+                <div class="vital-signs">
+                    <div class="vital-signs-title">Tanda Vital</div>
+                    <div class="vital-signs-grid">
+                        <div class="vital-sign">
+                            <label>Tekanan Darah</label>
+                            <input type="text" value="120/80" class="form-control">
+                            <small>mmHg</small>
+                        </div>
+                        <div class="vital-sign">
+                            <label>Nadi</label>
+                            <input type="text" value="76" class="form-control">
+                            <small>x/menit</small>
+                        </div>
+                        <div class="vital-sign">
+                            <label>Respirasi</label>
+                            <input type="text" value="18" class="form-control">
+                            <small>x/menit</small>
+                        </div>
+                        <div class="vital-sign">
+                            <label>Suhu</label>
+                            <input type="text" value="37.5" class="form-control">
+                            <small>°C</small>
+                        </div>
+                        <div class="vital-sign">
+                            <label>Berat Badan</label>
+                            <input type="text" value="58" class="form-control">
+                            <small>kg</small>
+                        </div>
+                        <div class="vital-sign">
+                            <label>Tinggi Badan</label>
+                            <input type="text" value="160" class="form-control">
+                            <small>cm</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="ent-examination">
+                    <div class="ent-examination-title">Pemeriksaan THT</div>
+                    
+                    <div class="tabs">
+                        <div class="tab active" data-tab="ear-tab">Telinga</div>
+                        <div class="tab" data-tab="nose-tab">Hidung</div>
+                        <div class="tab" data-tab="throat-tab">Tenggorokan</div>
+                    </div>
+                    
+                    <!-- Tab Telinga -->
+                    <div id="ear-tab" class="tab-content active">
+                        <div class="ear-examination">
+                            <div class="ear-examination-title">Pemeriksaan Telinga</div>
+                            
+                            <div class="ear-diagram">
+                                <div class="ear-diagram-title">Membran Timpani</div>
+                                <div class="ear-diagram-container">
+                                    <div class="ear-diagram-figure">
+                                        <span>Kanan</span>
+                                        <!-- Marker untuk perforasi -->
+                                        <div class="ear-diagram-marker" style="top: 40px; left: 60px;"></div>
+                                    </div>
+                                    <div class="ear-diagram-figure">
+                                        <span>Kiri</span>
+                                        <!-- Normal -->
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="ear-parameters">
+                                <div class="ear-parameter">
+                                    <label>Aurikula Kanan</label>
+                                    <select class="form-control">
+                                        <option selected>Normal</option>
+                                        <option>Hiperemis</option>
+                                        <option>Edema</option>
+                                        <option>Deformitas</option>
+                                    </select>
+                                </div>
+                                <div class="ear-parameter">
+                                    <label>Aurikula Kiri</label>
+                                    <select class="form-control">
+                                        <option selected>Normal</option>
+                                        <option>Hiperemis</option>
+                                        <option>Edema</option>
+                                        <option>Deformitas</option>
+                                    </select>
+                                </div>
+                                <div class="ear-parameter">
+                                    <label>Kanalis Auditorius Eksternus Kanan</label>
+                                    <select class="form-control">
+                                        <option>Normal</option>
+                                        <option selected>Hiperemis</option>
+                                        <option>Edema</option>
+                                        <option>Sekret</option>
+                                        <option>Serumen</option>
+                                    </select>
+                                </div>
+                                <div class="ear-parameter">
+                                    <label>Kanalis Auditorius Eksternus Kiri</label>
+                                    <select class="form-control">
+                                        <option selected>Normal</option>
+                                        <option>Hiperemis</option>
+                                        <option>Edema</option>
+                                        <option>Sekret</option>
+                                        <option>Serumen</option>
+                                    </select>
+                                </div>
+                                <div class="ear-parameter">
+                                    <label>Membran Timpani Kanan</label>
+                                    <select class="form-control">
+                                        <option>Normal</option>
+                                        <option selected>Hiperemis</option>
+                                        <option>Perforasi</option>
+                                        <option>Retraksi</option>
+                                        <option>Bulging</option>
+                                    </select>
+                                </div>
+                                <div class="ear-parameter">
+                                    <label>Membran Timpani Kiri</label>
+                                    <select class="form-control">
+                                        <option selected>Normal</option>
+                                        <option>Hiperemis</option>
+                                        <option>Perforasi</option>
+                                        <option>Retraksi</option>
+                                        <option>Bulging</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="hearing-test">
+                            <div class="hearing-test-title">Tes Pendengaran</div>
+                            <div class="hearing-test-parameters">
+                                <div class="hearing-test-parameter">
+                                    <label>Tes Bisik Kanan</label>
+                                    <select class="form-control">
+                                        <option>Normal</option>
+                                        <option selected>Terganggu</option>
+                                    </select>
+                                </div>
+                                <div class="hearing-test-parameter">
+                                    <label>Tes Bisik Kiri</label>
+                                    <select class="form-control">
+                                        <option selected>Normal</option>
+                                        <option>Terganggu</option>
+                                    </select>
+                                </div>
+                                <div class="hearing-test-parameter">
+                                    <label>Tes Garputala 512 Hz Kanan</label>
+                                    <select class="form-control">
+                                        <option>Normal</option>
+                                        <option selected>Rinne (+)</option>
+                                        <option>Rinne (-)</option>
+                                        <option>Weber lateralisasi kanan</option>
+                                        <option>Weber lateralisasi kiri</option>
+                                    </select>
+                                </div>
+                                <div class="hearing-test-parameter">
+                                    <label>Tes Garputala 512 Hz Kiri</label>
+                                    <select class="form-control">
+                                        <option selected>Normal</option>
+                                        <option>Rinne (+)</option>
+                                        <option>Rinne (-)</option>
+                                        <option>Weber lateralisasi kanan</option>
+                                        <option>Weber lateralisasi kiri</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Tab Hidung -->
+                    <div id="nose-tab" class="tab-content">
+                        <div class="nose-examination">
+                            <div class="nose-examination-title">Pemeriksaan Hidung</div>
+                            <div class="nose-parameters">
+                                <div class="nose-parameter">
+                                    <label>Eksternal</label>
+                                    <select class="form-control">
+                                        <option selected>Normal</option>
+                                        <option>Deformitas</option>
+                                        <option>Hiperemis</option>
+                                        <option>Edema</option>
+                                    </select>
+                                </div>
+                                <div class="nose-parameter">
+                                    <label>Vestibulum</label>
+                                    <select class="form-control">
+                                        <option selected>Normal</option>
+                                        <option>Hiperemis</option>
+                                        <option>Edema</option>
+                                        <option>Lesi</option>
+                                    </select>
+                                </div>
+                                <div class="nose-parameter">
+                                    <label>Kavum Nasi Kanan</label>
+                                    <select class="form-control">
+                                        <option selected>Normal</option>
+                                        <option>Hiperemis</option>
+                                        <option>Edema</option>
+                                        <option>Sekret</option>
+                                        <option>Polip</option>
+                                    </select>
+                                </div>
+                                <div class="nose-parameter">
+                                    <label>Kavum Nasi Kiri</label>
+                                    <select class="form-control">
+                                        <option selected>Normal</option>
+                                        <option>Hiperemis</option>
+                                        <option>Edema</option>
+                                        <option>Sekret</option>
+                                        <option>Polip</option>
+                                    </select>
+                                </div>
+                                <div class="nose-parameter">
+                                    <label>Konka Kanan</label>
+                                    <select class="form-control">
+                                        <option selected>Normal</option>
+                                        <option>Hipertrofi</option>
+                                        <option>Hiperemis</option>
+                                        <option>Edema</option>
+                                    </select>
+                                </div>
+                                <div class="nose-parameter">
+                                    <label>Konka Kiri</label>
+                                    <select class="form-control">
+                                        <option selected>Normal</option>
+                                        <option>Hipertrofi</option>
+                                        <option>Hiperemis</option>
+                                        <option>Edema</option>
+                                    </select>
+                                </div>
+                                <div class="nose-parameter">
+                                    <label>Septum</label>
+                                    <select class="form-control">
+                                        <option selected>Normal</option>
+                                        <option>Deviasi ke kanan</option>
+                                        <option>Deviasi ke kiri</option>
+                                        <option>Perforasi</option>
+                                    </select>
+                                </div>
+                                <div class="nose-parameter">
+                                    <label>Nasofaring</label>
+                                    <select class="form-control">
+                                        <option selected>Normal</option>
+                                        <option>Hiperemis</option>
+                                        <option>Massa</option>
+                                        <option>Sekret</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Tab Tenggorokan -->
+                    <div id="throat-tab" class="tab-content">
+                        <div class="throat-examination">
+                            <div class="throat-examination-title">Pemeriksaan Tenggorokan</div>
+                            <div class="throat-parameters">
+                                <div class="throat-parameter">
+                                    <label>Epiglotis</label>
+                                    <select class="form-control">
+                                        <option selected>Normal</option>
+                                        <option>Deformitas</option>
+                                        <option>Hiperemis</option>
+                                        <option>Edema</option>
+                                    </select>
+                                </div>
+                                <div class="throat-parameter">
+                                    <label>Tenggorokan</label>
+                                    <select class="form-control">
+                                        <option selected>Normal</option>
+                                        <option>Hiperemis</option>
+                                        <option>Edema</option>
+                                        <option>Lesi</option>
+                                    </select>
+                                </div>
+                                <div class="throat-parameter">
+                                    <label>Kavum Tenggorokan</label>
+                                    <select class="form-control">
+                                        <option selected>Normal</option>
+                                        <option>Hiperemis</option>
+                                        <option>Edema</option>
+                                        <option>Sekret</option>
+                                        <option>Polip</option>
+                                    </select>
+                                </div>
+                                <div class="throat-parameter">
+                                    <label>Kavum Tenggorokan Kanan</label>
+                                    <select class="form-control">
+                                        <option selected>Normal</option>
+                                        <option>Hiperemis</option>
+                                        <option>Edema</option>
+                                        <option>Sekret</option>
+                                        <option>Polip</option>
+                                    </select>
+                                </div>
+                                <div class="throat-parameter">
+                                    <label>Kavum Tenggorokan Kiri</label>
+                                    <select class="form-control">
+                                        <option selected>Normal</option>
+                                        <option>Hiperemis</option>
+                                        <option>Edema</option>
+                                        <option>Sekret</option>
+                                        <option>Polip</option>
+                                    </select>
+                                </div>
+                                <div class="throat-parameter">
+                                    <label>Kavum Tenggorokan Kanan</label>
+                                    <select class="form-control">
+                                        <option selected>Normal</option>
+                                        <option>Hiperemis</option>
+                                        <option>Edema</option>
+                                        <option>Sekret</option>
+                                        <option>Polip</option>
+                                    </select>
+                                </div>
+                                <div class="throat-parameter">
+                                    <label>Kavum Tenggorokan Kiri</label>
+                                    <select class="form-control">
+                                        <option selected>Normal</option>
+                                        <option>Hiperemis</option>
+                                        <option>Edema</option>
+                                        <option>Sekret</option>
+                                        <option>Polip</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-right">
+                <div class="form-group">
+                    <label>Diagnosis</label>
+                    <textarea class="form-control"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Rencana Pengobatan</label>
+                    <textarea class="form-control"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Rekomendasi</label>
+                    <textarea class="form-control"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Dokumen</label>
+                    <div class="file-upload">
+                        <button>Unggah Dokumen</button>
+                        <span>PDF, JPG, PNG (Maksimal 2MB)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="action-buttons">
+            <button class="save-button">Simpan</button>
+            <button class="cancel-button">Batal</button>
+        </div>
+    </div>
+</body>
+</html> 
