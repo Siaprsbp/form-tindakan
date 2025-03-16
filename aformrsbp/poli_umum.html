@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tindakan Dokter - Poli Umum</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        /* CSS Umum */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background-color: #f0f2f5;
+            padding: 15px 20px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .header h2 {
+            margin: 0;
+            color: #333;
+            font-size: 18px;
+        }
+
+        .nav-tab {
+            background-color: #5cb85c; /* Warna hijau untuk Poli Bedah */
+            color: white;
+            padding: 10px 20px;
+        }
+
+        .nav-tab span {
+            display: inline-block;
+            padding: 5px 15px;
+            background-color: #5cb85c;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+
+        .nav-tab span i {
+            margin-right: 5px;
+        }
+
+        .patient-info {
+            display: flex;
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .patient-photo {
+            width: 100px;
+            height: 100px;
+            background-color: #5cb85c; /* Warna hijau untuk Poli Bedah */
+            border-radius: 50%;
+            margin-right: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 40px;
+        }
+
+        .patient-details {
+            flex: 1;
+        }
+
+        .patient-name {
+            font-size: 20px;
+            font-weight: bold;
+            color: #5cb85c;
+            margin-bottom: 5px;
+        }
+
+        .patient-id {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .patient-data {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .section-title {
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+            color: #5cb85c;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .form-container {
+            padding: 20px;
+            display: flex;
+        }
+
+        .form-left {
+            flex: 1;
+            padding-right: 20px;
+        }
+
+        .form-right {
+            flex: 1;
+            padding-left: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .form-group label::after {
+            content: "*";
+            color: red;
+            margin-left: 3px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .form-control:focus {
+            border-color: #5cb85c;
+            outline: none;
+        }
+
+        .radio-group {
+            display: flex;
+            align-items: center;
+        }
+
+        .radio-option {
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .radio-option input {
+            margin-right: 5px;
+        }
+
+        textarea.form-control {
+            height: 100px;
+            resize: vertical;
+        }
+
+        .doctor-select {
+            display: flex;
+            align-items: center;
+        }
+
+        .doctor-select select {
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        .doctor-select button {
+            background: none;
+            border: none;
+            color: #5cb85c;
+            cursor: pointer;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+
+        .action-button {
+            padding: 8px 15px;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .save-button {
+            background-color: #5cb85c; /* Warna hijau untuk Poli Bedah */
+            color: white;
+            border: none;
+        }
+
+        .cancel-button {
+            background-color: #f0f2f5;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+
+        /* CSS Spesifik untuk Poli Bedah */
+        .diagnosis-section {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .diagnosis-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .diagnosis-title {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .add-button {
+            background-color: #5cb85c;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .diagnosis-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+        }
+
+        .diagnosis-table th,
+        .diagnosis-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+            font-size: 13px;
+        }
+
+        .diagnosis-table th {
+            background-color: #f0f2f5;
+        }
+
+        .surgical-assessment {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+            margin-bottom: 15px;
+        }
+
+        .surgical-assessment-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #5cb85c;
+        }
+
+        .wound-assessment {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .wound-parameter {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .wound-parameter label {
+            margin-bottom: 5px;
+        }
+
+        .surgical-plan {
+            margin-top: 15px;
+            border-top: 1px solid #ddd;
+            padding-top: 10px;
+        }
+
+        .body-diagram {
+            text-align: center;
+            margin: 15px 0;
+        }
+
+        .body-diagram img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+        }
+
+        .result-section {
+            margin-top: 15px;
+        }
+
+        .result-section h4 {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .file-upload {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .file-upload button {
+            background-color: #f0f2f5;
+            border: 1px solid #ddd;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        .file-upload span {
+            font-size: 12px;
+            color: #666;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>Tindakan Dokter - Poli Umum</h2>
+        </div>
+
+        <div class="nav-tab">
+            <span><i class="fas fa-stethoscope"></i> Tindakan Dokter</span>
+        </div>
+
+        <div class="patient-info">
+            <div class="patient-photo">
+                <i class="fas fa-user"></i>
+            </div>
+            <div class="patient-details">
+                <div class="patient-name">AHMAD SAPUTRA</div>
+                <div class="patient-id">No RM: 123456</div>
+                <div class="patient-data">
+                    Laki-laki • Lahir Tanggal: 15/05/1985<br>
+                    Status: Kawin, Agama: Islam, Golongan Darah: O, Pendidikan: S1, Pekerjaan: KARYAWAN SWASTA<br>
+                    Alamat: Jl. Merdeka No. 123, Kota Pohuwato
+                </div>
+            </div>
+        </div>
+
+        <div class="section-title">Data Kunjungan</div>
+
+        <div class="form-container">
+            <div class="form-left">
+                <div class="form-group">
+                    <label>Tanggal Kunjungan</label>
+                    <input type="date" class="form-control" value="2023-06-15">
+                </div>
+
+                <div class="form-group">
+                    <label>Dokter</label>
+                    <div class="doctor-select">
+                        <select class="form-control">
+                            <option selected>dr. BUDI SANTOSO, Sp.PD</option>
+                        </select>
+                        <button>⋮</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Keluhan Utama</label>
+                    <textarea class="form-control">Demam, batuk, pilek sejak 3 hari yang lalu</textarea>
+                </div>
+
+                <div class="vital-signs">
+                    <div class="vital-signs-title">Tanda Vital</div>
+                    <div class="vital-signs-grid">
+                        <div class="vital-sign-item">
+                            <label>Tekanan Darah</label>
+                            <input type="text" value="120/80" class="form-control">
+                            <span>mmHg</span>
+                        </div>
+                        <div class="vital-sign-item">
+                            <label>Nadi</label>
+                            <input type="text" value="88" class="form-control">
+                            <span>x/menit</span>
+                        </div>
+                        <div class="vital-sign-item">
+                            <label>Suhu</label>
+                            <input type="text" value="37.5" class="form-control">
+                            <span>°C</span>
+                        </div>
+                        <div class="vital-sign-item">
+                            <label>Respirasi</label>
+                            <input type="text" value="20" class="form-control">
+                            <span>x/menit</span>
+                        </div>
+                        <div class="vital-sign-item">
+                            <label>Berat Badan</label>
+                            <input type="text" value="65" class="form-control">
+                            <span>kg</span>
+                        </div>
+                        <div class="vital-sign-item">
+                            <label>Tinggi Badan</label>
+                            <input type="text" value="170" class="form-control">
+                            <span>cm</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="diagnosis-section">
+                    <div class="diagnosis-header">
+                        <div class="diagnosis-title">Diagnosis (ICD-10)</div>
+                        <button class="add-button"><i class="fas fa-plus"></i> Tambah</button>
+                    </div>
+
+                    <table class="diagnosis-table">
+                        <thead>
+                            <tr>
+                                <th>Kode</th>
+                                <th>Diagnosis</th>
+                                <th>Tipe</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>J06.9</td>
+                                <td>Acute upper respiratory infection, unspecified</td>
+                                <td>Primer</td>
+                                <td><i class="fas fa-trash-alt" style="color: red; cursor: pointer;"></i></td>
+                            </tr>
+                            <tr>
+                                <td>R50.9</td>
+                                <td>Fever, unspecified</td>
+                                <td>Sekunder</td>
+                                <td><i class="fas fa-trash-alt" style="color: red; cursor: pointer;"></i></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="form-right">
+                <div class="diagnosis-section">
+                    <div class="diagnosis-header">
+                        <div class="diagnosis-title">Tindakan (ICD-9-CM)</div>
+                        <button class="add-button"><i class="fas fa-plus"></i> Tambah</button>
+                    </div>
+
+                    <table class="diagnosis-table">
+                        <thead>
+                            <tr>
+                                <th>Kode</th>
+                                <th>Tindakan</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>89.03</td>
+                                <td>Medical interview and evaluation, described as comprehensive</td>
+                                <td><i class="fas fa-trash-alt" style="color: red; cursor: pointer;"></i></td>
+                            </tr>
+                            <tr>
+                                <td>94.08</td>
+                                <td>Other psychological evaluation and testing</td>
+                                <td><i class="fas fa-trash-alt" style="color: red; cursor: pointer;"></i></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="form-group">
+                    <label>Catatan Dokter</label>
+                    <textarea
+                        class="form-control">Pasien diberikan terapi simptomatik. Disarankan banyak minum air putih dan istirahat yang cukup.</textarea>
+                </div>
+
+                <div class="result-section">
+                    <h4>Hasil Pemeriksaan</h4>
+                    <div class="file-upload">
+                        <button>Upload Hasil</button>
+                        <span>Tidak ada file yang dipilih</span>
+                    </div>
+                    <p style="font-size: 12px; color: #666;">*File yang diperbolehkan: JPG, JPEG, PNG, PDF (Max 10MB)
+                    </p>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="action-button cancel-button">Batal</button>
+                    <button class="action-button save-button">Simpan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
