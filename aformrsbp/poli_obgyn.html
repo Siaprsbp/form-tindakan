@@ -1,0 +1,1214 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tindakan Dokter - Poli Obgyn</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        /* CSS Umum */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background-color: #f0f2f5;
+            padding: 15px 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .header h2 {
+            margin: 0;
+            color: #333;
+            font-size: 18px;
+        }
+        
+        .nav-tab {
+            background-color: #e91e63; /* Warna pink untuk Poli Obgyn */
+            color: white;
+            padding: 10px 20px;
+        }
+        
+        .nav-tab span {
+            display: inline-block;
+            padding: 5px 15px;
+            background-color: #e91e63;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+        
+        .nav-tab span i {
+            margin-right: 5px;
+        }
+        
+        .patient-info {
+            display: flex;
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .patient-photo {
+            width: 100px;
+            height: 100px;
+            background-color: #e91e63;
+            border-radius: 50%;
+            margin-right: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 40px;
+        }
+        
+        .patient-details {
+            flex: 1;
+        }
+        
+        .patient-name {
+            font-size: 20px;
+            font-weight: bold;
+            color: #e91e63;
+            margin-bottom: 5px;
+        }
+        
+        .patient-id {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .patient-data {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.5;
+        }
+        
+        .section-title {
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+            color: #e91e63;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        .form-container {
+            padding: 20px;
+            display: flex;
+        }
+        
+        .form-left {
+            flex: 1;
+            padding-right: 20px;
+        }
+        
+        .form-right {
+            flex: 1;
+            padding-left: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .form-group label::after {
+            content: "*";
+            color: red;
+            margin-left: 3px;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .form-control:focus {
+            border-color: #e91e63;
+            outline: none;
+        }
+        
+        .radio-group {
+            display: flex;
+            align-items: center;
+        }
+        
+        .radio-option {
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .radio-option input {
+            margin-right: 5px;
+        }
+        
+        textarea.form-control {
+            height: 100px;
+            resize: vertical;
+        }
+        
+        .doctor-select {
+            display: flex;
+            align-items: center;
+        }
+        
+        .doctor-select select {
+            flex: 1;
+            margin-right: 10px;
+        }
+        
+        .doctor-select button {
+            background: none;
+            border: none;
+            color: #e91e63;
+            cursor: pointer;
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+        
+        .action-button {
+            padding: 8px 15px;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        
+        .save-button {
+            background-color: #e91e63;
+            color: white;
+            border: none;
+        }
+        
+        .cancel-button {
+            background-color: #f0f2f5;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+        
+        /* CSS Spesifik untuk Poli Obgyn */
+        .vital-signs {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .vital-signs-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #e91e63;
+        }
+        
+        .vital-signs-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+        
+        .vital-sign {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .vital-sign label {
+            margin-bottom: 5px;
+            font-size: 12px;
+        }
+        
+        .vital-sign input {
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+        }
+        
+        .obstetric-history {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .obstetric-history-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #e91e63;
+        }
+        
+        .obstetric-parameters {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .obstetric-parameter {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .obstetric-parameter label {
+            margin-bottom: 5px;
+            font-size: 12px;
+        }
+        
+        .obstetric-parameter input {
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+        }
+        
+        .pregnancy-details {
+            margin-top: 15px;
+            border-top: 1px solid #ddd;
+            padding-top: 15px;
+        }
+        
+        .pregnancy-details-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #e91e63;
+            font-size: 14px;
+        }
+        
+        .pregnancy-parameters {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        
+        .pregnancy-parameter {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 10px;
+        }
+        
+        .pregnancy-parameter label {
+            margin-bottom: 5px;
+            font-size: 12px;
+        }
+        
+        .gynecologic-exam {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .gynecologic-exam-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #e91e63;
+        }
+        
+        .gynecologic-parameters {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        
+        .gynecologic-parameter {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 10px;
+        }
+        
+        .gynecologic-parameter label {
+            margin-bottom: 5px;
+            font-size: 12px;
+        }
+        
+        .diagnosis-section {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .diagnosis-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .diagnosis-title {
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .add-button {
+            background-color: #e91e63;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        .diagnosis-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+        }
+        
+        .diagnosis-table th, .diagnosis-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+            font-size: 13px;
+        }
+        
+        .diagnosis-table th {
+            background-color: #f0f2f5;
+        }
+        
+        .result-section {
+            margin-top: 15px;
+        }
+        
+        .result-section h4 {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .file-upload {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .file-upload button {
+            background-color: #f0f2f5;
+            border: 1px solid #ddd;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        
+        .file-upload span {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .treatment-plan {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .treatment-plan-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #e91e63;
+        }
+        
+        .treatment-plan-items {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        
+        .treatment-plan-item {
+            display: flex;
+            align-items: center;
+        }
+        
+        .treatment-plan-item input {
+            margin-right: 5px;
+        }
+        
+        .treatment-plan-item label {
+            font-size: 12px;
+        }
+        
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 15px;
+        }
+        
+        .tab {
+            padding: 8px 15px;
+            cursor: pointer;
+            font-size: 14px;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .tab.active {
+            border-bottom: 2px solid #e91e63;
+            color: #e91e63;
+            font-weight: bold;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .menstrual-history {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .menstrual-history-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #e91e63;
+        }
+        
+        .menstrual-parameters {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        
+        .menstrual-parameter {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 10px;
+        }
+        
+        .menstrual-parameter label {
+            margin-bottom: 5px;
+            font-size: 12px;
+        }
+        
+        .pap-smear {
+            margin-top: 15px;
+            border-top: 1px solid #ddd;
+            padding-top: 15px;
+        }
+        
+        .pap-smear-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #e91e63;
+            font-size: 14px;
+        }
+        
+        .pap-smear-parameters {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        
+        .pap-smear-parameter {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 10px;
+        }
+        
+        .pap-smear-parameter label {
+            margin-bottom: 5px;
+            font-size: 12px;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Fungsi untuk mengganti tab
+            function switchTab(tabName) {
+                // Sembunyikan semua konten tab
+                var tabContents = document.querySelectorAll('.tab-content');
+                tabContents.forEach(function(content) {
+                    content.classList.remove('active');
+                });
+                
+                // Hapus kelas aktif dari semua tab
+                var tabs = document.querySelectorAll('.tab');
+                tabs.forEach(function(tab) {
+                    tab.classList.remove('active');
+                });
+                
+                // Aktifkan tab yang dipilih
+                document.getElementById(tabName).classList.add('active');
+                document.querySelector('[data-tab="' + tabName + '"]').classList.add('active');
+            }
+            
+            // Tambahkan event listener untuk tab
+            var tabs = document.querySelectorAll('.tab');
+            tabs.forEach(function(tab) {
+                tab.addEventListener('click', function() {
+                    var tabName = this.getAttribute('data-tab');
+                    switchTab(tabName);
+                });
+            });
+            
+            // Aktifkan tab Obstetri secara default
+            switchTab('obstetric-tab');
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>Tindakan Dokter - Poli Obgyn</h2>
+        </div>
+        
+        <div class="nav-tab">
+            <span><i class="fas fa-female"></i> Tindakan Dokter</span>
+        </div>
+        
+        <div class="patient-info">
+            <div class="patient-photo">
+                <i class="fas fa-user"></i>
+            </div>
+            <div class="patient-details">
+                <div class="patient-name">MAYA SARI</div>
+                <div class="patient-id">No RM: 678901</div>
+                <div class="patient-data">
+                    Perempuan • Lahir Tanggal: 25/03/1985<br>
+                    Status: Kawin, Agama: Islam, Golongan Darah: O, Pendidikan: S1, Pekerjaan: GURU<br>
+                    Alamat: Jl. Kenanga No. 12, Kota Pohuwato
+                </div>
+            </div>
+        </div>
+        
+        <div class="section-title">Data Kunjungan</div>
+        
+        <div class="tabs">
+            <div class="tab active" data-tab="obstetric-tab">Obstetri</div>
+            <div class="tab" data-tab="gynecology-tab">Ginekologi</div>
+        </div>
+        
+        <!-- Tab Obstetri -->
+        <div id="obstetric-tab" class="tab-content active">
+            <div class="form-container">
+                <div class="form-left">
+                    <div class="form-group">
+                        <label>Tanggal Kunjungan</label>
+                        <input type="date" class="form-control" value="2023-06-15">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Dokter</label>
+                        <div class="doctor-select">
+                            <select class="form-control">
+                                <option selected>dr. RATNA SARI, Sp.OG</option>
+                            </select>
+                            <button>⋮</button>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Keluhan Utama</label>
+                        <textarea class="form-control">Kontrol kehamilan rutin. Pasien saat ini hamil 28 minggu. Tidak ada keluhan khusus. Gerakan janin dirasakan aktif.</textarea>
+                    </div>
+                    
+                    <div class="vital-signs">
+                        <div class="vital-signs-title">Tanda Vital</div>
+                        <div class="vital-signs-grid">
+                            <div class="vital-sign">
+                                <label>Tekanan Darah</label>
+                                <input type="text" value="110/70" class="form-control">
+                                <small>mmHg</small>
+                            </div>
+                            <div class="vital-sign">
+                                <label>Nadi</label>
+                                <input type="text" value="84" class="form-control">
+                                <small>x/menit</small>
+                            </div>
+                            <div class="vital-sign">
+                                <label>Respirasi</label>
+                                <input type="text" value="20" class="form-control">
+                                <small>x/menit</small>
+                            </div>
+                            <div class="vital-sign">
+                                <label>Suhu</label>
+                                <input type="text" value="36.7" class="form-control">
+                                <small>°C</small>
+                            </div>
+                            <div class="vital-sign">
+                                <label>Berat Badan</label>
+                                <input type="text" value="65" class="form-control">
+                                <small>kg</small>
+                            </div>
+                            <div class="vital-sign">
+                                <label>Tinggi Badan</label>
+                                <input type="text" value="160" class="form-control">
+                                <small>cm</small>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="obstetric-history">
+                        <div class="obstetric-history-title">Riwayat Obstetri</div>
+                        <div class="obstetric-parameters">
+                            <div class="obstetric-parameter">
+                                <label>G (Gravida)</label>
+                                <input type="text" value="2" class="form-control">
+                            </div>
+                            <div class="obstetric-parameter">
+                                <label>P (Para)</label>
+                                <input type="text" value="1" class="form-control">
+                            </div>
+                            <div class="obstetric-parameter">
+                                <label>A (Abortus)</label>
+                                <input type="text" value="0" class="form-control">
+                            </div>
+                            <div class="obstetric-parameter">
+                                <label>H (Hidup)</label>
+                                <input type="text" value="1" class="form-control">
+                            </div>
+                        </div>
+                        
+                        <div class="pregnancy-details">
+                            <div class="pregnancy-details-title">Data Kehamilan Saat Ini</div>
+                            <div class="pregnancy-parameters">
+                                <div class="pregnancy-parameter">
+                                    <label>HPHT</label>
+                                    <input type="date" value="2022-12-10" class="form-control">
+                                </div>
+                                <div class="pregnancy-parameter">
+                                    <label>HPL</label>
+                                    <input type="date" value="2023-09-17" class="form-control">
+                                </div>
+                                <div class="pregnancy-parameter">
+                                    <label>Usia Kehamilan</label>
+                                    <input type="text" value="28 minggu" class="form-control">
+                                </div>
+                                <div class="pregnancy-parameter">
+                                    <label>Tinggi Fundus Uteri</label>
+                                    <input type="text" value="26 cm" class="form-control">
+                                </div>
+                                <div class="pregnancy-parameter">
+                                    <label>Presentasi</label>
+                                    <select class="form-control">
+                                        <option>Kepala</option>
+                                        <option selected>Kepala</option>
+                                        <option>Bokong</option>
+                                        <option>Lintang</option>
+                                        <option>Oblique</option>
+                                    </select>
+                                </div>
+                                <div class="pregnancy-parameter">
+                                    <label>Denyut Jantung Janin</label>
+                                    <input type="text" value="140" class="form-control">
+                                    <small>x/menit</small>
+                                </div>
+                                <div class="pregnancy-parameter">
+                                    <label>Gerakan Janin</label>
+                                    <select class="form-control">
+                                        <option>Tidak ada</option>
+                                        <option>Minimal</option>
+                                        <option selected>Aktif</option>
+                                    </select>
+                                </div>
+                                <div class="pregnancy-parameter">
+                                    <label>Taksiran Berat Janin</label>
+                                    <input type="text" value="1200" class="form-control">
+                                    <small>gram</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="diagnosis-section">
+                        <div class="diagnosis-header">
+                            <div class="diagnosis-title">Diagnosis (ICD-10)</div>
+                            <button class="add-button"><i class="fas fa-plus"></i> Tambah</button>
+                        </div>
+                        
+                        <table class="diagnosis-table">
+                            <thead>
+                                <tr>
+                                    <th>Kode</th>
+                                    <th>Diagnosis</th>
+                                    <th>Tipe</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Z34.8</td>
+                                    <td>Supervision of other normal pregnancy</td>
+                                    <td>Primer</td>
+                                    <td><i class="fas fa-trash-alt" style="color: red; cursor: pointer;"></i></td>
+                                </tr>
+                                <tr>
+                                    <td>O99.0</td>
+                                    <td>Anemia complicating pregnancy, childbirth and the puerperium</td>
+                                    <td>Sekunder</td>
+                                    <td><i class="fas fa-trash-alt" style="color: red; cursor: pointer;"></i></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="form-right">
+                    <div class="diagnosis-section">
+                        <div class="diagnosis-header">
+                            <div class="diagnosis-title">Tindakan (ICD-9-CM)</div>
+                            <button class="add-button"><i class="fas fa-plus"></i> Tambah</button>
+                        </div>
+                        
+                        <table class="diagnosis-table">
+                            <thead>
+                                <tr>
+                                    <th>Kode</th>
+                                    <th>Tindakan</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>88.78</td>
+                                    <td>Diagnostic ultrasound of pregnant uterus</td>
+                                    <td><i class="fas fa-trash-alt" style="color: red; cursor: pointer;"></i></td>
+                                </tr>
+                                <tr>
+                                    <td>89.26</td>
+                                    <td>Gynecological examination</td>
+                                    <td><i class="fas fa-trash-alt" style="color: red; cursor: pointer;"></i></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="treatment-plan">
+                        <div class="treatment-plan-title">Rencana Perawatan</div>
+                        <div class="treatment-plan-items">
+                            <div class="treatment-plan-item">
+                                <input type="checkbox" id="treatment1" checked>
+                                <label for="treatment1">Pemeriksaan ANC rutin</label>
+                            </div>
+                            <div class="treatment-plan-item">
+                                <input type="checkbox" id="treatment2" checked>
+                                <label for="treatment2">USG kehamilan</label>
+                            </div>
+                            <div class="treatment-plan-item">
+                                <input type="checkbox" id="treatment3" checked>
+                                <label for="treatment3">Suplementasi zat besi</label>
+                            </div>
+                            <div class="treatment-plan-item">
+                                <input type="checkbox" id="treatment4">
+                                <label for="treatment4">Pemeriksaan laboratorium</label>
+                            </div>
+                            <div class="treatment-plan-item">
+                                <input type="checkbox" id="treatment5">
+                                <label for="treatment5">Konseling gizi</label>
+                            </div>
+                            <div class="treatment-plan-item">
+                                <input type="checkbox" id="treatment6">
+                                <label for="treatment6">Persiapan persalinan</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Catatan Dokter</label>
+                        <textarea class="form-control">Kehamilan 28 minggu dalam keadaan baik. Ditemukan anemia ringan (Hb 10.5 g/dL). Diberikan suplementasi tablet Fe 1x1 dan asam folat. Dianjurkan untuk konsumsi makanan tinggi zat besi. Kontrol kembali 2 minggu lagi. USG menunjukkan pertumbuhan janin sesuai usia kehamilan, presentasi kepala, plasenta di fundus, cairan ketuban cukup.</textarea>
+                    </div>
+                    
+                    <div class="result-section">
+                        <h4>Hasil Pemeriksaan</h4>
+                        <div class="file-upload">
+                            <button>Upload Hasil</button>
+                            <span>Tidak ada file yang dipilih</span>
+                        </div>
+                        <p style="font-size: 12px; color: #666;">*File yang diperbolehkan: JPG, JPEG, PNG, PDF (Max 10MB)</p>
+                        
+                        <div class="file-upload">
+                            <button>Lihat Hasil</button>
+                            <span>USG_28_minggu_Maya_20230615.jpg</span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Rencana Tindak Lanjut</label>
+                        <select class="form-control">
+                            <option>Rawat Inap</option>
+                            <option selected>Rawat Jalan</option>
+                            <option>Rujuk</option>
+                            <option>Observasi</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Jadwal Kontrol</label>
+                        <input type="date" class="form-control" value="2023-06-29">
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button class="action-button cancel-button">Batal</button>
+                        <button class="action-button save-button">Simpan</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tab Ginekologi -->
+        <div id="gynecology-tab" class="tab-content">
+            <div class="form-container">
+                <div class="form-left">
+                    <div class="form-group">
+                        <label>Tanggal Kunjungan</label>
+                        <input type="date" class="form-control" value="2023-06-15">
+    </div>
+                    
+                    <div class="form-group">
+                        <label>Dokter</label>
+                        <div class="doctor-select">
+                            <select class="form-control">
+                                <option selected>dr. RATNA SARI, Sp.OG</option>
+                            </select>
+                            <button>⋮</button>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Keluhan Utama</label>
+                        <textarea class="form-control">Pasien datang dengan keluhan nyeri perut bagian bawah sejak 3 hari yang lalu. Nyeri dirasakan seperti kram dan menjalar ke pinggang. Pasien juga mengeluhkan keputihan yang berbau tidak sedap.</textarea>
+                    </div>
+                    
+                    <div class="vital-signs">
+                        <div class="vital-signs-title">Tanda Vital</div>
+                        <div class="vital-signs-grid">
+                            <div class="vital-sign">
+                                <label>Tekanan Darah</label>
+                                <input type="text" value="120/80" class="form-control">
+                                <small>mmHg</small>
+                            </div>
+                            <div class="vital-sign">
+                                <label>Nadi</label>
+                                <input type="text" value="82" class="form-control">
+                                <small>x/menit</small>
+                            </div>
+                            <div class="vital-sign">
+                                <label>Respirasi</label>
+                                <input type="text" value="18" class="form-control">
+                                <small>x/menit</small>
+                            </div>
+                            <div class="vital-sign">
+                                <label>Suhu</label>
+                                <input type="text" value="37.2" class="form-control">
+                                <small>°C</small>
+                            </div>
+                            <div class="vital-sign">
+                                <label>Berat Badan</label>
+                                <input type="text" value="58" class="form-control">
+                                <small>kg</small>
+                            </div>
+                            <div class="vital-sign">
+                                <label>Tinggi Badan</label>
+                                <input type="text" value="160" class="form-control">
+                                <small>cm</small>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="menstrual-history">
+                        <div class="menstrual-history-title">Riwayat Menstruasi</div>
+                        <div class="menstrual-parameters">
+                            <div class="menstrual-parameter">
+                                <label>Menarche</label>
+                                <input type="text" value="13" class="form-control">
+                                <small>tahun</small>
+                            </div>
+                            <div class="menstrual-parameter">
+                                <label>Siklus</label>
+                                <input type="text" value="28-30" class="form-control">
+                                <small>hari</small>
+                            </div>
+                            <div class="menstrual-parameter">
+                                <label>Lama Haid</label>
+                                <input type="text" value="5-6" class="form-control">
+                                <small>hari</small>
+                            </div>
+                            <div class="menstrual-parameter">
+                                <label>Jumlah</label>
+                                <select class="form-control">
+                                    <option>Sedikit</option>
+                                    <option selected>Sedang</option>
+                                    <option>Banyak</option>
+                                </select>
+                            </div>
+                            <div class="menstrual-parameter">
+                                <label>Dismenore</label>
+                                <select class="form-control">
+                                    <option>Tidak ada</option>
+                                    <option>Ringan</option>
+                                    <option selected>Sedang</option>
+                                    <option>Berat</option>
+                                </select>
+                            </div>
+                            <div class="menstrual-parameter">
+                                <label>HPHT</label>
+                                <input type="date" value="2023-05-20" class="form-control">
+                            </div>
+                        </div>
+                        
+                        <div class="pap-smear">
+                            <div class="pap-smear-title">Riwayat Pap Smear</div>
+                            <div class="pap-smear-parameters">
+                                <div class="pap-smear-parameter">
+                                    <label>Terakhir Pap Smear</label>
+                                    <input type="date" value="2022-06-10" class="form-control">
+                                </div>
+                                <div class="pap-smear-parameter">
+                                    <label>Hasil</label>
+                                    <select class="form-control">
+                                        <option>Belum pernah</option>
+                                        <option selected>Normal</option>
+                                        <option>ASCUS</option>
+                                        <option>LSIL</option>
+                                        <option>HSIL</option>
+                                        <option>Karsinoma</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="gynecologic-exam">
+                        <div class="gynecologic-exam-title">Pemeriksaan Ginekologi</div>
+                        <div class="gynecologic-parameters">
+                            <div class="gynecologic-parameter">
+                                <label>Inspeksi Genitalia Eksterna</label>
+                                <select class="form-control">
+                                    <option>Tidak dilakukan</option>
+                                    <option selected>Normal</option>
+                                    <option>Abnormal</option>
+                                </select>
+                            </div>
+                            <div class="gynecologic-parameter">
+                                <label>Inspekulo</label>
+                                <select class="form-control">
+                                    <option>Tidak dilakukan</option>
+                                    <option>Normal</option>
+                                    <option selected>Abnormal</option>
+                                </select>
+                            </div>
+                            <div class="gynecologic-parameter">
+                                <label>Portio</label>
+                                <select class="form-control">
+                                    <option>Tidak terlihat</option>
+                                    <option>Normal</option>
+                                    <option selected>Erosi</option>
+                                    <option>Polip</option>
+                                    <option>Massa</option>
+                                </select>
+                            </div>
+                            <div class="gynecologic-parameter">
+                                <label>Fluor Albus</label>
+                                <select class="form-control">
+                                    <option>Tidak ada</option>
+                                    <option>Sedikit, jernih</option>
+                                    <option selected>Banyak, putih kekuningan</option>
+                                    <option>Banyak, kehijauan</option>
+                                    <option>Berdarah</option>
+                                </select>
+                            </div>
+                            <div class="gynecologic-parameter">
+                                <label>Pemeriksaan Bimanual</label>
+                                <select class="form-control">
+                                    <option>Tidak dilakukan</option>
+                                    <option>Normal</option>
+                                    <option selected>Nyeri tekan</option>
+                                    <option>Massa</option>
+                                </select>
+                            </div>
+                            <div class="gynecologic-parameter">
+                                <label>Ukuran Uterus</label>
+                                <input type="text" value="Normal" class="form-control">
+                            </div>
+                            <div class="gynecologic-parameter">
+                                <label>Adneksa Kanan</label>
+                                <select class="form-control">
+                                    <option>Tidak teraba</option>
+                                    <option selected>Normal</option>
+                                    <option>Nyeri tekan</option>
+                                    <option>Massa</option>
+                                </select>
+                            </div>
+                            <div class="gynecologic-parameter">
+                                <label>Adneksa Kiri</label>
+                                <select class="form-control">
+                                    <option>Tidak teraba</option>
+                                    <option>Normal</option>
+                                    <option selected>Nyeri tekan</option>
+                                    <option>Massa</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="diagnosis-section">
+                        <div class="diagnosis-header">
+                            <div class="diagnosis-title">Diagnosis (ICD-10)</div>
+                            <button class="add-button"><i class="fas fa-plus"></i> Tambah</button>
+                        </div>
+                        
+                        <table class="diagnosis-table">
+                            <thead>
+                                <tr>
+                                    <th>Kode</th>
+                                    <th>Diagnosis</th>
+                                    <th>Tipe</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>N76.0</td>
+                                    <td>Acute vaginitis</td>
+                                    <td>Primer</td>
+                                    <td><i class="fas fa-trash-alt" style="color: red; cursor: pointer;"></i></td>
+                                </tr>
+                                <tr>
+                                    <td>N94.6</td>
+                                    <td>Dysmenorrhoea, unspecified</td>
+                                    <td>Sekunder</td>
+                                    <td><i class="fas fa-trash-alt" style="color: red; cursor: pointer;"></i></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="form-right">
+                    <div class="diagnosis-section">
+                        <div class="diagnosis-header">
+                            <div class="diagnosis-title">Tindakan (ICD-9-CM)</div>
+                            <button class="add-button"><i class="fas fa-plus"></i> Tambah</button>
+                        </div>
+                        
+                        <table class="diagnosis-table">
+                            <thead>
+                                <tr>
+                                    <th>Kode</th>
+                                    <th>Tindakan</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>89.26</td>
+                                    <td>Gynecological examination</td>
+                                    <td><i class="fas fa-trash-alt" style="color: red; cursor: pointer;"></i></td>
+                                </tr>
+                                <tr>
+                                    <td>91.46</td>
+                                    <td>Microscopic examination of specimen from female genital tract</td>
+                                    <td><i class="fas fa-trash-alt" style="color: red; cursor: pointer;"></i></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="treatment-plan">
+                        <div class="treatment-plan-title">Rencana Perawatan</div>
+                        <div class="treatment-plan-items">
+                            <div class="treatment-plan-item">
+                                <input type="checkbox" id="gyn-treatment1" checked>
+                                <label for="gyn-treatment1">Terapi antibiotik</label>
+                            </div>
+                            <div class="treatment-plan-item">
+                                <input type="checkbox" id="gyn-treatment2" checked>
+                                <label for="gyn-treatment2">Terapi antijamur</label>
+                            </div>
+                            <div class="treatment-plan-item">
+                                <input type="checkbox" id="gyn-treatment3" checked>
+                                <label for="gyn-treatment3">Analgesik</label>
+                            </div>
+                            <div class="treatment-plan-item">
+                                <input type="checkbox" id="gyn-treatment4">
+                                <label for="gyn-treatment4">Pemeriksaan laboratorium</label>
+                            </div>
+                            <div class="treatment-plan-item">
+                                <input type="checkbox" id="gyn-treatment5" checked>
+                                <label for="gyn-treatment5">Pemeriksaan mikroskopis</label>
+                            </div>
+                            <div class="treatment-plan-item">
+                                <input type="checkbox" id="gyn-treatment6">
+                                <label for="gyn-treatment6">Pap smear</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Catatan Dokter</label>
+                        <textarea class="form-control">Pasien didiagnosis dengan vaginitis akut berdasarkan keluhan dan pemeriksaan fisik. Ditemukan fluor albus berwarna putih kekuningan dengan bau tidak sedap. Pemeriksaan mikroskopis menunjukkan adanya Candida sp. Diberikan terapi metronidazole 500 mg 2x1 selama 7 hari, fluconazole 150 mg dosis tunggal, dan ibuprofen 400 mg 3x1 selama 3 hari. Pasien dianjurkan untuk menjaga kebersihan area genital dan menghindari penggunaan celana ketat.</textarea>
+                    </div>
+                    
+                    <div class="result-section">
+                        <h4>Hasil Pemeriksaan</h4>
+                        <div class="file-upload">
+                            <button>Upload Hasil</button>
+                            <span>Tidak ada file yang dipilih</span>
+                        </div>
+                        <p style="font-size: 12px; color: #666;">*File yang diperbolehkan: JPG, JPEG, PNG, PDF (Max 10MB)</p>
+                        
+                        <div class="file-upload">
+                            <button>Lihat Hasil</button>
+                            <span>Hasil_Mikroskopis_Maya_20230615.jpg</span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Rencana Tindak Lanjut</label>
+                        <select class="form-control">
+                            <option>Rawat Inap</option>
+                            <option selected>Rawat Jalan</option>
+                            <option>Rujuk</option>
+                            <option>Observasi</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Jadwal Kontrol</label>
+                        <input type="date" class="form-control" value="2023-06-22">
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button class="action-button cancel-button">Batal</button>
+                        <button class="action-button save-button">Simpan</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 
