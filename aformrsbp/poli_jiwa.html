@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tindakan Dokter - Poli Jiwa</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        /* CSS Umum */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background-color: #f0f2f5;
+            padding: 15px 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .header h2 {
+            margin: 0;
+            color: #333;
+            font-size: 18px;
+        }
+        
+        .nav-tab {
+            background-color: #9c27b0; /* Warna ungu untuk Poli Jiwa */
+            color: white;
+            padding: 10px 20px;
+        }
+        
+        .nav-tab span {
+            display: inline-block;
+            padding: 5px 15px;
+            background-color: #9c27b0;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+        
+        .nav-tab span i {
+            margin-right: 5px;
+        }
+        
+        .patient-info {
+            display: flex;
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .patient-photo {
+            width: 100px;
+            height: 100px;
+            background-color: #9c27b0;
+            border-radius: 50%;
+            margin-right: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 40px;
+        }
+        
+        .patient-details {
+            flex: 1;
+        }
+        
+        .patient-name {
+            font-size: 20px;
+            font-weight: bold;
+            color: #9c27b0;
+            margin-bottom: 5px;
+        }
+        
+        .patient-id {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .patient-data {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.5;
+        }
+        
+        .section-title {
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+            color: #9c27b0;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        .form-container {
+            padding: 20px;
+            display: flex;
+        }
+        
+        .form-left {
+            flex: 1;
+            padding-right: 20px;
+        }
+        
+        .form-right {
+            flex: 1;
+            padding-left: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .form-group label::after {
+            content: "*";
+            color: red;
+            margin-left: 3px;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .form-control:focus {
+            border-color: #9c27b0;
+            outline: none;
+        }
+        
+        .radio-group {
+            display: flex;
+            align-items: center;
+        }
+        
+        .radio-option {
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .radio-option input {
+            margin-right: 5px;
+        }
+        
+        textarea.form-control {
+            height: 100px;
+            resize: vertical;
+        }
+        
+        .doctor-select {
+            display: flex;
+            align-items: center;
+        }
+        
+        .doctor-select select {
+            flex: 1;
+            margin-right: 10px;
+        }
+        
+        .doctor-select button {
+            background: none;
+            border: none;
+            color: #9c27b0;
+            cursor: pointer;
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+        
+        .action-button {
+            padding: 8px 15px;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        
+        .save-button {
+            background-color: #9c27b0;
+            color: white;
+            border: none;
+        }
+        
+        .cancel-button {
+            background-color: #f0f2f5;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+        
+        /* CSS Spesifik untuk Poli Jiwa */
+        .vital-signs {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .vital-signs-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #9c27b0;
+        }
+        
+        .vital-signs-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+        
+        .vital-sign {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .vital-sign label {
+            margin-bottom: 5px;
+            font-size: 12px;
+        }
+        
+        .vital-sign input {
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+        }
+        
+        .mental-status {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .mental-status-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #9c27b0;
+        }
+        
+        .mental-status-parameters {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        
+        .mental-status-parameter {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 10px;
+        }
+        
+        .mental-status-parameter label {
+            margin-bottom: 5px;
+            font-size: 12px;
+        }
+        
+        .risk-assessment {
+            margin-top: 15px;
+            border-top: 1px solid #ddd;
+            padding-top: 15px;
+        }
+        
+        .risk-assessment-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #9c27b0;
+            font-size: 14px;
+        }
+        
+        .risk-assessment-parameters {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        
+        .risk-assessment-parameter {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 10px;
+        }
+        
+        .risk-assessment-parameter label {
+            margin-bottom: 5px;
+            font-size: 12px;
+        }
+        
+        .diagnosis-section {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .diagnosis-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .diagnosis-title {
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .add-button {
+            background-color: #9c27b0;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        .diagnosis-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+        }
+        
+        .diagnosis-table th, .diagnosis-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+            font-size: 13px;
+        }
+        
+        .diagnosis-table th {
+            background-color: #f0f2f5;
+        }
+        
+        .result-section {
+            margin-top: 15px;
+        }
+        
+        .result-section h4 {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .file-upload {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .file-upload button {
+            background-color: #f0f2f5;
+            border: 1px solid #ddd;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        
+        .file-upload span {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .treatment-plan {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .treatment-plan-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #9c27b0;
+        }
+        
+        .treatment-plan-items {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        
+        .treatment-plan-item {
+            display: flex;
+            align-items: center;
+        }
+        
+        .treatment-plan-item input {
+            margin-right: 5px;
+        }
+        
+        .treatment-plan-item label {
+            font-size: 12px;
+        }
+        
+        .psychiatric-scales {
+            margin-top: 15px;
+            border-top: 1px solid #ddd;
+            padding-top: 15px;
+        }
+        
+        .psychiatric-scales-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #9c27b0;
+            font-size: 14px;
+        }
+        
+        .psychiatric-scale {
+            margin-bottom: 10px;
+        }
+        
+        .psychiatric-scale-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 13px;
+        }
+        
+        .psychiatric-scale-score {
+            display: flex;
+            align-items: center;
+        }
+        
+        .psychiatric-scale-score input {
+            width: 60px;
+            margin-right: 10px;
+        }
+        
+        .psychiatric-scale-score span {
+            font-size: 12px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>Tindakan Dokter - Poli Jiwa</h2>
+        </div>
+        
+        <div class="nav-tab">
+            <span><i class="fas fa-brain"></i> Tindakan Dokter</span>
+        </div>
+        
+        <div class="patient-info">
+            <div class="patient-photo">
+                <i class="fas fa-user"></i>
+            </div>
+            <div class="patient-details">
+                <div class="patient-name">AHMAD RIZKI</div>
+                <div class="patient-id">No RM: 890123</div>
+                <div class="patient-data">
+                    Laki-laki • Lahir Tanggal: 15/08/1992<br>
+                    Status: Belum Kawin, Agama: Islam, Golongan Darah: O, Pendidikan: S1, Pekerjaan: KARYAWAN SWASTA<br>
+                    Alamat: Jl. Mawar No. 23, Kota Pohuwato
+                </div>
+            </div>
+        </div>
+        
+        <div class="section-title">Data Kunjungan</div>
+        
+        <div class="form-container">
+            <div class="form-left">
+                <div class="form-group">
+                    <label>Tanggal Kunjungan</label>
+                    <input type="date" class="form-control" value="2023-06-15">
+                </div>
+                
+                <div class="form-group">
+                    <label>Dokter</label>
+                    <div class="doctor-select">
+                        <select class="form-control">
+                            <option selected>dr. ANITA WIJAYA, Sp.KJ</option>
+                        </select>
+                        <button>⋮</button>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Keluhan Utama</label>
+                    <textarea class="form-control">Pasien mengeluhkan sulit tidur, cemas berlebihan, dan sulit berkonsentrasi sejak 2 bulan yang lalu. Keluhan bertambah berat dalam 2 minggu terakhir. Pasien juga mengeluhkan penurunan nafsu makan dan berat badan.</textarea>
+                </div>
+                
+                <div class="vital-signs">
+                    <div class="vital-signs-title">Tanda Vital</div>
+                    <div class="vital-signs-grid">
+                        <div class="vital-sign">
+                            <label>Tekanan Darah</label>
+                            <input type="text" value="120/80" class="form-control">
+                            <small>mmHg</small>
+                        </div>
+                        <div class="vital-sign">
+                            <label>Nadi</label>
+                            <input type="text" value="88" class="form-control">
+                            <small>x/menit</small>
+                        </div>
+                        <div class="vital-sign">
+                            <label>Respirasi</label>
+                            <input type="text" value="18" class="form-control">
+                            <small>x/menit</small>
+                        </div>
+                        <div class="vital-sign">
+                            <label>Suhu</label>
+                            <input type="text" value="36.5" class="form-control">
+                            <small>°C</small>
+                        </div>
+                        <div class="vital-sign">
+                            <label>Berat Badan</label>
+                            <input type="text" value="65" class="form-control">
+                            <small>kg</small>
+                        </div>
+                        <div class="vital-sign">
+                            <label>Tinggi Badan</label>
+                            <input type="text" value="175" class="form-control">
+                            <small>cm</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mental-status">
+                    <div class="mental-status-title">Status Mental</div>
+                    <div class="mental-status-parameters">
+                        <div class="mental-status-parameter">
+                            <label>Penampilan</label>
+                            <select class="form-control">
+                                <option>Terawat</option>
+                                <option selected>Cukup terawat</option>
+                                <option>Kurang terawat</option>
+                                <option>Tidak terawat</option>
+                            </select>
+                        </div>
+                        <div class="mental-status-parameter">
+                            <label>Kesadaran</label>
+                            <select class="form-control">
+                                <option selected>Compos mentis</option>
+                                <option>Somnolen</option>
+                                <option>Sopor</option>
+                                <option>Koma</option>
+                            </select>
+                        </div>
+                        <div class="mental-status-parameter">
+                            <label>Sikap</label>
+                            <select class="form-control">
+                                <option>Kooperatif</option>
+                                <option selected>Cukup kooperatif</option>
+                                <option>Kurang kooperatif</option>
+                                <option>Tidak kooperatif</option>
+                            </select>
+                        </div>
+                        <div class="mental-status-parameter">
+                            <label>Psikomotor</label>
+                            <select class="form-control">
+                                <option>Normal</option>
+                                <option>Agitasi</option>
+                                <option selected>Retardasi</option>
+                                <option>Stupor</option>
+                            </select>
+                        </div>
+                        <div class="mental-status-parameter">
+                            <label>Mood</label>
+                            <select class="form-control">
+                                <option>Eutimik</option>
+                                <option selected>Depresi</option>
+                                <option>Manik</option>
+                                <option>Disforia</option>
+                                <option>Iritabel</option>
+                            </select>
+                        </div>
+                        <div class="mental-status-parameter">
+                            <label>Afek</label>
+                            <select class="form-control">
+                                <option>Normal</option>
+                                <option>Labil</option>
+                                <option selected>Terbatas</option>
+                                <option>Datar</option>
+                                <option>Tidak sesuai</option>
+                            </select>
+                        </div>
+                        <div class="mental-status-parameter">
+                            <label>Pembicaraan</label>
+                            <select class="form-control">
+                                <option>Normal</option>
+                                <option selected>Lambat</option>
+                                <option>Cepat</option>
+                                <option>Inkoheren</option>
+                                <option>Mutisme</option>
+                            </select>
+                        </div>
+                        <div class="mental-status-parameter">
+                            <label>Halusinasi</label>
+                            <select class="form-control">
+                                <option selected>Tidak ada</option>
+                                <option>Auditorik</option>
+                                <option>Visual</option>
+                                <option>Taktil</option>
+                                <option>Olfaktorik</option>
+                            </select>
+                        </div>
+                        <div class="mental-status-parameter">
+                            <label>Waham</label>
+                            <select class="form-control">
+                                <option selected>Tidak ada</option>
+                                <option>Kejar</option>
+                                <option>Kebesaran</option>
+                                <option>Referensi</option>
+                                <option>Nihilistik</option>
+                            </select>
+                        </div>
+                        <div class="mental-status-parameter">
+                            <label>Orientasi</label>
+                            <select class="form-control">
+                                <option selected>Baik</option>
+                                <option>Gangguan waktu</option>
+                                <option>Gangguan tempat</option>
+                                <option>Gangguan orang</option>
+                            </select>
+                        </div>
+                        <div class="mental-status-parameter">
+                            <label>Memori</label>
+                            <select class="form-control">
+                                <option selected>Baik</option>
+                                <option>Gangguan jangka pendek</option>
+                                <option>Gangguan jangka panjang</option>
+                                <option>Gangguan keduanya</option>
+                            </select>
+                        </div>
+                        <div class="mental-status-parameter">
+                            <label>Konsentrasi</label>
+                            <select class="form-control">
+                                <option>Baik</option>
+                                <option selected>Terganggu</option>
+                            </select>
+                        </div>
+                        <div class="mental-status-parameter">
+                            <label>Tilikan</label>
+                            <select class="form-control">
+                                <option>Baik</option>
+                                <option selected>Terganggu sebagian</option>
+                                <option>Terganggu total</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="risk-assessment">
+                        <div class="risk-assessment-title">Penilaian Risiko</div>
+                        <div class="risk-assessment-parameters">
+                            <div class="risk-assessment-parameter">
+                                <label>Risiko Bunuh Diri</label>
+                                <select class="form-control">
+                                    <option>Tidak ada</option>
+                                    <option selected>Rendah</option>
+                                    <option>Sedang</option>
+                                    <option>Tinggi</option>
+                                </select>
+                            </div>
+                            <div class="risk-assessment-parameter">
+                                <label>Risiko Kekerasan</label>
+                                <select class="form-control">
+                                    <option selected>Tidak ada</option>
+                                    <option>Rendah</option>
+                                    <option>Sedang</option>
+                                    <option>Tinggi</option>
+                                </select>
+                            </div>
+                            <div class="risk-assessment-parameter">
+                                <label>Risiko Melarikan Diri</label>
+                                <select class="form-control">
+                                    <option selected>Tidak ada</option>
+                                    <option>Rendah</option>
+                                    <option>Sedang</option>
+                                    <option>Tinggi</option>
+                                </select>
+                            </div>
+                            <div class="risk-assessment-parameter">
+                                <label>Risiko Jatuh</label>
+                                <select class="form-control">
+                                    <option selected>Tidak ada</option>
+                                    <option>Rendah</option>
+                                    <option>Sedang</option>
+                                    <option>Tinggi</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="psychiatric-scales">
+                        <div class="psychiatric-scales-title">Skala Psikiatri</div>
+                        <div class="psychiatric-scale">
+                            <div class="psychiatric-scale-name">Hamilton Depression Rating Scale (HDRS)</div>
+                            <div class="psychiatric-scale-score">
+                                <input type="text" value="18" class="form-control">
+                                <span>Depresi sedang (skor 14-18)</span>
+                            </div>
+                        </div>
+                        <div class="psychiatric-scale">
+                            <div class="psychiatric-scale-name">Hamilton Anxiety Rating Scale (HARS)</div>
+                            <div class="psychiatric-scale-score">
+                                <input type="text" value="22" class="form-control">
+                                <span>Kecemasan sedang (skor 18-24)</span>
+                            </div>
+                        </div>
+                        <div class="psychiatric-scale">
+                            <div class="psychiatric-scale-name">Mini Mental State Examination (MMSE)</div>
+                            <div class="psychiatric-scale-score">
+                                <input type="text" value="28" class="form-control">
+                                <span>Normal (skor 25-30)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="diagnosis-section">
+                    <div class="diagnosis-header">
+                        <div class="diagnosis-title">Diagnosis (ICD-10)</div>
+                        <button class="add-button"><i class="fas fa-plus"></i> Tambah</button>
+                    </div>
+                    
+                    <table class="diagnosis-table">
+                        <thead>
+                            <tr>
+                                <th>Kode</th>
+                                <th>Diagnosis</th>
+                                <th>Tipe</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>F32.1</td>
+                                <td>Moderate depressive episode</td>
+                                <td>Primer</td>
+                                <td><i class="fas fa-trash-alt" style="color: red; cursor: pointer;"></i></td>
+                            </tr>
+                            <tr>
+                                <td>F41.1</td>
+                                <td>Generalized anxiety disorder</td>
+                                <td>Sekunder</td>
+                                <td><i class="fas fa-trash-alt" style="color: red; cursor: pointer;"></i></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="form-right">
+                <div class="diagnosis-section">
+                    <div class="diagnosis-header">
+                        <div class="diagnosis-title">Tindakan (ICD-9-CM)</div>
+                        <button class="add-button"><i class="fas fa-plus"></i> Tambah</button>
+                    </div>
+                    
+                    <table class="diagnosis-table">
+                        <thead>
+                            <tr>
+                                <th>Kode</th>
+                                <th>Tindakan</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>94.09</td>
+                                <td>Other individual psychotherapy</td>
+                                <td><i class="fas fa-trash-alt" style="color: red; cursor: pointer;"></i></td>
+                            </tr>
+                            <tr>
+                                <td>94.31</td>
+                                <td>Psychoanalysis</td>
+                                <td><i class="fas fa-trash-alt" style="color: red; cursor: pointer;"></i></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="treatment-plan">
+                    <div class="treatment-plan-title">Rencana Perawatan</div>
+                    <div class="treatment-plan-items">
+                        <div class="treatment-plan-item">
+                            <input type="checkbox" id="treatment1" checked>
+                            <label for="treatment1">Farmakoterapi</label>
+                        </div>
+                        <div class="treatment-plan-item">
+                            <input type="checkbox" id="treatment2" checked>
+                            <label for="treatment2">Psikoterapi individual</label>
+                        </div>
+                        <div class="treatment-plan-item">
+                            <input type="checkbox" id="treatment3">
+                            <label for="treatment3">Terapi kelompok</label>
+                        </div>
+                        <div class="treatment-plan-item">
+                            <input type="checkbox" id="treatment4">
+                            <label for="treatment4">Terapi keluarga</label>
+                        </div>
+                        <div class="treatment-plan-item">
+                            <input type="checkbox" id="treatment5">
+                            <label for="treatment5">Terapi kognitif perilaku</label>
+                        </div>
+                        <div class="treatment-plan-item">
+                            <input type="checkbox" id="treatment6">
+                            <label for="treatment6">Terapi relaksasi</label>
+                        </div>
+                        <div class="treatment-plan-item">
+                            <input type="checkbox" id="treatment7">
+                            <label for="treatment7">Terapi okupasi</label>
+                        </div>
+                        <div class="treatment-plan-item">
+                            <input type="checkbox" id="treatment8">
+                            <label for="treatment8">Konseling gizi</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Catatan Dokter</label>
+                    <textarea class="form-control">Pasien didiagnosis dengan episode depresi sedang dan gangguan kecemasan umum. Diberikan terapi farmakologis berupa escitalopram 10mg 1x1 pagi dan alprazolam 0.5mg 1x1 malam. Pasien juga diberikan psikoterapi suportif dan edukasi mengenai kondisi dan pentingnya kepatuhan pengobatan. Dianjurkan untuk melakukan aktivitas fisik ringan secara teratur dan menjaga pola tidur yang baik. Pasien direncanakan untuk kontrol 
+            </div>
+        </div>
+    </div>
+</body>
+</html> 
