@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pemeriksaan Radiologi</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background-color: #f0f2f5;
+            padding: 15px 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .header h2 {
+            margin: 0;
+            color: #333;
+            font-size: 18px;
+        }
+        
+        .nav-tab {
+            background-color: #0f3b75;
+            color: white;
+            padding: 10px 20px;
+        }
+        
+        .nav-tab span {
+            display: inline-block;
+            padding: 5px 15px;
+            background-color: #0f3b75;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+        
+        .nav-tab span i {
+            margin-right: 5px;
+        }
+        
+        .patient-info {
+            display: flex;
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .patient-photo {
+            width: 100px;
+            height: 100px;
+            background-color: #0f3b75;
+            border-radius: 50%;
+            margin-right: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 40px;
+        }
+        
+        .patient-details {
+            flex: 1;
+        }
+        
+        .patient-name {
+            font-size: 20px;
+            font-weight: bold;
+            color: #0f3b75;
+            margin-bottom: 5px;
+        }
+        
+        .patient-id {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .patient-data {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.5;
+        }
+        
+        .section-title {
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+            color: #0f3b75;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        .form-container {
+            padding: 20px;
+            display: flex;
+        }
+        
+        .form-left {
+            flex: 1;
+            padding-right: 20px;
+        }
+        
+        .form-right {
+            flex: 1;
+            padding-left: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .form-group label::after {
+            content: "*";
+            color: red;
+            margin-left: 3px;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .form-control:focus {
+            border-color: #0f3b75;
+            outline: none;
+        }
+        
+        .radio-group {
+            display: flex;
+            align-items: center;
+        }
+        
+        .radio-option {
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .radio-option input {
+            margin-right: 5px;
+        }
+        
+        textarea.form-control {
+            height: 100px;
+            resize: vertical;
+        }
+        
+        .doctor-select {
+            display: flex;
+            align-items: center;
+        }
+        
+        .doctor-select select {
+            flex: 1;
+            margin-right: 10px;
+        }
+        
+        .doctor-select button {
+            background: none;
+            border: none;
+            color: #0f3b75;
+            cursor: pointer;
+        }
+        
+        .result-section {
+            margin-top: 15px;
+        }
+        
+        .result-section h4 {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .file-upload {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .file-upload button {
+            background-color: #f0f2f5;
+            border: 1px solid #ddd;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        
+        .file-upload span {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+        
+        .action-button {
+            padding: 8px 15px;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        
+        .save-button {
+            background-color: #0f3b75;
+            color: white;
+            border: none;
+        }
+        
+        .cancel-button {
+            background-color: #f0f2f5;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>Pemeriksaan Radiologi</h2>
+        </div>
+        
+        <div class="nav-tab">
+            <span><i class="fas fa-x-ray"></i> Pemeriksaan Radiologi</span>
+        </div>
+        
+        <div class="patient-info">
+            <div class="patient-photo">
+                <i class="fas fa-user"></i>
+            </div>
+            <div class="patient-details">
+                <div class="patient-name">FATMA SAHRAIN</div>
+                <div class="patient-id">No RM Lama : Baru: 119515</div>
+                <div class="patient-data">
+                    Perempuan • Lahir Tanggal: 16/12/2003<br>
+                    Status: Belum Kawin, Agama: Islam, Golongan Darah: -, Pendidikan: SLTA/SEDERAJAT, Pekerjaan: TIDAK/BELUM BEKERJA<br>
+                    Alamat: DUSUN BUKIT
+                </div>
+            </div>
+        </div>
+        
+        <div class="section-title">Pemeriksaan Radiologi</div>
+        
+        <div class="form-container">
+            <div class="form-left">
+                <div class="form-group">
+                    <label>Ruangan</label>
+                    <select class="form-control">
+                        <option selected>KELAS 3 ANGGREK</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Cara Bayar</label>
+                    <select class="form-control">
+                        <option selected>BPJS</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Dokter Radiologi</label>
+                    <div class="doctor-select">
+                        <select class="form-control">
+                            <option selected>dr. KHAIRAN ANTALIM, Sp.Rad</option>
+                        </select>
+                        <button>⋮</button>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Tanggal / Jam Masuk</label>
+                    <input type="datetime-local" class="form-control" value="2023-03-14T00:00">
+                </div>
+                
+                <div class="form-group">
+                    <label>Status Pemeriksaan</label>
+                    <select class="form-control">
+                        <option>Sedang Dikerjakan</option>
+                        <option>Selesai</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Status Kritis</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="kritis-no" name="status-kritis" checked>
+                            <label for="kritis-no" style="display: inline; margin: 0;">Tidak</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="kritis-yes" name="status-kritis">
+                            <label for="kritis-yes" style="display: inline; margin: 0;">Kritis</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Tanggal / Jam Selesai</label>
+                    <input type="datetime-local" class="form-control" value="2023-03-14T00:00">
+                </div>
+            </div>
+            
+            <div class="form-right">
+                <div class="form-group">
+                    <label>Dokter Pengirim</label>
+                    <div class="doctor-select">
+                        <select class="form-control">
+                            <option selected>dr. IRFIANA NOVA, Sp.PD</option>
+                        </select>
+                        <button>⋮</button>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Catatan / Pemeriksaan Khusus</label>
+                    <textarea class="form-control"></textarea>
+                </div>
+                
+                <div class="result-section">
+                    <h4>Hasil Radiologi</h4>
+                    <div class="file-upload">
+                        <button>Pilih File</button>
+                        <span>Tidak ada file yang dipilih</span>
+                    </div>
+                    <p style="font-size: 12px; color: #666;">*File yang diperbolehkan: JPG, JPEG, PNG, PDF</p>
+                </div>
+                
+                <div class="result-section">
+                    <h4>Hasil Bacaan</h4>
+                    <textarea class="form-control"></textarea>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="action-button cancel-button">Batal</button>
+                    <button class="action-button save-button">Simpan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 
