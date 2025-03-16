@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Diagnosa</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        /* CSS Umum */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background-color: #f0f2f5;
+            padding: 15px 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .header h2 {
+            margin: 0;
+            color: #333;
+            font-size: 18px;
+        }
+        
+        .nav-tab {
+            background-color: #3f51b5; /* Warna indigo untuk Diagnosa */
+            color: white;
+            padding: 10px 20px;
+        }
+        
+        .nav-tab span {
+            display: inline-block;
+            padding: 5px 15px;
+            background-color: #3f51b5;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+        
+        .nav-tab span i {
+            margin-right: 5px;
+        }
+        
+        .patient-info {
+            display: flex;
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .patient-photo {
+            width: 100px;
+            height: 100px;
+            background-color: #3f51b5;
+            border-radius: 50%;
+            margin-right: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 40px;
+        }
+        
+        .patient-details {
+            flex: 1;
+        }
+        
+        .patient-name {
+            font-size: 20px;
+            font-weight: bold;
+            color: #3f51b5;
+            margin-bottom: 5px;
+        }
+        
+        .patient-id {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .patient-data {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.5;
+        }
+        
+        .section-title {
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+            color: #3f51b5;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        .form-container {
+            padding: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .form-group label::after {
+            content: "*";
+            color: red;
+            margin-left: 3px;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .form-control:focus {
+            border-color: #3f51b5;
+            outline: none;
+        }
+        
+        textarea.form-control {
+            height: 100px;
+            resize: vertical;
+        }
+        
+        .doctor-select {
+            display: flex;
+            align-items: center;
+        }
+        
+        .doctor-select select {
+            flex: 1;
+            margin-right: 10px;
+        }
+        
+        .doctor-select button {
+            background: none;
+            border: none;
+            color: #3f51b5;
+            cursor: pointer;
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+        
+        .action-button {
+            padding: 8px 15px;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        
+        .save-button {
+            background-color: #3f51b5;
+            color: white;
+            border: none;
+        }
+        
+        .cancel-button {
+            background-color: #f0f2f5;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+        
+        /* CSS Spesifik untuk Diagnosa */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+        
+        .tab {
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 14px;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .tab.active {
+            border-bottom: 2px solid #3f51b5;
+            color: #3f51b5;
+            font-weight: bold;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .diagnosis-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .diagnosis-title {
+            font-weight: bold;
+            color: #333;
+            font-size: 16px;
+        }
+        
+        .add-button {
+            background-color: #3f51b5;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .add-button i {
+            margin-right: 5px;
+        }
+        
+        .diagnosis-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        
+        .diagnosis-table th, .diagnosis-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+            font-size: 13px;
+        }
+        
+        .diagnosis-table th {
+            background-color: #f0f2f5;
+            font-weight: bold;
+        }
+        
+        .diagnosis-table .action-cell {
+            width: 80px;
+            text-align: center;
+        }
+        
+        .diagnosis-table .action-button {
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            margin: 0 3px;
+            padding: 0;
+        }
+        
+        .diagnosis-table .delete-button {
+            color: #f44336;
+        }
+        
+        .diagnosis-table .edit-button {
+            color: #2196f3;
+        }
+        
+        .diagnosis-table .code-cell {
+            width: 15%;
+        }
+        
+        .diagnosis-table .diagnosis-cell {
+            width: 40%;
+        }
+        
+        .diagnosis-table .type-cell, .diagnosis-table .status-cell {
+            width: 15%;
+        }
+        
+        .search-container {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 8px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px 0 0 4px;
+            font-size: 14px;
+        }
+        
+        .search-button {
+            padding: 8px 15px;
+            background-color: #3f51b5;
+            color: white;
+            border: none;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+        }
+        
+        .icd-search-results {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .icd-search-result {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            cursor: pointer;
+        }
+        
+        .icd-search-result:hover {
+            background-color: #f0f2f5;
+        }
+        
+        .icd-search-result:last-child {
+            border-bottom: none;
+        }
+        
+        .icd-code {
+            font-weight: bold;
+            color: #3f51b5;
+            margin-right: 10px;
+        }
+        
+        .icd-description {
+            color: #333;
+        }
+        
+        .diagnosis-form {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .diagnosis-form-title {
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #3f51b5;
+        }
+        
+        .diagnosis-form-row {
+            display: flex;
+            margin-bottom: 10px;
+        }
+        
+        .diagnosis-form-group {
+            flex: 1;
+            margin-right: 10px;
+        }
+        
+        .diagnosis-form-group:last-child {
+            margin-right: 0;
+        }
+        
+        .diagnosis-form-group label {
+            display: block;
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .diagnosis-form-group input, .diagnosis-form-group select, .diagnosis-form-group textarea {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+        
+        .diagnosis-form-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 15px;
+        }
+        
+        .diagnosis-form-button {
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 13px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        
+        .diagnosis-form-save {
+            background-color: #3f51b5;
+            color: white;
+            border: none;
+        }
+        
+        .diagnosis-form-cancel {
+            background-color: #f0f2f5;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+        
+        .diagnosis-notes {
+            margin-top: 20px;
+        }
+        
+        .diagnosis-notes label {
+            display: block;
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .diagnosis-notes textarea {
+            width: 100%;
+            height: 100px;
+            padding: 8px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            resize: vertical;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+        
+        .status-active {
+            background-color: #e8f5e9;
+            color: #1b5e20;
+        }
+        
+        .status-inactive {
+            background-color: #ffebee;
+            color: #c62828;
+        }
+        
+        .status-resolved {
+            background-color: #e3f2fd;
+            color: #0d47a1;
+        }
+        
+        .type-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+        
+        .type-primary {
+            background-color: #e8eaf6;
+            color: #303f9f;
+        }
+        
+        .type-secondary {
+            background-color: #f3e5f5;
+            color: #6a1b9a;
+        }
+        
+        .type-complication {
+            background-color: #fff3e0;
+            color: #e65100;
+        }
+        
+        .history-item {
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .history-item:last-child {
+            border-bottom: none;
+        }
+        
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .history-date {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .history-doctor {
+            font-size: 12px;
+            color: #3f51b5;
+            font-weight: bold;
+        }
+        
+        .history-diagnoses {
+            margin-bottom: 10px;
+        }
+        
+        .history-diagnosis {
+            margin-bottom: 5px;
+            font-size: 13px;
+        }
+        
+        .history-code {
+            font-weight: bold;
+            color: #3f51b5;
+            margin-right: 5px;
+        }
+        
+        .history-notes {
+            font-size: 12px;
+            color: #666;
+            font-style: italic;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Fungsi untuk mengganti tab
+            var tabs = document.querySelectorAll('.tab');
+            tabs.forEach(function(tab) {
+                tab.addEventListener('click', function() {
+                    // Hapus kelas aktif dari semua tab
+                    tabs.forEach(function(t) {
+                        t.classList.remove('active');
+                    });
+                    
+                    // Tambahkan kelas aktif ke tab yang diklik
+                    this.classList.add('active');
+                    
+                    // Sembunyikan semua konten tab
+                    var tabContents = document.querySelectorAll('.tab-content');
+                    tabContents.forEach(function(content) {
+                        content.classList.remove('active');
+                    });
+                    
+                    // Tampilkan konten tab yang sesuai
+                    var tabId = this.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+            
+            // Fungsi untuk menampilkan form diagnosa
+            document.getElementById('add-diagnosis-button').addEventListener('click', function() {
+                document.getElementById('diagnosis-form').style.display = 'block';
+            });
+            
+            // Fungsi untuk menyembunyikan form diagnosa
+            document.getElementById('cancel-diagnosis-button').addEventListener('click', function() {
+                document.getElementById('diagnosis-form').style.display = 'none';
+            });
+            
+            // Fungsi untuk menambah diagnosa
+            document.getElementById('save-diagnosis-button').addEventListener('click', function() {
+                // Di sini Anda dapat menambahkan logika untuk menyimpan diagnosa
+                document.getElementById('diagnosis-form').style.display = 'none';
+            });
+            
+            // Fungsi untuk menghapus diagnosa
+            var deleteButtons = document.querySelectorAll('.delete-button');
+            deleteButtons.forEach(function(button) {
+                button.addEventListener('click', function() {
+                    var row = this.closest('tr');
+                    row.parentNode.removeChild(row);
+                });
+            });
+            
+            // Fungsi untuk mengedit diagnosa
+            var editButtons = document.querySelectorAll('.edit-button');
+            editButtons.forEach(function(button) {
+                button.addEventListener('click', function() {
+                    document.getElementById('diagnosis-form').style.display = 'block';
+                    // Di sini Anda dapat menambahkan logika untuk mengisi form dengan data yang ada
+                });
+            });
+            
+            // Fungsi untuk mencari ICD
+            document.getElementById('search-icd-button').addEventListener('click', function() {
+                var searchTerm = document.getElementById('search-icd-input').value;
+                // Di sini Anda dapat menambahkan logika untuk mencari ICD
+                document.getElementById('icd-search-results').style.display = 'block';
+            });
+            
+            // Fungsi untuk memilih ICD dari hasil pencarian
+            var icdResults = document.querySelectorAll('.icd-search-result');
+            icdResults.forEach(function(result) {
+                result.addEventListener('click', function() {
+                    var icdCode = this.querySelector('.icd-code').textContent;
+                    var icdDescription = this.querySelector('.icd-description').textContent;
+                    
+                    document.getElementById('diagnosis-code').value = icdCode;
+                    document.getElementById('diagnosis-name').value = icdDescription;
+                    
+                    document.getElementById('icd-search-results').style.display = 'none';
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>Form Diagnosa</h2>
+        </div>
+        
+        <div class="nav-tab">
+            <span><i class="fas fa-stethoscope"></i> Diagnosa</span>
+        </div>
+        
+        <div class="patient-info">
+            <div class="patient-photo">
+                <i class="fas fa-user"></i>
+            </div>
+            <div class="patient-details">
+                <div class="patient-name">BUDI SANTOSO</div>
+                <div class="patient-id">No RM: 123456 | No Kunjungan: KJ-20230615-001</div>
+                <div class="patient-data">
+                    Laki-laki • Lahir Tanggal: 15/05/1975 (48 tahun)<br>
+                    Status: Kawin, Agama: Islam, Golongan Darah: O, Pendidikan: S1, Pekerjaan: PNS<br>
+                    Alamat: Jl. Merdeka No. 45, Kota Pohuwato
+                </div>
+            </div>
+        </div>
+        
+        <div class="section-title">Data Diagnosa</div>
+        
+        <div class="form-container">
+            <div class="form-group">
+                <label>Tanggal Kunjungan</label>
+                <input type="date" class="form-control" value="2023-06-15">
+            </div>
+            
+            <div class="form-group">
+                <label>Dokter</label>
+                <div class="doctor-select">
+                    <select class="form-control">
+                        <option selected>dr. IRFIANA NOVA, Sp.PD</option>
+                    </select>
+                    <button>⋮</button>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label>Keluhan Utama</label>
+                <textarea class="form-control">Pasien mengeluhkan sering haus, sering buang air kecil, dan penurunan berat badan dalam 3 bulan terakhir. Pasien juga mengeluhkan penglihatan kabur.</textarea>
+            </div>
+            
+            <div class="tabs">
+                <div class="tab active" data-tab="current-diagnosis">Diagnosa Saat Ini</div>
+                <div class="tab" data-tab="diagnosis-history">Riwayat Diagnosa</div>
+            </div>
+            
+            <div id="current-diagnosis" class="tab-content active">
+                <div class="search-container">
+                    <input type="text" id="search-icd-input" class="search-input" placeholder="Cari kode ICD-10...">
+                    <button id="search-icd-button" class="search-button"><i class="fas fa-search"></i></button>
+                </div>
+                
+                <div id="icd-search-results" class="icd-search-results" style="display: none;">
+                    <div class="icd-search-result">
+                        <span class="icd-code">E11.9</span>
+                        <span class="icd-description">Type 2 diabetes mellitus without complications</span>
+                    </div>
+                    <div class="icd-search-result">
+                        <span class="icd-code">E11.3</span>
+                        <span class="icd-description">Type 2 diabetes mellitus with ophthalmic complications</span>
+                    </div>
+                    <div class="icd-search-result">
+                        <span class="icd-code">I10</span>
+                        <span class="icd-description">Essential (primary) hypertension</span>
+                    </div>
+                    <div class="icd-search-result">
+                        <span class="icd-code">E78.5</span>
+                        <span class="icd-description">Hyperlipidemia, unspecified</span>
+                    </div>
+                </div>
+                
+                <div id="diagnosis-form" class="diagnosis-form" style="display: none;">
+                    <div class="diagnosis-form-title">Tambah Diagnosa</div>
+                    
+                    <div class="diagnosis-form-row">
+                        <div class="diagnosis-form-group">
+                            <label>Kode ICD-10</label>
+                            <input type="text" id="diagnosis-code" placeholder="Masukkan kode ICD-10">
+                        </div>
+                        <div class="diagnosis-form-group">
+                            <label>Nama Diagnosa</label>
+                            <input type="text" id="diagnosis-name" placeholder="Masukkan nama diagnosa">
+                        </div>
+                    </div>
+                    
+                    <div class="diagnosis-form-row">
+                        <div class="diagnosis-form-group">
+                            <label>Tipe Diagnosa</label>
+                            <select id="diagnosis-type">
+                                <option value="primary">Primer</option>
+                                <option value="secondary">Sekunder</option>
+                                <option value="complication">Komplikasi</option>
+                            </select>
+                        </div>
+                        <div class="diagnosis-form-group">
+                            <label>Status</label>
+                            <select id="diagnosis-status">
+                                <option value="active">Aktif</option>
+                                <option value="inactive">Tidak Aktif</option>
+                                <option value="resolved">Teratasi</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="diagnosis-form-row">
+                        <div class="diagnosis-form-group">
+                            <label>Catatan</label>
+                            <textarea id="diagnosis-notes" placeholder="Tambahkan catatan tentang diagnosa ini"></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="diagnosis-form-actions">
+                        <button id="cancel-diagnosis-button" class="diagnosis-form-button diagnosis-form-cancel">Batal</button>
+                        <button id="save-diagnosis-button" class="diagnosis-form-button diagnosis-form-save">Simpan</button>
+                    </div>
+                </div>
+                
+                <div class="diagnosis-header">
+                    <div class="diagnosis-title">Daftar Diagnosa</div>
+                    <button id="add-diagnosis-button" class="add-button"><i class="fas fa-plus"></i> Tambah Diagnosa</button>
+                </div>
+                
+                <table class="diagnosis-table">
+                    <thead>
+                        <tr>
+                            <th class="code-cell">Kode ICD-10</th>
+                            <th class="diagnosis-cell">Diagnosa</th>
+                            <th class="type-cell">Tipe</th>
+                            <th class="status-cell">Status</th>
+                            <th class="action-cell">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>E11.9</td>
+                            <td>Type 2 diabetes mellitus without complications</td>
+                            <td><span class="type-badge type-primary">Primer</span></td>
+                            <td><span class="status-badge status-active">Aktif</span></td>
+                            <td class="action-cell">
+                                <button class="action-button edit-button"><i class="fas fa-edit"></i></button>
+                                <button class="action-button delete-button"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>I10</td>
+                            <td>Essential (primary) hypertension</td>
+                            <td><span class="type-badge type-secondary">Sekunder</span></td>
+                            <td><span class="status-badge status-active">Aktif</span></td>
+                            <td class="action-cell">
+                                <button class="action-button edit-button"><i class="fas fa-edit"></i></button>
+                                <button class="action-button delete-button"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>E78.5</td>
+                            <td>Hyperlipidemia, unspecified</td>
+                            <td><span class="type-badge type-secondary">Sekunder</span></td>
+                            <td><span class="status-badge status-active">Aktif</span></td>
+                            <td class="action-cell">
+                                <button class="action-button edit-button"><i class="fas fa-edit"></i></button>
+                                <button class="action-button delete-button"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="diagnosis-notes">
+                    <label>Catatan Diagnosa</label>
+                    <textarea placeholder="Tambahkan catatan tambahan tentang diagnosa pasien...">Pasien didiagnosis dengan Diabetes Melitus Tipe 2 berdasarkan gejala klinis dan hasil pemeriksaan laboratorium. Pasien juga memiliki hipertensi dan hiperlipidemia. Perlu pemantauan rutin untuk kadar gula darah, tekanan darah, dan profil lipid.</textarea>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="action-button cancel-button">Batal</button>
+                    <button class="action-button save-button">Simpan</button>
+                </div>
+            </div>
+            
+            <div id="diagnosis-history" class="tab-content">
+                <div class="history-item">
+                    <div class="history-header">
+                        <div class="history-date">15 Mei 2023</div>
+                        <div class="history-doctor">dr. IRFIANA NOVA, Sp.PD</div>
+                    </div>
+                    <div class="history-diagnoses">
+                        <div class="history-diagnosis">
+                            <span class="history-code">E11.9</span> Type 2 diabetes mellitus without complications
+                        </div>
+                        <div class="history-diagnosis">
+                            <span class="history-code">I10</span> Essential (primary) hypertension
+                        </div>
+                    </div>
+                    <div class="history-notes">
+                        Pasien didiagnosis dengan Diabetes Melitus Tipe 2 dan Hipertensi. Diberikan edukasi tentang pola makan dan aktivitas fisik.
+                    </div>
+                </div>
+                
+                <div class="history-item">
+                    <div class="history-header">
+                        <div class="history-date">15 April 2023</div>
+                        <div class="history-doctor">dr. IRFIANA NOVA, Sp.PD</div>
+                    </div>
+                    <div class="history-diagnoses">
+                        <div class="history-diagnosis">
+                            <span class="history-code">E11.9</span> Type 2 diabetes mellitus without complications
+                        </div>
+                    </div>
+                    <div class="history-notes">
+                        Pasien datang dengan keluhan poliuria, polidipsi, dan penurunan berat badan. Hasil pemeriksaan gula darah puasa 180 mg/dL.
+                    </div>
+                </div>
+                
+                <div class="history-item">
+                    <div class="history-header">
+                        <div class="history-date">15 Maret 2023</div>
+                        <div class="history-doctor">dr. AHMAD FAUZI, Sp.PD</div>
+                    </div>
+                    <div class="history-diagnoses">
+                        <div class="history-diagnosis">
+                            <span class="history-code">R73.0</span> Abnormal glucose tolerance test
+                        </div>
+                    </div>
+                    <div class="history-notes">
+                        Pasien datang untuk pemeriksaan kesehatan rutin. Hasil pemeriksaan gula darah puasa 120 mg/dL. Dianjurkan untuk melakukan tes toleransi glukosa oral.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 
