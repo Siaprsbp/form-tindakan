@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tindakan Dokter - Poli Rehab Medik</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        /* CSS Umum */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background-color: #f0f2f5;
+            padding: 15px 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .header h2 {
+            margin: 0;
+            color: #333;
+            font-size: 18px;
+        }
+        
+        .nav-tab {
+            background-color: #4caf50; /* Warna hijau untuk Poli Rehab Medik */
+            color: white;
+            padding: 10px 20px;
+        }
+        
+        .nav-tab span {
+            display: inline-block;
+            padding: 5px 15px;
+            background-color: #4caf50;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+        
+        .nav-tab span i {
+            margin-right: 5px;
+        }
+        
+        .patient-info {
+            display: flex;
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .patient-photo {
+            width: 100px;
+            height: 100px;
+            background-color: #4caf50;
+            border-radius: 50%;
+            margin-right: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 40px;
+        }
+        
+        .patient-details {
+            flex: 1;
+        }
+        
+        .patient-name {
+            font-size: 20px;
+            font-weight: bold;
+            color: #4caf50;
+            margin-bottom: 5px;
+        }
+        
+        .patient-id {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .patient-data {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.5;
+        }
+        
+        .section-title {
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+            color: #4caf50;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        .form-container {
+            padding: 20px;
+            display: flex;
+        }
+        
+        .form-left {
+            flex: 1;
+            padding-right: 20px;
+        }
+        
+        .form-right {
+            flex: 1;
+            padding-left: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .form-group label::after {
+            content: "*";
+            color: red;
+            margin-left: 3px;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .form-control:focus {
+            border-color: #4caf50;
+            outline: none;
+        }
+        
+        .radio-group {
+            display: flex;
+            align-items: center;
+        }
+        
+        .radio-option {
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .radio-option input {
+            margin-right: 5px;
+        }
+        
+        textarea.form-control {
+            height: 100px;
+            resize: vertical;
+        }
+        
+        .doctor-select {
+            display: flex;
+            align-items: center;
+        }
+        
+        .doctor-select select {
+            flex: 1;
+            margin-right: 10px;
+        }
+        
+        .doctor-select button {
+            background: none;
+            border: none;
+            color: #4caf50;
+            cursor: pointer;
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+        
+        .action-button {
+            padding: 8px 15px;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        
+        .save-button {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+        }
+        
+        .cancel-button {
+            background-color: #f0f2f5;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+        
+        /* CSS Spesifik untuk Poli Rehab Medik */
+        .vital-signs {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .vital-signs-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #4caf50;
+        }
+        
+        .vital-signs-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+        
+        .vital-sign {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .vital-sign label {
+            margin-bottom: 5px;
+            font-size: 12px;
+        }
+        
+        .vital-sign input {
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+        }
+        
+        .functional-assessment {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .functional-assessment-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #4caf50;
+        }
+        
+        .functional-parameters {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        
+        .functional-parameter {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 10px;
+        }
+        
+        .functional-parameter label {
+            margin-bottom: 5px;
+            font-size: 12px;
+        }
+        
+        .range-of-motion {
+            margin-top: 15px;
+            border-top: 1px solid #ddd;
+            padding-top: 15px;
+        }
+        
+        .range-of-motion-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #4caf50;
+            font-size: 14px;
+        }
+        
+        .range-of-motion-parameters {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        
+        .range-of-motion-parameter {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 10px;
+        }
+        
+        .range-of-motion-parameter label {
+            margin-bottom: 5px;
+            font-size: 12px;
+        }
+        
+        .muscle-strength {
+            margin-top: 15px;
+            border-top: 1px solid #ddd;
+            padding-top: 15px;
+        }
+        
+        .muscle-strength-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #4caf50;
+            font-size: 14px;
+        }
+        
+        .muscle-strength-parameters {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        
+        .muscle-strength-parameter {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 10px;
+        }
+        
+        .muscle-strength-parameter label {
+            margin-bottom: 5px;
+            font-size: 12px;
+        }
+        
+        .diagnosis-section {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .diagnosis-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .diagnosis-title {
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .add-button {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        .diagnosis-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+        }
+        
+        .diagnosis-table th, .diagnosis-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+            font-size: 13px;
+        }
+        
+        .diagnosis-table th {
+            background-color: #f0f2f5;
+        }
+        
+        .result-section {
+            margin-top: 15px;
+        }
+        
+        .result-section h4 {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .file-upload {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .file-upload button {
+            background-color: #f0f2f5;
+            border: 1px solid #ddd;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        
+        .file-upload span {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .treatment-plan {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .treatment-plan-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #4caf50;
+        }
+        
+        .treatment-plan-items {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        
+        .treatment-plan-item {
+            display: flex;
+            align-items: center;
+        }
+        
+        .treatment-plan-item input {
+            margin-right: 5px;
+        }
+        
+        .treatment-plan-item label {
+            font-size: 12px;
+        }
+        
+        .functional-scales {
+            margin-top: 15px;
+            border-top: 1px solid #ddd;
+            padding-top: 15px;
+        }
+        
+        .functional-scales-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #4caf50;
+            font-size: 14px;
+        }
+        
+        .functional-scale {
+            margin-bottom: 10px;
+        }
+        
+        .functional-scale-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 13px;
+        }
+        
+        .functional-scale-score {
+            display: flex;
+            align-items: center;
+        }
+        
+        .functional-scale-score input {
+            width: 60px;
+            margin-right: 10px;
+        }
+        
+        .functional-scale-score span {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .body-diagram {
+            text-align: center;
+            margin: 15px 0;
+        }
+        
+        .body-diagram-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #4caf50;
+            font-size: 14px;
+        }
+        
+        .body-diagram-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        
+        .body-diagram-figure {
+            width: 120px;
+            height: 250px;
+            border: 1px solid #ddd;
+            background-color: #fff;
+            position: relative;
+        }
+        
+        .body-diagram-figure.front {
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjI1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNNjAgMjBjMTAgMCAxOCA4IDE4IDE4IDAgNS01IDEwLTEwIDEyLTUgMi04IDUtOCAxMCAwIDUgMyA4IDUgMTAgMiAyIDUgNSA1IDEwIDAgNS0yIDEwLTUgMTUtMyA1LTUgMTAtNSAxNXY5MGMwIDEwLTUgMjAtMTAgMzAtNSAxMC0xMCAyMC0xMCAzMGgtMTBjMC0xMC01LTIwLTEwLTMwLTUtMTAtMTAtMjAtMTAtMzB2LTkwYzAtNS0yLTEwLTUtMTUtMy01LTUtMTAtNS0xNSAwLTUgMy04IDUtMTAgMi0yIDUtNSA1LTEwIDAtNS0zLTgtOC0xMC01LTItMTAtNy0xMC0xMiAwLTEwIDgtMTggMTgtMThoNDBaIiBzdHJva2U9IiMwMDAiIGZpbGw9Im5vbmUiLz48L3N2Zz4=');
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        
+        .body-diagram-figure.back {
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjI1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNNjAgMjBjMTAgMCAxOCA4IDE4IDE4IDAgNS01IDEwLTEwIDEyLTUgMi04IDUtOCAxMCAwIDUgMyA4IDUgMTAgMiAyIDUgNSA1IDEwIDAgNS0yIDEwLTUgMTUtMyA1LTUgMTAtNSAxNXY5MGMwIDEwLTUgMjAtMTAgMzAtNSAxMC0xMCAyMC0xMCAzMGgtMTBjMC0xMC01LTIwLTEwLTMwLTUtMTAtMTAtMjAtMTAtMzB2LTkwYzAtNS0yLTEwLTUtMTUtMy01LTUtMTAtNS0xNSAwLTUgMy04IDUtMTAgMi0yIDUtNSA1LTEwIDAtNS0zLTgtOC0xMC01LTItMTAtNy0xMC0xMiAwLTEwIDgtMTggMTgtMThoNDBaIiBzdHJva2U9IiMwMDAiIGZpbGw9Im5vbmUiLz48L3N2Zz4=');
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        
+        .body-diagram-marker {
+            width: 15px;
+            height: 15px;
+            background-color: #4caf50;
+            border-radius: 50%;
+            position: absolute;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>Tindakan Dokter - Poli Rehab Medik</h2>
+        </div>
+        
+        <div class="nav-tab">
+            <span><i class="fas fa-walking"></i> Tindakan Dokter</span>
+        </div>
+        
+        <div class="patient-info">
+            <div class="patient-photo">
+                <i class="fas fa-user"></i>
+            </div>
+            <div class="patient-details">
+                <div class="patient-name">BUDI SANTOSO</div>
+                <div class="patient-id">No RM: 901234</div>
+                <div class="patient-data">
+                    Laki-laki • Lahir Tanggal: 10/05/1965<br>
+                    Status: Kawin, Agama: Islam, Golongan Darah: B, Pendidikan: SMA, Pekerjaan: PENSIUNAN<br>
+                    Alamat: Jl. Melati No. 45, Kota Pohuwato
+                </div>
+            </div>
+        </div>
+        
+        <div class="section-title">Data Kunjungan</div>
+        
+        <div class="form-container">
+            <div class="form-left">
+                <div class="form-group">
+                    <label>Tanggal Kunjungan</label>
+                    <input type="date" class="form-control" value="2023-06-15">
+                </div>
+                
+                <div class="form-group">
+                    <label>Dokter</label>
+                    <div class="doctor-select">
+                        <select class="form-control">
+                            <option selected>dr. HENDRA WIJAYA, Sp.KFR</option>
+                        </select>
+                        <button>⋮</button>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Keluhan Utama</label>
+                    <textarea class="form-control">Pasien mengeluhkan nyeri dan kelemahan pada tungkai kanan setelah stroke 3 bulan yang lalu. Pasien kesulitan berjalan dan melakukan aktivitas sehari-hari. Pasien juga mengeluhkan kekakuan pada sendi lutut kanan.</textarea>
+                </div>
+                
+                <div class="vital-signs">
+                    <div class="vital-signs-title">Tanda Vital</div>
+                    <div class="vital-signs-grid">
+                        <div class="vital-sign">
+                            <label>Tekanan Darah</label>
+                            <input type="text" value="140/90" class="form-control">
+                            <small>mmHg</small>
+                        </div>
+                        <div class="vital-sign">
+                            <label>Nadi</label>
+                            <input type="text" value="78" class="form-control">
+                            <small>x/menit</small>
+                        </div>
+                        <div class="vital-sign">
+                            <label>Respirasi</label>
+                            <input type="text" value="18" class="form-control">
+                            <small>x/menit</small>
+                        </div>
+                        <div class="vital-sign">
+                            <label>Suhu</label>
+                            <input type="text" value="36.5" class="form-control">
+                            <small>°C</small>
+                        </div>
+                        <div class="vital-sign">
+                            <label>Berat Badan</label>
+                            <input type="text" value="70" class="form-control">
+                            <small>kg</small>
+                        </div>
+                        <div class="vital-sign">
+                            <label>Tinggi Badan</label>
+                            <input type="text" value="165" class="form-control">
+                            <small>cm</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="functional-assessment">
+                    <div class="functional-assessment-title">Penilaian Fungsional</div>
+                    
+                    <div class="body-diagram">
+                        <div class="body-diagram-title">Lokasi Keluhan</div>
+                        <div class="body-diagram-container">
+                            <div class="body-diagram-figure front">
+                                <!-- Marker untuk keluhan di tungkai kanan depan -->
+                                <div class="body-diagram-marker" style="top: 180px; right: 30px;"></div>
+                            </div>
+                            <div class="body-diagram-figure back">
+                                <!-- Marker untuk keluhan di tungkai kanan belakang -->
+                                <div class="body-diagram-marker" style="top: 180px; right: 30px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="range-of-motion">
+                        <div class="range-of-motion-title">Range of Motion (ROM)</div>
+                        <div class="range-of-motion-parameters">
+                            <div class="range-of-motion-parameter">
+                                <label>Fleksi Lutut Kanan</label>
+                                <input type="text" value="90" class="form-control">
+                                <small>derajat (normal: 135)</small>
+                            </div>
+                            <div class="range-of-motion-parameter">
+                                <label>Ekstensi Lutut Kanan</label>
+                                <input type="text" value="-10" class="form-control">
+                                <small>derajat (normal: 0)</small>
+                            </div>
+                            <div class="range-of-motion-parameter">
+                                <label>Dorsifleksi Ankle Kanan</label>
+                                <input type="text" value="10" class="form-control">
+                                <small>derajat (normal: 20)</small>
+                            </div>
+                            <div class="range-of-motion-parameter">
+                                <label>Plantarfleksi Ankle Kanan</label>
+                                <input type="text" value="30" class="form-control">
+                                <small>derajat (normal: 45)</small>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="muscle-strength">
+                        <div class="muscle-strength-title">Kekuatan Otot</div>
+                        <div class="muscle-strength-parameters">
+                            <div class="muscle-strength-parameter">
+                                <label>Ekstremitas Atas Kanan</label>
+                                <select class="form-control">
+                                    <option>0 - Tidak ada kontraksi</option>
+                                    <option>1 - Kontraksi otot terlihat/teraba</option>
+                                    <option>2 - Gerakan aktif, tidak melawan gravitasi</option>
+                                    <option>3 - Gerakan aktif, melawan gravitasi</option>
+                                    <option selected>4 - Gerakan aktif, melawan gravitasi dan tahanan</option>
+                                    <option>5 - Kekuatan normal</option>
+                                </select>
+                            </div>
+                            <div class="muscle-strength-parameter">
+                                <label>Ekstremitas Atas Kiri</label>
+                                <select class="form-control">
+                                    <option>0 - Tidak ada kontraksi</option>
+                                    <option>1 - Kontraksi otot terlihat/teraba</option>
+                                    <option>2 - Gerakan aktif, tidak melawan gravitasi</option>
+                                    <option>3 - Gerakan aktif, melawan gravitasi</option>
+                                    <option>4 - Gerakan aktif, melawan gravitasi dan tahanan</option>
+                                    <option selected>5 - Kekuatan normal</option>
+                                </select>
+                            </div>
+                            <div class="muscle-strength-parameter">
+                                <label>Ekstremitas Bawah Kanan</label>
+                                <select class="form-control">
+                                    <option>0 - Tidak ada kontraksi</option>
+                                    <option>1 - Kontraksi otot terlihat/teraba</option>
+                                    <option>2 - Gerakan aktif, tidak melawan gravitasi</option>
+                                    <option selected>3 - Gerakan aktif, melawan gravitasi</option>
+                                    <option>4 - Gerakan aktif, melawan gravitasi dan tahanan</option>
+                                    <option>5 - Kekuatan normal</option>
+                                </select>
+                            </div>
+                            <div class="muscle-strength-parameter">
+                                <label>Ekstremitas Bawah Kiri</label>
+                                <select class="form-control">
+                                    <option>0 - Tidak ada kontraksi</option>
+                                    <option>1 - Kontraksi otot terlihat/teraba</option>
+                                    <option>2 - Gerakan aktif, tidak melawan gravitasi</option>
+                                    <option>3 - Gerakan aktif, melawan gravitasi</option>
+                                    <option>4 - Gerakan aktif, melawan gravitasi dan tahanan</option>
+                                    <option selected>5 - Kekuatan normal</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="functional-scales">
+                        <div class="functional-scales-title">Skala Fungsional</div>
+                        <div class="functional-scale">
+                            <div class="functional-scale-name">Barthel Index</div>
+                            <div class="functional-scale-score">
+                                <input type="text" value="75" class="form-control">
+                                <span>Ketergantungan ringan (skor 65-90)</span>
+                            </div>
+                        </div>
+                        <div class="functional-scale">
+                            <div class="functional-scale-name">Modified Rankin Scale (mRS)</div>
+                            <div class="functional-scale-score">
+                                <input type="text" value="3" class="form-control">
+                                <span>Disabilitas sedang (membutuhkan bantuan untuk beberapa aktivitas)</span>
+                            </div>
+                        </div>
+                        <div class="functional-scale">
+                            <div class="functional-scale-name">Visual Analog Scale (VAS) untuk Nyeri</div>
+                            <div class="functional-scale-score">
+                                <input type="text" value="6" class="form-control">
+                                <span>Nyeri sedang (skor 4-6)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="diagnosis-section">
+                    <div class="diagnosis-header">
+                        <div class="diagnosis-title">Diagnosis (ICD-10)</div>
+                        <button class="add-button"><i class="fas fa-plus"></i> Tambah</button>
+                    </div>
+                    
+                    <table class="diagnosis-table">
+                        <thead>
+                            <tr>
+                                <th>Kode</th>
+                                <th>Diagnosis</th>
+                                <th>Tipe</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>I69.3</td>
+                                <td>Sequelae of cerebral infarction</td>
+                                <td>Primer</td>
+                                <td><i class="fas fa-trash-alt" style="color: red; cursor: pointer;"></i></td>
+                            </tr>
+                            <tr>
+                                <td>M25.56</td>
+                                <td>Pain in knee</td>
+                                <td>Sekunder</td>
+                                <td><i class="fas fa-trash-alt" style="color: red; cursor: pointer;"></i></td>
+                            </tr>
+                            <tr>
+                                <td>R26.2</td>
+                                <td>Difficulty in walking, not elsewhere classified</td>
+                                <td>Sekunder</td>
+                                <td><i class="fas fa-trash-alt" style="color: red; cursor: pointer;"></i></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="result-section">
+                    <h4>Hasil Diagnosis</h4>
+                    <textarea class="form-control">Sequelae of cerebral infarction, Pain in knee, Difficulty in walking, not elsewhere classified</textarea>
+                </div>
+                
+                <div class="file-upload">
+                    <button>Unggah File</button>
+                    <span>PDF, JPG, atau PNG</span>
+                </div>
+            </div>
+            
+            <div class="form-right">
+                <div class="treatment-plan">
+                    <div class="treatment-plan-title">Rencana Perawatan</div>
+                    <div class="treatment-plan-items">
+                        <div class="treatment-plan-item">
+                            <input type="checkbox">
+                            <label>Terapi Fisik</label>
+                        </div>
+                        <div class="treatment-plan-item">
+                            <input type="checkbox">
+                            <label>Terapi Fisioterapi</label>
+                        </div>
+                        <div class="treatment-plan-item">
+                            <input type="checkbox">
+                            <label>Terapi Rehabilitasi</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="functional-scales">
+                    <div class="functional-scales-title">Skala Fungsional</div>
+                    <div class="functional-scale">
+                        <div class="functional-scale-name">Barthel Index</div>
+                        <div class="functional-scale-score">
+                            <input type="text" value="75" class="form-control">
+                            <span>Ketergantungan ringan (skor 65-90)</span>
+                        </div>
+                    </div>
+                    <div class="functional-scale">
+                        <div class="functional-scale-name">Modified Rankin Scale (mRS)</div>
+                        <div class="functional-scale-score">
+                            <input type="text" value="3" class="form-control">
+                            <span>Disabilitas sedang (membutuhkan bantuan untuk beberapa aktivitas)</span>
+                        </div>
+                    </div>
+                    <div class="functional-scale">
+                        <div class="functional-scale-name">Visual Analog Scale (VAS) untuk Nyeri</div>
+                        <div class="functional-scale-score">
+                            <input type="text" value="6" class="form-control">
+                            <span>Nyeri sedang (skor 4-6)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="action-buttons">
+            <button class="save-button">Simpan</button>
+            <button class="cancel-button">Batal</button>
+        </div>
+    </div>
+</body>
+</html> 
