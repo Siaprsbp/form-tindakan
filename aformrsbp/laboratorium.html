@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pemeriksaan Laboratorium</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        /* CSS Umum */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background-color: #f0f2f5;
+            padding: 15px 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .header h2 {
+            margin: 0;
+            color: #333;
+            font-size: 18px;
+        }
+        
+        .nav-tab {
+            background-color: #607d8b; /* Warna biru-abu untuk Laboratorium */
+            color: white;
+            padding: 10px 20px;
+        }
+        
+        .nav-tab span {
+            display: inline-block;
+            padding: 5px 15px;
+            background-color: #607d8b;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+        
+        .nav-tab span i {
+            margin-right: 5px;
+        }
+        
+        .patient-info {
+            display: flex;
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .patient-photo {
+            width: 100px;
+            height: 100px;
+            background-color: #607d8b;
+            border-radius: 50%;
+            margin-right: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 40px;
+        }
+        
+        .patient-details {
+            flex: 1;
+        }
+        
+        .patient-name {
+            font-size: 20px;
+            font-weight: bold;
+            color: #607d8b;
+            margin-bottom: 5px;
+        }
+        
+        .patient-id {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .patient-data {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.5;
+        }
+        
+        .section-title {
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+            color: #607d8b;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        .form-container {
+            padding: 20px;
+            display: flex;
+        }
+        
+        .form-left {
+            flex: 1;
+            padding-right: 20px;
+        }
+        
+        .form-right {
+            flex: 1;
+            padding-left: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .form-group label::after {
+            content: "*";
+            color: red;
+            margin-left: 3px;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .form-control:focus {
+            border-color: #607d8b;
+            outline: none;
+        }
+        
+        .radio-group {
+            display: flex;
+            align-items: center;
+        }
+        
+        .radio-option {
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .radio-option input {
+            margin-right: 5px;
+        }
+        
+        textarea.form-control {
+            height: 100px;
+            resize: vertical;
+        }
+        
+        .doctor-select {
+            display: flex;
+            align-items: center;
+        }
+        
+        .doctor-select select {
+            flex: 1;
+            margin-right: 10px;
+        }
+        
+        .doctor-select button {
+            background: none;
+            border: none;
+            color: #607d8b;
+            cursor: pointer;
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+        
+        .action-button {
+            padding: 8px 15px;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        
+        .save-button {
+            background-color: #607d8b;
+            color: white;
+            border: none;
+        }
+        
+        .cancel-button {
+            background-color: #f0f2f5;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+        
+        /* CSS Spesifik untuk Laboratorium */
+        .vital-signs {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .vital-signs-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #607d8b;
+        }
+        
+        .vital-signs-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+        
+        .vital-sign {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .vital-sign label {
+            margin-bottom: 5px;
+            font-size: 12px;
+        }
+        
+        .vital-sign input {
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+        }
+        
+        .lab-tests {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .lab-tests-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #607d8b;
+        }
+        
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 15px;
+        }
+        
+        .tab {
+            padding: 8px 15px;
+            cursor: pointer;
+            font-size: 14px;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .tab.active {
+            border-bottom: 2px solid #607d8b;
+            color: #607d8b;
+            font-weight: bold;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .test-category {
+            margin-bottom: 15px;
+        }
+        
+        .test-category-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #607d8b;
+            font-size: 14px;
+        }
+        
+        .test-items {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        
+        .test-item {
+            display: flex;
+            align-items: center;
+        }
+        
+        .test-item input {
+            margin-right: 5px;
+        }
+        
+        .test-item label {
+            font-size: 12px;
+        }
+        
+        .test-panel {
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+        }
+        
+        .test-panel-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .test-panel-header input {
+            margin-right: 5px;
+        }
+        
+        .test-panel-header label {
+            font-weight: bold;
+            font-size: 13px;
+        }
+        
+        .test-panel-items {
+            padding-left: 20px;
+        }
+        
+        .test-panel-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        
+        .test-panel-item input {
+            margin-right: 5px;
+        }
+        
+        .test-panel-item label {
+            font-size: 12px;
+        }
+        
+        .lab-results {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .lab-results-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #607d8b;
+        }
+        
+        .lab-results-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .lab-results-table th, .lab-results-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+            font-size: 13px;
+        }
+        
+        .lab-results-table th {
+            background-color: #f0f2f5;
+        }
+        
+        .lab-results-table td input {
+            width: 100%;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+        }
+        
+        .lab-results-table td.abnormal {
+            background-color: #ffebee;
+        }
+        
+        .lab-results-table td.normal {
+            background-color: #e8f5e9;
+        }
+        
+        .result-section {
+            margin-top: 15px;
+        }
+        
+        .result-section h4 {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .file-upload {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .file-upload button {
+            background-color: #f0f2f5;
+            border: 1px solid #ddd;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        
+        .file-upload span {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .diagnosis-section {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .diagnosis-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .diagnosis-title {
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .add-button {
+            background-color: #607d8b;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        .diagnosis-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+        }
+        
+        .diagnosis-table th, .diagnosis-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+            font-size: 13px;
+        }
+        
+        .diagnosis-table th {
+            background-color: #f0f2f5;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+        
+        .status-pending {
+            background-color: #fff3e0;
+            color: #e65100;
+        }
+        
+        .status-processing {
+            background-color: #e3f2fd;
+            color: #0d47a1;
+        }
+        
+        .status-completed {
+            background-color: #e8f5e9;
+            color: #1b5e20;
+        }
+        
+        .status-verified {
+            background-color: #e8eaf6;
+            color: #303f9f;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Fungsi untuk mengganti tab
+            function switchTab(tabName) {
+                // Sembunyikan semua konten tab
+                var tabContents = document.querySelectorAll('.tab-content');
+                tabContents.forEach(function(content) {
+                    content.classList.remove('active');
+                });
+                
+                // Hapus kelas aktif dari semua tab
+                var tabs = document.querySelectorAll('.tab');
+                tabs.forEach(function(tab) {
+                    tab.classList.remove('active');
+                });
+                
+                // Aktifkan tab yang dipilih
+                document.getElementById(tabName).classList.add('active');
+                document.querySelector('[data-tab="' + tabName + '"]').classList.add('active');
+            }
+            
+            // Tambahkan event listener untuk tab
+            var tabs = document.querySelectorAll('.tab');
+            tabs.forEach(function(tab) {
+                tab.addEventListener('click', function() {
+                    var tabName = this.getAttribute('data-tab');
+                    switchTab(tabName);
+                });
+            });
+            
+            // Aktifkan tab Hematologi secara default
+            switchTab('hematology-tab');
+            
+            // Fungsi untuk menangani panel test
+            var panelCheckboxes = document.querySelectorAll('.test-panel-header input');
+            panelCheckboxes.forEach(function(checkbox) {
+                checkbox.addEventListener('change', function() {
+                    var panel = this.closest('.test-panel');
+                    var items = panel.querySelectorAll('.test-panel-item input');
+                    items.forEach(function(item) {
+                        item.checked = checkbox.checked;
+                    });
+                });
+            });
+            
+            // Fungsi untuk menangani item test
+            var itemCheckboxes = document.querySelectorAll('.test-panel-item input');
+            itemCheckboxes.forEach(function(checkbox) {
+                checkbox.addEventListener('change', function() {
+                    var panel = this.closest('.test-panel');
+                    var header = panel.querySelector('.test-panel-header input');
+                    var items = panel.querySelectorAll('.test-panel-item input');
+                    var allChecked = true;
+                    
+                    items.forEach(function(item) {
+                        if (!item.checked) {
+                            allChecked = false;
+                        }
+                    });
+                    
+                    header.checked = allChecked;
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>Pemeriksaan Laboratorium</h2>
+        </div>
+        
+        <div class="nav-tab">
+            <span><i class="fas fa-flask"></i> Pemeriksaan Laboratorium</span>
+        </div>
+        
+        <div class="patient-info">
+            <div class="patient-photo">
+                <i class="fas fa-user"></i>
+            </div>
+            <div class="patient-details">
+                <div class="patient-name">AHMAD SULAIMAN</div>
+                <div class="patient-id">No RM: 123456</div>
+                <div class="patient-data">
+                    Laki-laki • Lahir Tanggal: 15/05/1975<br>
+                    Status: Kawin, Agama: Islam, Golongan Darah: O, Pendidikan: S1, Pekerjaan: PNS<br>
+                    Alamat: Jl. Merdeka No. 45, Kota Pohuwato
+                </div>
+            </div>
+        </div>
+        
+        <div class="section-title">Data Pemeriksaan</div>
+        
+        <div class="form-container">
+            <div class="form-left">
+                <div class="form-group">
+                    <label>Tanggal Pemeriksaan</label>
+                    <input type="date" class="form-control" value="2023-06-15">
+                </div>
+                
+                <div class="form-group">
+                    <label>Dokter Pengirim</label>
+                    <div class="doctor-select">
+                        <select class="form-control">
+                            <option selected>dr. IRFIANA NOVA, Sp.PD</option>
+                        </select>
+                        <button>⋮</button>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Ruangan</label>
+                    <select class="form-control">
+                        <option>IGD</option>
+                        <option>Poli Umum</option>
+                        <option selected>Poli Penyakit Dalam</option>
+                        <option>Poli Jantung</option>
+                        <option>Poli Anak</option>
+                        <option>Rawat Inap</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Diagnosis Klinis</label>
+                    <textarea class="form-control">Suspek Diabetes Melitus Tipe 2, Hipertensi</textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Catatan Klinis</label>
+                    <textarea class="form-control">Pasien dengan keluhan poliuria, polidipsi, dan penurunan berat badan. Riwayat hipertensi sejak 5 tahun yang lalu.</textarea>
+                </div>
+                
+                <div class="lab-tests">
+                    <div class="lab-tests-title">Pemeriksaan yang Diminta</div>
+                    
+                    <div class="tabs">
+                        <div class="tab active" data-tab="hematology-tab">Hematologi</div>
+                        <div class="tab" data-tab="chemistry-tab">Kimia Klinik</div>
+                        <div class="tab" data-tab="immunology-tab">Imunologi</div>
+                        <div class="tab" data-tab="microbiology-tab">Mikrobiologi</div>
+                        <div class="tab" data-tab="urinalysis-tab">Urinalisis</div>
+                        <div class="tab" data-tab="pathology-tab">Patologi</div>
+                    </div>
+                    
+                    <!-- Tab Hematologi -->
+                    <div id="hematology-tab" class="tab-content active">
+                        <div class="test-panel">
+                            <div class="test-panel-header">
+                                <input type="checkbox" id="cbc-panel" checked>
+                                <label for="cbc-panel">Complete Blood Count (CBC)</label>
+                            </div>
+                            <div class="test-panel-items">
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="hemoglobin" checked>
+                                    <label for="hemoglobin">Hemoglobin</label>
+                                </div>
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="hematocrit" checked>
+                                    <label for="hematocrit">Hematokrit</label>
+                                </div>
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="erythrocytes" checked>
+                                    <label for="erythrocytes">Eritrosit</label>
+                                </div>
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="leukocytes" checked>
+                                    <label for="leukocytes">Leukosit</label>
+                                </div>
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="platelets" checked>
+                                    <label for="platelets">Trombosit</label>
+                                </div>
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="mcv" checked>
+                                    <label for="mcv">MCV</label>
+                                </div>
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="mch" checked>
+                                    <label for="mch">MCH</label>
+                                </div>
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="mchc" checked>
+                                    <label for="mchc">MCHC</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="test-panel">
+                            <div class="test-panel-header">
+                                <input type="checkbox" id="diff-count">
+                                <label for="diff-count">Differential Count</label>
+                            </div>
+                            <div class="test-panel-items">
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="basophils">
+                                    <label for="basophils">Basofil</label>
+                                </div>
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="eosinophils">
+                                    <label for="eosinophils">Eosinofil</label>
+                                </div>
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="neutrophils">
+                                    <label for="neutrophils">Neutrofil</label>
+                                </div>
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="lymphocytes">
+                                    <label for="lymphocytes">Limfosit</label>
+                                </div>
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="monocytes">
+                                    <label for="monocytes">Monosit</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="test-panel">
+                            <div class="test-panel-header">
+                                <input type="checkbox" id="coagulation">
+                                <label for="coagulation">Koagulasi</label>
+                            </div>
+                            <div class="test-panel-items">
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="pt">
+                                    <label for="pt">PT (Prothrombin Time)</label>
+                                </div>
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="aptt">
+                                    <label for="aptt">APTT (Activated Partial Thromboplastin Time)</label>
+                                </div>
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="inr">
+                                    <label for="inr">INR (International Normalized Ratio)</label>
+                                </div>
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="bleeding-time">
+                                    <label for="bleeding-time">Bleeding Time</label>
+                                </div>
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="clotting-time">
+                                    <label for="clotting-time">Clotting Time</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="test-panel">
+                            <div class="test-panel-header">
+                                <input type="checkbox" id="esr">
+                                <label for="esr">LED (Laju Endap Darah)</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Tab Kimia Klinik -->
+                    <div id="chemistry-tab" class="tab-content">
+                        <div class="test-panel">
+                            <div class="test-panel-header">
+                                <input type="checkbox" id="glucose-panel" checked>
+                                <label for="glucose-panel">Glukosa</label>
+                            </div>
+                            <div class="test-panel-items">
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="fasting-glucose" checked>
+                                    <label for="fasting-glucose">Glukosa Puasa</label>
+                                </div>
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="random-glucose">
+                                    <label for="random-glucose">Glukosa Sewaktu</label>
+                                </div>
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="2h-pp-glucose" checked>
+                                    <label for="2h-pp-glucose">Glukosa 2 Jam PP</label>
+                                </div>
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="hba1c" checked>
+                                    <label for="hba1c">HbA1c</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="test-panel">
+                            <div class="test-panel-header">
+                                <input type="checkbox" id="lipid-panel" checked>
+                                <label for="lipid-panel">Profil Lipid</label>
+                            </div>
+                            <div class="test-panel-items">
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="total-cholesterol" checked>
+                                    <label for="total-cholesterol">Kolesterol Total</label>
+                                </div>
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="hdl-cholesterol" checked>
+                                    <label for="hdl-cholesterol">HDL Kolesterol</label>
+                                </div>
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="ldl-cholesterol" checked>
+                                    <label for="ldl-cholesterol">LDL Kolesterol</label>
+                                </div>
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="triglycerides" checked>
+                                    <label for="triglycerides">Trigliserida</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="test-panel">
+                            <div class="test-panel-header">
+                                <input type="checkbox" id="kidney-panel">
+                                <label for="kidney-panel">Fungsi Ginjal</label>
+                            </div>
+                            <div class="test-panel-items">
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="urea">
+                                    <label for="urea">Ureum</label>
+                                </div>
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="creatinine">
+                                    <label for="creatinine">Kreatinin</label>
+                                </div>
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="uric-acid">
+                                    <label for="uric-acid">Asam Urat</label>
+                                </div>
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="egfr">
+                                    <label for="egfr">eGFR</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="test-panel">
+                            <div class="test-panel-header">
+                                <input type="checkbox" id="liver-panel">
+                                <label for="liver-panel">Fungsi Hati</label>
+                            </div>
+                            <div class="test-panel-items">
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="sgot-ast">
+                                    <label for="sgot-ast">SGOT/AST</label>
+                                </div>
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="sgpt-alt">
+                                    <label for="sgpt-alt">SGPT/ALT</label>
+                                </div>
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="albumin">
+                                    <label for="albumin">Albumin</label>
+                                </div>
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="total-protein">
+                                    <label for="total-protein">Protein Total</label>
+                                </div>
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="bilirubin-total">
+                                    <label for="bilirubin-total">Bilirubin Total</label>
+                                </div>
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="bilirubin-direct">
+                                    <label for="bilirubin-direct">Bilirubin Direk</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Tab Imunologi -->
+                    <div id="immunology-tab" class="tab-content">
+                        <div class="test-panel">
+                            <div class="test-panel-header">
+                                <input type="checkbox" id="serology-panel">
+                                <label for="serology-panel">Serologi</label>
+                            </div>
+                            <div class="test-panel-items">
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="crp">
+                                    <label for="crp">CRP (C-Reactive Protein)</label>
+                                </div>
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="rf">
+                                    <label for="rf">RF (Rheumatoid Factor)</label>
+                                </div>
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="aso">
+                                    <label for="aso">ASO (Anti-Streptolysin O)</label>
+                                </div>
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="widal">
+                                    <label for="widal">Widal</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="test-panel">
+                            <div class="test-panel-header">
+                                <input type="checkbox" id="hepatitis-panel">
+                                <label for="hepatitis-panel">Hepatitis</label>
+                            </div>
+                            <div class="test-panel-items">
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="hbsag">
+                                    <label for="hbsag">HBsAg</label>
+                                </div>
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="anti-hbs">
+                                    <label for="anti-hbs">Anti-HBs</label>
+                                </div>
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="anti-hcv">
+                                    <label for="anti-hcv">Anti-HCV</label>
+                                </div>
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="hbeag">
+                                    <label for="hbeag">HBeAg</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="test-panel">
+                            <div class="test-panel-header">
+                                <input type="checkbox" id="thyroid-panel">
+                                <label for="thyroid-panel">Fungsi Tiroid</label>
+                            </div>
+                            <div class="test-panel-items">
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="t3">
+                                    <label for="t3">T3</label>
+                                </div>
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="t4">
+                                    <label for="t4">T4</label>
+                                </div>
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="tsh">
+                                    <label for="tsh">TSH</label>
+                                </div>
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="ft3">
+                                    <label for="ft3">FT3</label>
+                                </div>
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="ft4">
+                                    <label for="ft4">FT4</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="test-panel">
+                            <div class="test-panel-header">
+                                <input type="checkbox" id="covid-panel">
+                                <label for="covid-panel">COVID-19</label>
+                            </div>
+                            <div class="test-panel-items">
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="covid-antigen">
+                                    <label for="covid-antigen">Antigen SARS-CoV-2</label>
+                                </div>
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="covid-antibody">
+                                    <label for="covid-antibody">Antibodi SARS-CoV-2</label>
+                                </div>
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="covid-pcr">
+                                    <label for="covid-pcr">PCR SARS-CoV-2</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Tab Mikrobiologi -->
+                    <div id="microbiology-tab" class="tab-content">
+                        <div class="test-panel">
+                            <div class="test-panel-header">
+                                <input type="checkbox" id="culture-panel">
+                                <label for="culture-panel">Kultur & Sensitivitas</label>
+                            </div>
+                            <div class="test-panel-items">
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="blood-culture">
+                                    <label for="blood-culture">Kultur Darah</label>
+                                </div>
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="urine-culture">
+                                    <label for="urine-culture">Kultur Urin</label>
+                                </div>
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="sputum-culture">
+                                    <label for="sputum-culture">Kultur Sputum</label>
+                                </div>
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="wound-culture">
+                                    <label for="wound-culture">Kultur Luka</label>
+                                </div>
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="stool-culture">
+                                    <label for="stool-culture">Kultur Feses</label>
+                                </div>
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="sensitivity-test">
+                                    <label for="sensitivity-test">Uji Sensitivitas Antibiotik</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="test-panel">
+                            <div class="test-panel-header">
+                                <input type="checkbox" id="staining-panel">
+                                <label for="staining-panel">Pewarnaan</label>
+                            </div>
+                            <div class="test-panel-items">
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="gram-stain">
+                                    <label for="gram-stain">Pewarnaan Gram</label>
+                                </div>
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="acid-fast-stain">
+                                    <label for="acid-fast-stain">Pewarnaan BTA (Basil Tahan Asam)</label>
+                                </div>
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="koh-stain">
+                                    <label for="koh-stain">Pewarnaan KOH</label>
+                                </div>
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="india-ink">
+                                    <label for="india-ink">Pewarnaan India Ink</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="test-panel">
+                            <div class="test-panel-header">
+                                <input type="checkbox" id="tb-panel">
+                                <label for="tb-panel">Tuberkulosis</label>
+                            </div>
+                            <div class="test-panel-items">
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="tb-microscopy">
+                                    <label for="tb-microscopy">Mikroskopi BTA</label>
+                                </div>
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="tb-culture">
+                                    <label for="tb-culture">Kultur TB</label>
+                                </div>
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="tb-genexpert">
+                                    <label for="tb-genexpert">GeneXpert MTB/RIF</label>
+                                </div>
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="tb-igra">
+                                    <label for="tb-igra">IGRA (Interferon-Gamma Release Assay)</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Tab Urinalisis -->
+                    <div id="urinalysis-tab" class="tab-content">
+                        <div class="test-panel">
+                            <div class="test-panel-header">
+                                <input type="checkbox" id="urinalysis-panel" checked>
+                                <label for="urinalysis-panel">Urinalisis Rutin</label>
+                            </div>
+                            <div class="test-panel-items">
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="urine-physical" checked>
+                                    <label for="urine-physical">Pemeriksaan Fisik (Warna, Kejernihan, Bau)</label>
+                                </div>
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="urine-chemical" checked>
+                                    <label for="urine-chemical">Pemeriksaan Kimia (pH, Protein, Glukosa, Keton, Bilirubin, Urobilinogen)</label>
+                                </div>
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="urine-microscopic" checked>
+                                    <label for="urine-microscopic">Pemeriksaan Mikroskopik (Eritrosit, Leukosit, Epitel, Silinder, Kristal)</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="test-panel">
+                            <div class="test-panel-header">
+                                <input type="checkbox" id="urine-specific-panel">
+                                <label for="urine-specific-panel">Pemeriksaan Urin Khusus</label>
+                            </div>
+                            <div class="test-panel-items">
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="urine-protein-24h">
+                                    <label for="urine-protein-24h">Protein Urin 24 Jam</label>
+                                </div>
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="microalbumin">
+                                    <label for="microalbumin">Mikroalbumin</label>
+                                </div>
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="creatinine-clearance">
+                                    <label for="creatinine-clearance">Klirens Kreatinin</label>
+                                </div>
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="acr">
+                                    <label for="acr">Rasio Albumin-Kreatinin (ACR)</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="test-panel">
+                            <div class="test-panel-header">
+                                <input type="checkbox" id="pregnancy-test">
+                                <label for="pregnancy-test">Tes Kehamilan</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Tab Patologi -->
+                    <div id="pathology-tab" class="tab-content">
+                        <div class="test-panel">
+                            <div class="test-panel-header">
+                                <input type="checkbox" id="histopathology-panel">
+                                <label for="histopathology-panel">Histopatologi</label>
+                            </div>
+                            <div class="test-panel-items">
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="biopsy">
+                                    <label for="biopsy">Biopsi Jaringan</label>
+                                </div>
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="frozen-section">
+                                    <label for="frozen-section">Frozen Section</label>
+                                </div>
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="surgical-specimen">
+                                    <label for="surgical-specimen">Spesimen Bedah</label>
+                                </div>
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="margin-evaluation">
+                                    <label for="margin-evaluation">Evaluasi Margin</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="test-panel">
+                            <div class="test-panel-header">
+                                <input type="checkbox" id="cytology-panel">
+                                <label for="cytology-panel">Sitologi</label>
+                            </div>
+                            <div class="test-panel-items">
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="pap-smear">
+                                    <label for="pap-smear">Pap Smear</label>
+                                </div>
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="fnab">
+                                    <label for="fnab">FNAB (Fine Needle Aspiration Biopsy)</label>
+                                </div>
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="body-fluid">
+                                    <label for="body-fluid">Cairan Tubuh (Pleura, Asites, dll)</label>
+                                </div>
+                                <div class="test-panel-item">
+                                    <input type="checkbox" id="sputum-cytology">
+                                    <label for="sputum-cytology">Sitologi Sputum</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 
