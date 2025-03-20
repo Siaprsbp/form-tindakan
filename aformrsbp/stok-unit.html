@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stok Unit - RSUD</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        /* Reset dan style dasar */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+
+        /* Header styles */
+        .header {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .header h2 {
+            color: #2E7D32;
+            margin: 0;
+        }
+
+        /* Tabel styles */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .data-table th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            color: #2E7D32;
+        }
+
+        /* Status badges */
+        .stock-status {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .status-aman { 
+            background-color: #E8F5E9;
+            color: #2E7D32;
+        }
+
+        .status-minimum {
+            background-color: #FFF3E0;
+            color: #E65100;
+        }
+
+        .status-habis {
+            background-color: #FFEBEE;
+            color: #C62828;
+        }
+
+        /* Button styles */
+        .btn-add {
+            background-color: #2E7D32;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .btn-add:hover {
+            background-color: #1B5E20;
+        }
+
+        /* Filter section */
+        .filter-section {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        /* Form elements */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            width: 500px;
+            margin: 50px auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+
+        /* Action buttons */
+        .action-buttons {
+            margin-top: 20px;
+            text-align: right;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background-color: #2E7D32;
+            color: white;
+            border: none;
+        }
+
+        .btn-secondary {
+            background-color: #f0f2f5;
+            color: #333;
+            border: 1px solid #ddd;
+            margin-right: 10px;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .modal-content {
+                width: 90%;
+                margin: 20px auto;
+            }
+
+            .container {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>Stok Unit - Apotik Rawat Jalan</h2>
+        </div>
+
+        <div class="form-container">
+            <button class="btn-add" onclick="openModal()">
+                <i class="fas fa-plus"></i> Terima Stok dari Gudang
+            </button>
+
+            <!-- Filter Section -->
+            <div class="filter-section">
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label>Periode</label>
+                            <input type="month" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label>Status Stok</label>
+                            <select class="form-control">
+                                <option value="">Semua Status</option>
+                                <option value="AMAN">Stok Aman</option>
+                                <option value="MINIMUM">Stok Minimum</option>
+                                <option value="HABIS">Stok Habis</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label>Cari Obat</label>
+                            <input type="text" class="form-control" placeholder="Nama/Kode Obat...">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Tanggal</th>
+                        <th>No Distribusi</th>
+                        <th>Nama Obat</th>
+                        <th>No Batch</th>
+                        <th>Expired</th>
+                        <th>Stok Masuk</th>
+                        <th>Stok Keluar</th>
+                        <th>Sisa Stok</th>
+                        <th class="action-column">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>15/03/2024</td>
+                        <td>DIST/2024/03/001</td>
+                        <td>Paracetamol 500mg</td>
+                        <td>B12345</td>
+                        <td>2026-03</td>
+                        <td>100</td>
+                        <td>25</td>
+                        <td>75</td>
+                        <td>
+                            <i class="fas fa-eye btn-view" onclick="viewDetail(1)"></i>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Modal Form -->
+    <div id="formModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Terima Stok dari Gudang</h3>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            <form id="stokUnitForm" onsubmit="saveData(event)">
+                <div class="form-group">
+                    <label>No Distribusi</label>
+                    <input type="text" class="form-control" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Tanggal</label>
+                    <input type="date" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Obat</label>
+                    <select class="form-control" required>
+                        <option value="">Pilih Obat</option>
+                        <option value="OBT1">Paracetamol 500mg</option>
+                        <option value="OBT2">Amoxicillin 500mg</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>No Batch</label>
+                    <input type="text" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Expired Date</label>
+                    <input type="month" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Jumlah</label>
+                    <input type="number" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Keterangan</label>
+                    <textarea class="form-control" rows="3"></textarea>
+                </div>
+                <div class="action-buttons">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">Batal</button>
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Fungsi untuk modal
+        function openModal() {
+            document.getElementById('formModal').style.display = 'block';
+            document.getElementById('modalTitle').textContent = 'Terima Stok dari Gudang';
+            document.getElementById('stokUnitForm').reset();
+            
+            // Generate nomor distribusi otomatis
+            const today = new Date();
+            const noDist = `DIST/${today.getFullYear()}/${String(today.getMonth() + 1).padStart(2, '0')}/${String(Math.floor(Math.random() * 1000)).padStart(3, '0')}`;
+            document.querySelector('input[readonly]').value = noDist;
+        }
+
+        function closeModal() {
+            document.getElementById('formModal').style.display = 'none';
+        }
+
+        function viewDetail(id) {
+            // Simulasi melihat detail stok
+            alert('Melihat detail stok dengan ID: ' + id);
+            
+            // Di sini bisa ditambahkan logika untuk membuka modal detail atau
+            // redirect ke halaman detail stok
+        }
+
+        function saveData(event) {
+            event.preventDefault();
+            
+            // Mengambil nilai form
+            const noDistribusi = document.querySelector('input[readonly]').value;
+            const tanggal = document.querySelector('input[type="date"]').value;
+            const obat = document.querySelector('select').value;
+            const noBatch = document.querySelector('input[type="text"]').value;
+            const expiredDate = document.querySelector('input[type="month"]').value;
+            const jumlah = document.querySelector('input[type="number"]').value;
+
+            // Validasi sederhana
+            if (!tanggal || !obat || !noBatch || !expiredDate || !jumlah) {
+                alert('Semua field harus diisi!');
+                return;
+            }
+
+            // Validasi tanggal expired
+            const today = new Date();
+            const expired = new Date(expiredDate);
+            if (expired <= today) {
+                alert('Tanggal expired tidak valid!');
+                return;
+            }
+
+            // Simulasi penyimpanan data
+            alert('Stok berhasil diterima');
+            closeModal();
+        }
+
+        function filterData() {
+            const periode = document.querySelector('input[type="month"]').value;
+            const statusStok = document.querySelector('select').value;
+            const searchTerm = document.querySelector('input[placeholder="Nama/Kode Obat..."]').value;
+            
+            // Simulasi filter
+            console.log('Filter:', { periode, statusStok, searchTerm });
+        }
+
+        // Menutup modal saat mengklik di luar modal
+        window.onclick = function(event) {
+            const modal = document.getElementById('formModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        // Tambahkan event listener untuk tombol escape
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // Format angka untuk input jumlah
+        document.querySelector('input[type="number"]').addEventListener('input', function(e) {
+            if (e.target.value < 0) {
+                e.target.value = 0;
+            }
+        });
+    </script>
+</body>
+
+</html> 
