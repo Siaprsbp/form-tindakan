@@ -1,0 +1,303 @@
+-- Membuat database
+CREATE DATABASE db_rsbp;
+USE db_rsbp;
+
+-- Tabel Pasien
+CREATE TABLE pasien (
+    id_pasien VARCHAR(20) PRIMARY KEY,
+    no_rm VARCHAR(20) UNIQUE,
+    nama_lengkap VARCHAR(100),
+    tempat_lahir VARCHAR(50),
+    tanggal_lahir DATE,
+    jenis_kelamin ENUM('L', 'P'),
+    agama VARCHAR(20),
+    status_perkawinan VARCHAR(20),
+    golongan_darah VARCHAR(5),
+    pendidikan VARCHAR(20),
+    pekerjaan VARCHAR(50),
+    alamat TEXT,
+    no_telepon VARCHAR(15),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Tabel Dokter
+CREATE TABLE dokter (
+    id_dokter VARCHAR(20) PRIMARY KEY,
+    nama_dokter VARCHAR(100),
+    no_sip VARCHAR(50),
+    tahun_aktif_sip YEAR,
+    no_bpjs VARCHAR(20),
+    spesialisasi VARCHAR(50),
+    sub_spesialisasi VARCHAR(50),
+    status_kepegawaian ENUM('Tetap', 'Tidak Tetap'),
+    departemen VARCHAR(50),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Tabel Kunjungan
+CREATE TABLE kunjungan (
+    id_kunjungan VARCHAR(20) PRIMARY KEY,
+    id_pasien VARCHAR(20),
+    id_dokter VARCHAR(20),
+    tanggal_kunjungan DATETIME,
+    poli VARCHAR(50),
+    keluhan_utama TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_pasien) REFERENCES pasien(id_pasien),
+    FOREIGN KEY (id_dokter) REFERENCES dokter(id_dokter)
+);
+
+-- Tabel Tanda Vital
+CREATE TABLE tanda_vital (
+    id_tanda_vital VARCHAR(20) PRIMARY KEY,
+    id_kunjungan VARCHAR(20),
+    tekanan_darah VARCHAR(20),
+    nadi INT,
+    suhu DECIMAL(4,2),
+    respirasi INT,
+    berat_badan DECIMAL(5,2),
+    tinggi_badan INT,
+    kesadaran VARCHAR(20),
+    spo2 INT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_kunjungan) REFERENCES kunjungan(id_kunjungan)
+);
+
+-- Tabel Diagnosis
+CREATE TABLE diagnosis (
+    id_diagnosis VARCHAR(20) PRIMARY KEY,
+    id_kunjungan VARCHAR(20),
+    kode_icd VARCHAR(10),
+    nama_diagnosis TEXT,
+    tipe_diagnosis ENUM('Primer', 'Sekunder'),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_kunjungan) REFERENCES kunjungan(id_kunjungan)
+);
+
+-- Tabel Tindakan
+CREATE TABLE tindakan (
+    id_tindakan VARCHAR(20) PRIMARY KEY,
+    id_kunjungan VARCHAR(20),
+    kode_icd9cm VARCHAR(10),
+    nama_tindakan TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_kunjungan) REFERENCES kunjungan(id_kunjungan)
+);
+
+-- Tabel Resume Medis
+CREATE TABLE resume_medis (
+    id_resume VARCHAR(20) PRIMARY KEY,
+    id_kunjungan VARCHAR(20),
+    tanggal_masuk DATETIME,
+    tanggal_keluar DATETIME,
+    ruangan VARCHAR(50),
+    anamnesis TEXT,
+    pemeriksaan_fisik TEXT,
+    pemeriksaan_penunjang TEXT,
+    terapi_obat TEXT,
+    rencana_tindak_lanjut TEXT,
+    cara_keluar VARCHAR(50),
+    keadaan_keluar VARCHAR(50),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_kunjungan) REFERENCES kunjungan(id_kunjungan)
+);
+
+-- Tabel Hasil Pemeriksaan
+CREATE TABLE hasil_pemeriksaan (
+    id_hasil VARCHAR(20) PRIMARY KEY,
+    id_kunjungan VARCHAR(20),
+    jenis_pemeriksaan VARCHAR(50),
+    file_hasil VARCHAR(255),
+    tipe_file VARCHAR(10),
+    ukuran_file INT,
+    tanggal_upload DATETIME,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_kunjungan) REFERENCES kunjungan(id_kunjungan)
+);
+
+-- Tabel Jadwal Dokter
+CREATE TABLE jadwal_dokter (
+    id_jadwal VARCHAR(20) PRIMARY KEY,
+    id_dokter VARCHAR(20),
+    hari ENUM('Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'),
+    jam_mulai TIME,
+    jam_selesai TIME,
+    poli VARCHAR(50),
+    kuota INT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_dokter) REFERENCES dokter(id_dokter)
+);
+
+-- 1. MODUL MASTER DATA
+CREATE TABLE master_poli (
+    id_poli VARCHAR(20) PRIMARY KEY,
+    nama_poli VARCHAR(100),
+    kode_poli VARCHAR(20),
+    status ENUM('Aktif', 'Nonaktif')
+);
+
+CREATE TABLE master_ruangan (
+    id_ruangan VARCHAR(20) PRIMARY KEY,
+    nama_ruangan VARCHAR(100),
+    tipe_ruangan ENUM('Rawat Inap', 'Rawat Jalan', 'IGD', 'OK', 'ICU', 'NICU', 'Lab', 'Radiologi'),
+    kelas_ruangan VARCHAR(20),
+    kapasitas INT,
+    tarif_per_hari DECIMAL(15,2)
+);
+
+CREATE TABLE master_bed (
+    id_bed VARCHAR(20) PRIMARY KEY,
+    id_ruangan VARCHAR(20),
+    nomor_bed VARCHAR(10),
+    status ENUM('Kosong', 'Terisi', 'Maintenance'),
+    FOREIGN KEY (id_ruangan) REFERENCES master_ruangan(id_ruangan)
+);
+
+-- 2. MODUL FARMASI & INVENTORY
+CREATE TABLE master_obat (
+    id_obat VARCHAR(20) PRIMARY KEY,
+    nama_obat VARCHAR(100),
+    kategori VARCHAR(50),
+    satuan VARCHAR(20),
+    harga_beli DECIMAL(15,2),
+    harga_jual DECIMAL(15,2),
+    stok_minimum INT
+);
+
+CREATE TABLE stok_obat (
+    id_stok VARCHAR(20) PRIMARY KEY,
+    id_obat VARCHAR(20),
+    batch_number VARCHAR(50),
+    tanggal_expired DATE,
+    jumlah_stok INT,
+    FOREIGN KEY (id_obat) REFERENCES master_obat(id_obat)
+);
+
+-- 3. MODUL RAWAT INAP
+CREATE TABLE rawat_inap (
+    id_rawat_inap VARCHAR(20) PRIMARY KEY,
+    id_pasien VARCHAR(20),
+    id_ruangan VARCHAR(20),
+    id_bed VARCHAR(20),
+    tanggal_masuk DATETIME,
+    tanggal_keluar DATETIME,
+    diagnosa_masuk TEXT,
+    cara_masuk ENUM('IGD', 'Poliklinik', 'Rujukan'),
+    status_pulang ENUM('Sembuh', 'Rujuk', 'Pulang Paksa', 'Meninggal'),
+    FOREIGN KEY (id_pasien) REFERENCES pasien(id_pasien),
+    FOREIGN KEY (id_ruangan) REFERENCES master_ruangan(id_ruangan),
+    FOREIGN KEY (id_bed) REFERENCES master_bed(id_bed)
+);
+
+-- 4. MODUL LABORATORIUM
+CREATE TABLE master_pemeriksaan_lab (
+    id_jenis_lab VARCHAR(20) PRIMARY KEY,
+    nama_pemeriksaan VARCHAR(100),
+    kategori VARCHAR(50),
+    harga DECIMAL(15,2),
+    nilai_normal TEXT
+);
+
+CREATE TABLE hasil_lab (
+    id_hasil_lab VARCHAR(20) PRIMARY KEY,
+    id_kunjungan VARCHAR(20),
+    id_jenis_lab VARCHAR(20),
+    hasil TEXT,
+    keterangan TEXT,
+    tanggal_pemeriksaan DATETIME,
+    dokter_pengirim VARCHAR(20),
+    dokter_pemeriksa VARCHAR(20),
+    FOREIGN KEY (id_kunjungan) REFERENCES kunjungan(id_kunjungan),
+    FOREIGN KEY (id_jenis_lab) REFERENCES master_pemeriksaan_lab(id_jenis_lab)
+);
+
+-- 5. MODUL RADIOLOGI
+CREATE TABLE master_pemeriksaan_radiologi (
+    id_jenis_rad VARCHAR(20) PRIMARY KEY,
+    nama_pemeriksaan VARCHAR(100),
+    kategori VARCHAR(50),
+    harga DECIMAL(15,2)
+);
+
+CREATE TABLE hasil_radiologi (
+    id_hasil_rad VARCHAR(20) PRIMARY KEY,
+    id_kunjungan VARCHAR(20),
+    id_jenis_rad VARCHAR(20),
+    hasil TEXT,
+    kesan TEXT,
+    file_gambar VARCHAR(255),
+    tanggal_pemeriksaan DATETIME,
+    dokter_pengirim VARCHAR(20),
+    dokter_pemeriksa VARCHAR(20),
+    FOREIGN KEY (id_kunjungan) REFERENCES kunjungan(id_kunjungan),
+    FOREIGN KEY (id_jenis_rad) REFERENCES master_pemeriksaan_radiologi(id_jenis_rad)
+);
+
+-- 6. MODUL APOTEK
+CREATE TABLE resep (
+    id_resep VARCHAR(20) PRIMARY KEY,
+    id_kunjungan VARCHAR(20),
+    tanggal_resep DATETIME,
+    status_resep ENUM('Menunggu', 'Diproses', 'Selesai', 'Diserahkan'),
+    FOREIGN KEY (id_kunjungan) REFERENCES kunjungan(id_kunjungan)
+);
+
+CREATE TABLE detail_resep (
+    id_detail_resep VARCHAR(20) PRIMARY KEY,
+    id_resep VARCHAR(20),
+    id_obat VARCHAR(20),
+    dosis VARCHAR(50),
+    jumlah INT,
+    aturan_pakai TEXT,
+    FOREIGN KEY (id_resep) REFERENCES resep(id_resep),
+    FOREIGN KEY (id_obat) REFERENCES master_obat(id_obat)
+);
+
+-- 7. MODUL BILLING
+CREATE TABLE master_tarif (
+    id_tarif VARCHAR(20) PRIMARY KEY,
+    nama_layanan VARCHAR(100),
+    kategori VARCHAR(50),
+    tarif_umum DECIMAL(15,2),
+    tarif_bpjs DECIMAL(15,2)
+);
+
+CREATE TABLE billing (
+    id_billing VARCHAR(20) PRIMARY KEY,
+    id_kunjungan VARCHAR(20),
+    tanggal_billing DATETIME,
+    total_tagihan DECIMAL(15,2),
+    status_pembayaran ENUM('Belum Bayar', 'Sudah Bayar', 'BPJS'),
+    metode_pembayaran VARCHAR(50),
+    FOREIGN KEY (id_kunjungan) REFERENCES kunjungan(id_kunjungan)
+);
+
+CREATE TABLE detail_billing (
+    id_detail_billing VARCHAR(20) PRIMARY KEY,
+    id_billing VARCHAR(20),
+    id_tarif VARCHAR(20),
+    jumlah INT,
+    subtotal DECIMAL(15,2),
+    FOREIGN KEY (id_billing) REFERENCES billing(id_billing),
+    FOREIGN KEY (id_tarif) REFERENCES master_tarif(id_tarif)
+);
+
+-- 8. MODUL SDM
+CREATE TABLE pegawai (
+    id_pegawai VARCHAR(20) PRIMARY KEY,
+    nama_pegawai VARCHAR(100),
+    jabatan VARCHAR(50),
+    departemen VARCHAR(50),
+    status_kepegawaian VARCHAR(20),
+    tanggal_masuk DATE
+);
+
+-- 9. MODUL ASET
+CREATE TABLE aset (
+    id_aset VARCHAR(20) PRIMARY KEY,
+    nama_aset VARCHAR(100),
+    kategori VARCHAR(50),
+    tanggal_pengadaan DATE,
+    nilai_aset DECIMAL(15,2),
+    status_aset VARCHAR(20)
+);
