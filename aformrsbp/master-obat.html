@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Master Data Obat - RSUD</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        /* Reset dan style dasar */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .header {
+            padding: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .header h2 {
+            color: #2E7D32;
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .form-container {
+            padding: 20px;
+        }
+
+        .btn-add {
+            background-color: #2E7D32;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .btn-add:hover {
+            background-color: #1B5E20;
+        }
+
+        .filter-section {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+
+        .form-col {
+            flex: 1;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .form-control:focus {
+            border-color: #2E7D32;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(46,125,50,0.1);
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .data-table th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .data-table tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        .action-column {
+            width: 100px;
+            text-align: center;
+        }
+
+        .btn-edit {
+            color: #1565C0;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        .btn-delete {
+            color: #D32F2F;
+            cursor: pointer;
+        }
+
+        .stock-warning {
+            color: #C62828;
+            font-weight: bold;
+        }
+
+        .stock-ok {
+            color: #2E7D32;
+            font-weight: bold;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            width: 500px;
+            margin: 50px auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            color: #2E7D32;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .close {
+            font-size: 24px;
+            color: #666;
+            cursor: pointer;
+        }
+
+        .action-buttons {
+            padding: 20px;
+            border-top: 1px solid #ddd;
+            text-align: right;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .btn-primary {
+            background-color: #2E7D32;
+            color: white;
+            border: none;
+        }
+
+        .btn-secondary {
+            background-color: #f0f2f5;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+            }
+
+            .form-row {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .modal-content {
+                width: 90%;
+                margin: 20px auto;
+            }
+
+            .data-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>Master Data Obat</h2>
+        </div>
+
+        <div class="form-container">
+            <button class="btn-add" onclick="openModal()">
+                <i class="fas fa-plus"></i> Tambah Obat
+            </button>
+
+            <!-- Filter Section -->
+            <div class="filter-section">
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label>Kategori</label>
+                            <select class="form-control" onchange="filterData()">
+                                <option value="">Semua Kategori</option>
+                                <option value="TABLET">Tablet</option>
+                                <option value="SIRUP">Sirup</option>
+                                <option value="INJEKSI">Injeksi</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label>Status Stok</label>
+                            <select class="form-control" onchange="filterData()">
+                                <option value="">Semua Status</option>
+                                <option value="TERSEDIA">Tersedia</option>
+                                <option value="MINIMUM">Stok Minimum</option>
+                                <option value="HABIS">Habis</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label>Cari</label>
+                            <input type="text" class="form-control" placeholder="Cari nama obat...">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Nama Obat</th>
+                        <th>Kategori</th>
+                        <th>Satuan</th>
+                        <th>Stok</th>
+                        <th>Harga Beli</th>
+                        <th>Harga Jual</th>
+                        <th class="action-column">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Paracetamol 500mg</td>
+                        <td>Tablet</td>
+                        <td>Tablet</td>
+                        <td class="stock-ok">150</td>
+                        <td>Rp 500</td>
+                        <td>Rp 1.000</td>
+                        <td>
+                            <i class="fas fa-edit btn-edit" onclick="editData(1)"></i>
+                            <i class="fas fa-trash-alt btn-delete" onclick="deleteData(1)"></i>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Amoxicillin 500mg</td>
+                        <td>Tablet</td>
+                        <td>Tablet</td>
+                        <td class="stock-warning">20</td>
+                        <td>Rp 1.500</td>
+                        <td>Rp 2.500</td>
+                        <td>
+                            <i class="fas fa-edit btn-edit" onclick="editData(2)"></i>
+                            <i class="fas fa-trash-alt btn-delete" onclick="deleteData(2)"></i>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Modal Form -->
+    <div id="formModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Tambah Obat</h3>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            <form id="obatForm" onsubmit="saveData(event)">
+                <div class="form-group">
+                    <label>Nama Obat</label>
+                    <input type="text" class="form-control" id="namaObat" required>
+                </div>
+                <div class="form-group">
+                    <label>Kategori</label>
+                    <select class="form-control" id="kategori" required>
+                        <option value="">Pilih Kategori</option>
+                        <option value="TABLET">Tablet</option>
+                        <option value="SIRUP">Sirup</option>
+                        <option value="INJEKSI">Injeksi</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Satuan</label>
+                    <input type="text" class="form-control" id="satuan" required>
+                </div>
+                <div class="form-group">
+                    <label>Stok Minimum</label>
+                    <input type="number" class="form-control" id="stokMinimum" required>
+                </div>
+                <div class="form-group">
+                    <label>Harga Beli</label>
+                    <input type="number" class="form-control" id="hargaBeli" required>
+                </div>
+                <div class="form-group">
+                    <label>Harga Jual</label>
+                    <input type="number" class="form-control" id="hargaJual" required>
+                </div>
+                <div class="form-group">
+                    <label>Keterangan</label>
+                    <textarea class="form-control" id="keterangan" rows="3"></textarea>
+                </div>
+                <div class="action-buttons">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">Batal</button>
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Fungsi untuk modal
+        function openModal() {
+            document.getElementById('formModal').style.display = 'block';
+            document.getElementById('modalTitle').textContent = 'Tambah Obat';
+            document.getElementById('obatForm').reset();
+        }
+
+        function closeModal() {
+            document.getElementById('formModal').style.display = 'none';
+        }
+
+        function editData(id) {
+            openModal();
+            document.getElementById('modalTitle').textContent = 'Edit Obat';
+            
+            // Simulasi data untuk edit
+            if(id === 1) {
+                document.getElementById('namaObat').value = 'Paracetamol 500mg';
+                document.getElementById('kategori').value = 'TABLET';
+                document.getElementById('satuan').value = 'Tablet';
+                document.getElementById('stokMinimum').value = '100';
+                document.getElementById('hargaBeli').value = '500';
+                document.getElementById('hargaJual').value = '1000';
+                document.getElementById('keterangan').value = 'Obat bebas';
+            }
+        }
+
+        function deleteData(id) {
+            if(confirm('Apakah Anda yakin ingin menghapus data obat ini?')) {
+                // Simulasi penghapusan data
+                alert('Obat berhasil dihapus');
+            }
+        }
+
+        function saveData(event) {
+            event.preventDefault();
+            
+            // Mengambil nilai form
+            const namaObat = document.getElementById('namaObat').value;
+            const kategori = document.getElementById('kategori').value;
+            const satuan = document.getElementById('satuan').value;
+            const stokMinimum = document.getElementById('stokMinimum').value;
+            const hargaBeli = document.getElementById('hargaBeli').value;
+            const hargaJual = document.getElementById('hargaJual').value;
+
+            // Validasi sederhana
+            if (!namaObat || !kategori || !satuan || !stokMinimum || !hargaBeli || !hargaJual) {
+                alert('Semua field harus diisi!');
+                return;
+            }
+
+            // Validasi harga
+            if (parseInt(hargaJual) <= parseInt(hargaBeli)) {
+                alert('Harga jual harus lebih besar dari harga beli!');
+                return;
+            }
+
+            // Simulasi penyimpanan data
+            alert('Data obat berhasil disimpan');
+            closeModal();
+        }
+
+        function filterData() {
+            const kategori = document.querySelector('select[onchange="filterData()"]').value;
+            const statusStok = document.querySelectorAll('select[onchange="filterData()"]')[1].value;
+            const searchTerm = document.querySelector('input[placeholder="Cari nama obat..."]').value;
+            
+            // Simulasi filter
+            console.log('Filter:', { kategori, statusStok, searchTerm });
+        }
+
+        // Menutup modal saat mengklik di luar modal
+        window.onclick = function(event) {
+            const modal = document.getElementById('formModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        // Tambahkan event listener untuk tombol escape
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // Format currency untuk input harga
+        document.getElementById('hargaBeli').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            e.target.value = new Intl.NumberFormat('id-ID').format(value);
+        });
+
+        document.getElementById('hargaJual').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            e.target.value = new Intl.NumberFormat('id-ID').format(value);
+        });
+    </script>
+</body>
+
+</html> 
