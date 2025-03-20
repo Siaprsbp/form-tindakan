@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Penerimaan Resep - Farmasi RSUD</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background-color: #f0f2f5;
+            padding: 15px 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .header h2 {
+            margin: 0;
+            color: #333;
+            font-size: 18px;
+        }
+        
+        .nav-tab {
+            background-color: #2E7D32; /* Warna hijau untuk Farmasi */
+            color: white;
+            padding: 10px 20px;
+        }
+        
+        .nav-tab span {
+            display: inline-block;
+            padding: 5px 15px;
+            background-color: #2E7D32;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+        
+        .form-container {
+            padding: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .form-col {
+            flex: 1;
+        }
+        
+        .resep-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .resep-table th, .resep-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+            font-size: 13px;
+        }
+        
+        .resep-table th {
+            background-color: #f0f2f5;
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+            gap: 10px;
+        }
+        
+        .btn {
+            padding: 8px 15px;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        
+        .btn-primary {
+            background-color: #2E7D32;
+            color: white;
+            border: none;
+        }
+        
+        .btn-secondary {
+            background-color: #f0f2f5;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .status-menunggu {
+            background-color: #FFF3E0;
+            color: #E65100;
+        }
+        
+        .incoming-prescriptions {
+            margin-bottom: 20px;
+        }
+        
+        .filter-section {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        
+        .prescription-card {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .prescription-card:hover {
+            background-color: #f8f9fa;
+            border-color: #2E7D32;
+        }
+        
+        .prescription-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .prescription-time {
+            color: #666;
+            font-size: 12px;
+        }
+        
+        .source-badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .source-poli {
+            background-color: #E3F2FD;
+            color: #1565C0;
+        }
+        
+        .source-inap {
+            background-color: #F3E5F5;
+            color: #7B1FA2;
+        }
+        
+        .source-igd {
+            background-color: #FFEBEE;
+            color: #C62828;
+        }
+        
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+        }
+        
+        .tab.active {
+            border-bottom-color: #2E7D32;
+            color: #2E7D32;
+            font-weight: bold;
+        }
+        
+        /* Tambahan style untuk tab content */
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Style untuk status badges */
+        .status-proses {
+            background-color: #FFF3E0;
+            color: #E65100;
+        }
+        
+        .status-selesai {
+            background-color: #E8F5E9;
+            color: #2E7D32;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>Penerimaan Resep - Farmasi</h2>
+        </div>
+        
+        <div class="nav-tab">
+            <span><i class="fas fa-prescription"></i> Daftar Resep Masuk</span>
+        </div>
+        
+        <div class="form-container">
+            <div class="filter-section">
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label>Filter Tanggal</label>
+                            <input type="date" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label>Asal Resep</label>
+                            <select class="form-control">
+                                <option value="">Semua</option>
+                                <option value="POLI">Poliklinik</option>
+                                <option value="INAP">Rawat Inap</option>
+                                <option value="IGD">IGD</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label>Status</label>
+                            <select class="form-control">
+                                <option value="">Semua Status</option>
+                                <option value="BARU">Baru Masuk</option>
+                                <option value="PROSES">Sedang Diproses</option>
+                                <option value="SELESAI">Selesai</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tabs">
+                <div class="tab active" data-tab="baru">Baru Masuk (5)</div>
+                <div class="tab" data-tab="proses">Sedang Diproses (3)</div>
+                <div class="tab" data-tab="selesai">Selesai (12)</div>
+            </div>
+
+            <!-- Tab Baru Masuk -->
+            <div class="tab-content active" id="tab-baru">
+                <div class="incoming-prescriptions">
+                    <!-- Resep dari Poli -->
+                    <div class="prescription-card">
+                        <div class="prescription-header">
+                            <span class="source-badge source-poli">Poli Umum</span>
+                            <span class="prescription-time">5 menit yang lalu</span>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-col">
+                                <strong>No. Resep:</strong> RSP/2024/03/0001<br>
+                                <strong>Pasien:</strong> Ahmad Saputra (RM123456)
+                            </div>
+                            <div class="form-col">
+                                <strong>Dokter:</strong> dr. Budi Santoso<br>
+                                <strong>Jenis:</strong> BPJS
+                            </div>
+                            <div class="form-col">
+                                <button class="btn btn-primary">Proses Resep</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Resep dari Rawat Inap -->
+                    <div class="prescription-card">
+                        <div class="prescription-header">
+                            <span class="source-badge source-inap">Rawat Inap - R.201</span>
+                            <span class="prescription-time">15 menit yang lalu</span>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-col">
+                                <strong>No. Resep:</strong> RSP/2024/03/0002<br>
+                                <strong>Pasien:</strong> Siti Aminah (RM123457)
+                            </div>
+                            <div class="form-col">
+                                <strong>Dokter:</strong> dr. Ani Wijaya<br>
+                                <strong>Jenis:</strong> Umum
+                            </div>
+                            <div class="form-col">
+                                <button class="btn btn-primary">Proses Resep</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Sedang Diproses -->
+            <div class="tab-content" id="tab-proses">
+                <div class="incoming-prescriptions">
+                    <div class="prescription-card">
+                        <div class="prescription-header">
+                            <span class="source-badge source-igd">IGD</span>
+                            <span class="source-badge status-proses">Sedang Diproses</span>
+                            <span class="prescription-time">30 menit yang lalu</span>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-col">
+                                <strong>No. Resep:</strong> RSP/2024/03/0003<br>
+                                <strong>Pasien:</strong> Rudi Hermawan (RM123458)
+                            </div>
+                            <div class="form-col">
+                                <strong>Dokter:</strong> dr. Hendra<br>
+                                <strong>Petugas:</strong> Apt. Sarah
+                            </div>
+                            <div class="form-col">
+                                <button class="btn btn-primary">Selesaikan</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Selesai -->
+            <div class="tab-content" id="tab-selesai">
+                <div class="incoming-prescriptions">
+                    <div class="prescription-card">
+                        <div class="prescription-header">
+                            <span class="source-badge source-poli">Poli Anak</span>
+                            <span class="source-badge status-selesai">Selesai</span>
+                            <span class="prescription-time">1 jam yang lalu</span>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-col">
+                                <strong>No. Resep:</strong> RSP/2024/03/0004<br>
+                                <strong>Pasien:</strong> Dina Putri (RM123459)
+                            </div>
+                            <div class="form-col">
+                                <strong>Dokter:</strong> dr. Maya, Sp.A<br>
+                                <strong>Petugas:</strong> Apt. Rina
+                            </div>
+                            <div class="form-col">
+                                <button class="btn btn-secondary">Lihat Detail</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Fungsi untuk mengaktifkan tab
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Hapus kelas active dari semua tab
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+
+                    // Tambah kelas active ke tab yang diklik
+                    tab.classList.add('active');
+                    
+                    // Tampilkan konten tab yang sesuai
+                    const tabId = 'tab-' + tab.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+
+            // Fungsi untuk tombol proses resep
+            const processButtons = document.querySelectorAll('.btn-primary');
+            processButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const card = this.closest('.prescription-card');
+                    if (this.textContent === 'Proses Resep') {
+                        this.textContent = 'Selesaikan';
+                        // Di sini bisa ditambahkan logika untuk memindahkan card ke tab "Sedang Diproses"
+                    } else if (this.textContent === 'Selesaikan') {
+                        this.textContent = 'Lihat Detail';
+                        this.classList.remove('btn-primary');
+                        this.classList.add('btn-secondary');
+                        // Di sini bisa ditambahkan logika untuk memindahkan card ke tab "Selesai"
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html> 
