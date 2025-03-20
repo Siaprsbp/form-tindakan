@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Master Data Poli - RSUD</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        /* ... [style dasar sama seperti sebelumnya] ... */
+        
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .data-table th, .data-table td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        
+        .data-table th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+        }
+        
+        .action-column {
+            width: 100px;
+        }
+        
+        .btn-add {
+            background-color: #2E7D32;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+        
+        .btn-edit {
+            color: #1565C0;
+            cursor: pointer;
+            margin-right: 8px;
+        }
+        
+        .btn-delete {
+            color: #D32F2F;
+            cursor: pointer;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+        
+        .modal-content {
+            background-color: #fff;
+            width: 500px;
+            margin: 100px auto;
+            padding: 20px;
+            border-radius: 4px;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .close {
+            cursor: pointer;
+            font-size: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>Master Data Poli</h2>
+        </div>
+
+        <div class="form-container">
+            <!-- Tombol Tambah -->
+            <button class="btn-add" onclick="openModal()">
+                <i class="fas fa-plus"></i> Tambah Poli
+            </button>
+
+            <!-- Tabel Data -->
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Kode Poli</th>
+                        <th>Nama Poli</th>
+                        <th>Status</th>
+                        <th class="action-column">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>UMUM</td>
+                        <td>Poli Umum</td>
+                        <td><span class="badge badge-active">Aktif</span></td>
+                        <td>
+                            <i class="fas fa-edit btn-edit" onclick="editData(1)"></i>
+                            <i class="fas fa-trash-alt btn-delete" onclick="deleteData(1)"></i>
+                        </td>
+                    </tr>
+                    <!-- Data lainnya -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Modal Form -->
+    <div id="formModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Tambah Poli</h3>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            <form id="poliForm" onsubmit="saveData(event)">
+                <div class="form-group">
+                    <label>Kode Poli</label>
+                    <input type="text" class="form-control" id="kodePoli" required>
+                </div>
+                <div class="form-group">
+                    <label>Nama Poli</label>
+                    <input type="text" class="form-control" id="namaPoli" required>
+                </div>
+                <div class="form-group">
+                    <label>Status</label>
+                    <select class="form-control" id="statusPoli" required>
+                        <option value="Aktif">Aktif</option>
+                        <option value="Nonaktif">Nonaktif</option>
+                    </select>
+                </div>
+                <div class="action-buttons">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">Batal</button>
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Fungsi untuk modal
+        function openModal() {
+            document.getElementById('formModal').style.display = 'block';
+            document.getElementById('modalTitle').textContent = 'Tambah Poli';
+            document.getElementById('poliForm').reset();
+        }
+
+        function closeModal() {
+            document.getElementById('formModal').style.display = 'none';
+        }
+
+        // Fungsi CRUD
+        function saveData(event) {
+            event.preventDefault();
+            // Implementasi penyimpanan data
+            closeModal();
+        }
+
+        function editData(id) {
+            openModal();
+            document.getElementById('modalTitle').textContent = 'Edit Poli';
+            // Implementasi pengambilan data untuk edit
+        }
+
+        function deleteData(id) {
+            if(confirm('Apakah Anda yakin ingin menghapus data ini?')) {
+                // Implementasi penghapusan data
+            }
+        }
+
+        // Menutup modal jika user klik di luar modal
+        window.onclick = function(event) {
+            if (event.target == document.getElementById('formModal')) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+
+</html> 
