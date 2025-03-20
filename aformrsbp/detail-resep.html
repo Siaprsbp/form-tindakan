@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Resep - Farmasi RSUD</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        /* ... [style sebelumnya] ... */
+        
+        .detail-section {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .detail-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .detail-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #2E7D32;
+        }
+        
+        .timeline {
+            margin: 20px 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+        }
+        
+        .timeline-item {
+            display: flex;
+            margin-bottom: 15px;
+            position: relative;
+        }
+        
+        .timeline-item:before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 25px;
+            bottom: -15px;
+            width: 2px;
+            background-color: #ddd;
+        }
+        
+        .timeline-item:last-child:before {
+            display: none;
+        }
+        
+        .timeline-icon {
+            width: 32px;
+            height: 32px;
+            background-color: #2E7D32;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin-right: 15px;
+        }
+        
+        .timeline-content {
+            flex: 1;
+        }
+        
+        .timeline-time {
+            color: #666;
+            font-size: 12px;
+        }
+        
+        .medicine-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .medicine-table th,
+        .medicine-table td {
+            padding: 12px;
+            border: 1px solid #ddd;
+        }
+        
+        .medicine-table th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+        }
+        
+        .status-history {
+            margin-top: 20px;
+        }
+        
+        .print-button {
+            background-color: #2E7D32;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .back-button {
+            background-color: #f0f2f5;
+            border: 1px solid #ddd;
+            color: #333;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>Detail Resep - Farmasi</h2>
+        </div>
+
+        <div class="nav-tab">
+            <span><i class="fas fa-prescription"></i> Detail Resep RSP/2024/03/0004</span>
+        </div>
+
+        <div class="form-container">
+            <!-- Informasi Resep -->
+            <div class="detail-section">
+                <div class="detail-header">
+                    <div class="detail-title">Informasi Resep</div>
+                    <div>
+                        <button class="back-button" onclick="window.location.href='resep-masuk.html'">
+                            <i class="fas fa-arrow-left"></i> Kembali
+                        </button>
+                        <button class="print-button">
+                            <i class="fas fa-print"></i> Cetak
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label>No. Resep</label>
+                            <input type="text" class="form-control" value="RSP/2024/03/0004" readonly>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label>Tanggal Resep</label>
+                            <input type="text" class="form-control" value="15 Maret 2024 09:30" readonly>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label>Status</label>
+                            <div class="status-badge status-selesai">Selesai</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label>Asal Resep</label>
+                            <input type="text" class="form-control" value="Poli Anak" readonly>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label>Dokter</label>
+                            <input type="text" class="form-control" value="dr. Maya, Sp.A" readonly>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label>Petugas Farmasi</label>
+                            <input type="text" class="form-control" value="Apt. Rina" readonly>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Informasi Pasien -->
+            <div class="detail-section">
+                <div class="detail-title">Informasi Pasien</div>
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label>No. RM</label>
+                            <input type="text" class="form-control" value="RM123459" readonly>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label>Nama Pasien</label>
+                            <input type="text" class="form-control" value="Dina Putri" readonly>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label>Jenis Pembayaran</label>
+                            <input type="text" class="form-control" value="BPJS" readonly>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detail Obat -->
+            <div class="detail-section">
+                <div class="detail-title">Detail Obat</div>
+                <table class="medicine-table">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nama Obat</th>
+                            <th>Jumlah</th>
+                            <th>Satuan</th>
+                            <th>Aturan Pakai</th>
+                            <th>Keterangan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Paracetamol Sirup 120mg/5ml</td>
+                            <td>1</td>
+                            <td>Botol</td>
+                            <td>3 x 1 sendok teh</td>
+                            <td>Setelah makan</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Amoxicillin Sirup 250mg/5ml</td>
+                            <td>1</td>
+                            <td>Botol</td>
+                            <td>3 x 1 sendok teh</td>
+                            <td>Setelah makan</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Vitamin C Sirup</td>
+                            <td>1</td>
+                            <td>Botol</td>
+                            <td>2 x 1 sendok teh</td>
+                            <td>Setelah makan</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Riwayat Status -->
+            <div class="detail-section">
+                <div class="detail-title">Riwayat Status</div>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-icon">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <div class="timeline-time">15 Maret 2024 10:15</div>
+                            <strong>Resep Selesai</strong><br>
+                            Diserahkan kepada pasien oleh Apt. Rina
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-icon">
+                            <i class="fas fa-prescription-bottle"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <div class="timeline-time">15 Maret 2024 10:00</div>
+                            <strong>Sedang Diproses</strong><br>
+                            Resep sedang disiapkan oleh Apt. Rina
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-icon">
+                            <i class="fas fa-file-medical"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <div class="timeline-time">15 Maret 2024 09:30</div>
+                            <strong>Resep Diterima</strong><br>
+                            Resep masuk dari Poli Anak
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html> 
